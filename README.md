@@ -1,16 +1,26 @@
-# edunity
+# 📚 Edunity
 
-A new Flutter project.
+**Edunity** is a modern platform designed to connect students with private tutors in a simple, efficient, and user-friendly way.  
+The goal is to unify learners and educators in one place — making education more accessible and collaborative.  
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features (Planned)
+- 🔍 Search & filter tutors by subject, availability, and rating.  
+- 📅 Book and manage tutoring sessions easily.  
+- 👨‍🏫 Dedicated tutor profiles with detailed info.  
+- ⭐ Student reviews and feedback system.  
+- 🔐 Secure authentication and user management.  
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 📌 Roadmap
+- [ ] Define MVP requirements  
+- [ ] Set up backend APIs  
+- [ ] Build Flutter mobile app  
+- [ ] Integrate booking system  
+- [ ] Add ratings & reviews  
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## ✨ About
+**Edunity** aims to be more than just a booking app — it’s a **community** that unites tutors and learners to create meaningful educational experiences.  
