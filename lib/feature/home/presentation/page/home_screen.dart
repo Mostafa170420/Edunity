@@ -149,7 +149,7 @@ class HomeScreen extends StatelessWidget {
                 height: 260,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  itemCount: courses.length,
+                  itemCount: courses.length - 1,
                   itemBuilder: (BuildContext context, int index) {
                     var course = courses[index + 1];
                     return CoursesList(
