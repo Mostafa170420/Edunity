@@ -5,7 +5,7 @@ import 'text_styles.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
-    scaffoldBackgroundColor: AppColors.whiteColor,
+    scaffoldBackgroundColor: AppColors.backgroundColor,
     appBarTheme: AppBarTheme(
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
@@ -26,7 +26,7 @@ class AppTheme {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.accentColor,
+      fillColor: AppColors.whiteColor,
       hintStyle: TextStyles.getBody(color: AppColors.greyColor, fontSize: 16),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),

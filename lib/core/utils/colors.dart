@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 class AppColors {
   static const primaryDarkColor = Color(0xff6C64FF);
   static const primaryLightColor = Color(0xff4E9EFF);
+  static const logoBackgroundColor = Color(0xff809CFF);
+  static const backgroundColor = Color(0xffF5F9FF);
   static const greenColor = Color(0xff167F71);
   static const orangeColor = Color(0xffFF6B00);
   static const redColor = Color(0xffEF4444);

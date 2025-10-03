@@ -1,6 +1,8 @@
 import 'package:edunity/feature/auth/presentation/page/login_screen.dart';
 import 'package:edunity/feature/auth/presentation/page/register_screen.dart';
+import 'package:edunity/feature/auth/presentation/page/welcome_screen.dart';
 import 'package:edunity/feature/home/presentation/page/category_screen.dart';
+import 'package:edunity/feature/home/presentation/page/home_screen.dart';
 import 'package:edunity/feature/home/presentation/page/search_screen.dart';
 import 'package:edunity/feature/main/main_screen.dart';
 import 'package:edunity/feature/profile/presentation/page/profile_screen.dart';
@@ -21,10 +23,11 @@ class Routes {
   static final routes = GoRouter(
     routes: [
       GoRoute(path: splash, builder: (context, state) => SplashScreen()),
+      GoRoute(path: welcome, builder: (context, state) => WelcomeScreen()),
       GoRoute(path: login, builder: (context, state) => LoginScreen()),
       GoRoute(path: register, builder: (context, state) => RegisterScreen()),
       GoRoute(path: main, builder: (context, state) => MainScreen()),
-      GoRoute(path: home, builder: (context, state) => LoginScreen()),
+      GoRoute(path: home, builder: (context, state) => HomeScreen()),
       GoRoute(path: category, builder: (context, state) => CategoryScreen()),
       GoRoute(path: search, builder: (context, state) => SearchScreen()),
       GoRoute(path: profile, builder: (context, state) => ProfileScreen()),
