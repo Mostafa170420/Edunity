@@ -34,7 +34,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       appBar: AppBar(
         actions: [
           TextButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              pushWithReplacement(context, Routes.login);
+            },
             label: Text('Skip'),
             icon: Icon(Icons.arrow_forward),
             iconAlignment: IconAlignment.end,

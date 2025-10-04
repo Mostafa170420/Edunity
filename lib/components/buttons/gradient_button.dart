@@ -8,6 +8,7 @@ class GradientButton extends StatelessWidget {
   final IconAlignment? iconAlignment;
   final VoidCallback? onPressed;
   final double borderRadius;
+  final EdgeInsetsGeometry? padding;
 
   const GradientButton(
       {super.key,
@@ -15,12 +16,13 @@ class GradientButton extends StatelessWidget {
       required this.onPressed,
       required this.icon,
       required this.iconAlignment,
-      this.borderRadius = 25});
+      this.borderRadius = 25, this.padding});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      // height: 40,
+      height: padding?.vertical != null ? 20 + padding!.vertical  : 40,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [AppColors.primaryDarkColor, AppColors.primaryLightColor],
@@ -31,7 +33,7 @@ class GradientButton extends StatelessWidget {
         icon: icon,
         iconAlignment: iconAlignment,
         style: ElevatedButton.styleFrom(
-          // padding: EdgeInsets.zero,
+          // padding: padding ?? const EdgeInsets.all(8.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
           ),
