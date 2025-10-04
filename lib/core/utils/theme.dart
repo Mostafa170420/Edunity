@@ -6,20 +6,32 @@ import 'text_styles.dart';
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: AppColors.backgroundColor,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: AppColors.primaryDarkColor,
+        onSurface: AppColors.darkColor,
+        onPrimary: AppColors.darkgreyColor,
+        surface: AppColors.accentColor,
+    ),
     appBarTheme: AppBarTheme(
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
       foregroundColor: AppColors.whiteColor,
-      backgroundColor: AppColors.whiteColor,
+      backgroundColor:AppColors.backgroundColor,
       iconTheme: IconThemeData(color: AppColors.primaryDarkColor),
       titleTextStyle: TextStyles.getBody(
         color: AppColors.darkColor,
       ).copyWith(fontFamily: 'Mulish'),
     ),
     fontFamily: 'Mulish',
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: AppColors.primaryDarkColor,
-      onSurface: AppColors.darkColor,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primaryDarkColor,
+        foregroundColor: AppColors.whiteColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+      ),
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(foregroundColor: AppColors.darkColor),

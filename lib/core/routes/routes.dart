@@ -1,6 +1,6 @@
 import 'package:edunity/feature/auth/presentation/page/login_screen.dart';
 import 'package:edunity/feature/auth/presentation/page/register_screen.dart';
-import 'package:edunity/feature/auth/presentation/page/welcome_screen.dart';
+import 'package:edunity/feature/onboarding/page/welcome_screen.dart';
 import 'package:edunity/feature/home/presentation/page/category_screen.dart';
 import 'package:edunity/feature/home/presentation/page/home_screen.dart';
 import 'package:edunity/feature/home/presentation/page/search_screen.dart';
