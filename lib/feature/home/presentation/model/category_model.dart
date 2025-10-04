@@ -1,22 +1,24 @@
-class CategoryModel {
-  final String title;
+import 'package:edunity/core/constants/app_assets.dart';
 
-  CategoryModel({required this.title});
+class CategoryModel {
+  final String image;
+  final String name;
+
+  CategoryModel({
+    required this.name,
+    required this.image,
+  });
 }
 
 List<CategoryModel> categories = [
-  CategoryModel(title: 'Science'),
-  CategoryModel(title: 'Mathematics'),
-  CategoryModel(title: 'History'),
-  CategoryModel(title: 'Literature'),
-  CategoryModel(title: 'Art'),
-  CategoryModel(title: 'Music'),
-  CategoryModel(title: 'Physical Education'),
-  CategoryModel(title: 'Computer Science'),
-  CategoryModel(title: 'Biology'),
-  CategoryModel(title: 'Chemistry'),
-  CategoryModel(title: 'Physics'),
-  CategoryModel(title: 'Economics'),
-  CategoryModel(title: 'Philosophy'),
-  CategoryModel(title: 'Psychology'),
+  CategoryModel(image: AppAssets.design_3D, name: '3D Design'),
+  CategoryModel(image: AppAssets.graphic_Design, name: 'Graphic Design'),
+  CategoryModel(image: AppAssets.accounting, name: 'Finance & Accounting'),
+  CategoryModel(image: AppAssets.hr_Management, name: 'HR Management'),
+  CategoryModel(image: AppAssets.marketing, name: 'SEO & Marketing'),
+  CategoryModel(
+      image: AppAssets.office_Productivity, name: 'Office Productivity'),
+  CategoryModel(
+      image: AppAssets.personal_development, name: 'Personal Development'),
+  CategoryModel(image: AppAssets.web_development, name: 'Web Development'),
 ];

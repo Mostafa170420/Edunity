@@ -1,11 +1,13 @@
 import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/constants/app_assets.dart';
+import 'package:edunity/core/routes/navigation.dart';
+import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/home/presentation/model/category_model.dart';
 import 'package:edunity/feature/home/presentation/model/courses_names_model.dart';
 import 'package:edunity/feature/home/presentation/model/mentor_model.dart';
-import 'package:edunity/feature/home/presentation/widgets/category_list.dart';
+import 'package:edunity/feature/home/presentation/widgets/category_names_list.dart';
 import 'package:edunity/feature/home/presentation/widgets/courses_list.dart';
 import 'package:edunity/feature/home/presentation/widgets/courses_names_list.dart';
 import 'package:edunity/feature/home/presentation/widgets/homeslider.dart';
@@ -64,15 +66,24 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(22),
           child: Column(
             children: [
-              CustomTextField(
-                controller: searchController,
-                hintText: 'Search for..',
-                suffixIcon: IconButton(
-                  icon: Image.asset(AppAssets.filter),
-                  onPressed: () {},
-                ),
-                prefixIcon: Image.asset(AppAssets.search),
-              ),
+              Hero(
+                  tag: 'searchFieldHero',
+                  child: Material(
+                    color: Colors.transparent,
+                    child: CustomTextField(
+                      controller: searchController,
+                      hintText: 'Search for..',
+                      readOnly: true,
+                      onTap: () {
+                        pushTo(context, Routes.search);
+                      },
+                      suffixIcon: IconButton(
+                        icon: Image.asset(AppAssets.filter),
+                        onPressed: () {},
+                      ),
+                      prefixIcon: Image.asset(AppAssets.search),
+                    ),
+                  )),
               Gap(30),
               homeslider(),
               Gap(30),
@@ -85,7 +96,9 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.black)),
                   Spacer(),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        pushTo(context, Routes.category);
+                      },
                       child: Text(
                         'SEE ALL >',
                         style: TextStyles.getBody(
@@ -103,8 +116,8 @@ class HomeScreen extends StatelessWidget {
                   itemCount: categories.length,
                   itemBuilder: (BuildContext context, int index) {
                     var category = categories[index];
-                    return CategoryList(
-                      category_model: category,
+                    return CategoryNamesList(
+                      category_names_model: category,
                     );
                   },
                   separatorBuilder: (context, index) => Gap(15),

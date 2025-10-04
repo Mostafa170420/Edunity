@@ -9,8 +9,8 @@ class AppTheme {
     appBarTheme: AppBarTheme(
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
-      foregroundColor: AppColors.whiteColor,
-      backgroundColor: AppColors.whiteColor,
+      foregroundColor: AppColors.backgroundColor,
+      backgroundColor: AppColors.backgroundColor,
       iconTheme: IconThemeData(color: AppColors.primaryDarkColor),
       titleTextStyle: TextStyles.getBody(
         color: AppColors.darkColor,
