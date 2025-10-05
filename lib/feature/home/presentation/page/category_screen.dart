@@ -13,10 +13,16 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'All Categories',
-          style: TextStyles.getTitle(fontWeight: FontWeight.bold, fontSize: 21),
-        ),
+        title: Hero(
+            tag: 'seeAllCategories',
+            child: Material(
+              color: Colors.transparent,
+              child: Text(
+                'All Categories',
+                style: TextStyles.getTitle(
+                    fontWeight: FontWeight.bold, fontSize: 21),
+              ),
+            )),
         centerTitle: false,
       ),
       body: SafeArea(
@@ -40,7 +46,7 @@ class CategoryScreen extends StatelessWidget {
                 itemCount: categories.length,
                 itemBuilder: (BuildContext context, int index) {
                   var category = categories[index];
-                  return CategoryList(category_model: category);
+                  return CategoryList(categoryModel: category);
                 },
               ),
             ),

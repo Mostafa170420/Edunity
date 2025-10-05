@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class CoursesList extends StatelessWidget {
-  const CoursesList({super.key, required this.courses_model});
-  final CoursesNamesModel courses_model;
+  const CoursesList({super.key, required this.coursesModel});
+  final CoursesNamesModel coursesModel;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class CoursesList extends StatelessWidget {
                     ),
                     Gap(5),
                     Text(
-                      '${courses_model.title}',
+                      '${coursesModel.title}',
                       style: TextStyles.getBody(
                           fontSize: 16, fontWeight: FontWeight.bold),
                     ),

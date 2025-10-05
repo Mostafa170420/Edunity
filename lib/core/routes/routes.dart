@@ -4,6 +4,7 @@ import 'package:edunity/feature/auth/presentation/page/welcome_screen.dart';
 import 'package:edunity/feature/home/presentation/page/category_screen.dart';
 import 'package:edunity/feature/home/presentation/page/home_screen.dart';
 import 'package:edunity/feature/home/presentation/page/search_screen.dart';
+import 'package:edunity/feature/home/presentation/page/top_mentor_screen.dart';
 import 'package:edunity/feature/main/main_screen.dart';
 import 'package:edunity/feature/profile/presentation/page/profile_screen.dart';
 import 'package:edunity/feature/splash/splash_screen.dart';
@@ -19,6 +20,7 @@ class Routes {
   static const String category = '/category';
   static const String search = '/search';
   static const String profile = '/profile';
+  static const String topMentors = '/topMentors';
 
   static final routes = GoRouter(
     routes: [
@@ -31,6 +33,8 @@ class Routes {
       GoRoute(path: category, builder: (context, state) => CategoryScreen()),
       GoRoute(path: search, builder: (context, state) => SearchScreen()),
       GoRoute(path: profile, builder: (context, state) => ProfileScreen()),
+      GoRoute(
+          path: topMentors, builder: (context, state) => TopMentorsScreen()),
     ],
   );
 }

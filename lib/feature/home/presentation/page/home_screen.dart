@@ -11,7 +11,8 @@ import 'package:edunity/feature/home/presentation/widgets/category_names_list.da
 import 'package:edunity/feature/home/presentation/widgets/courses_list.dart';
 import 'package:edunity/feature/home/presentation/widgets/courses_names_list.dart';
 import 'package:edunity/feature/home/presentation/widgets/homeslider.dart';
-import 'package:edunity/feature/home/presentation/widgets/top_mentor_list.dart';
+import 'package:edunity/feature/home/presentation/widgets/custom_list_view_buillder.dart';
+import 'package:edunity/feature/home/presentation/widgets/mentor_names_list.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -77,10 +78,7 @@ class HomeScreen extends StatelessWidget {
                       onTap: () {
                         pushTo(context, Routes.search);
                       },
-                      suffixIcon: IconButton(
-                        icon: Image.asset(AppAssets.filter),
-                        onPressed: () {},
-                      ),
+                      suffixIcon: Image.asset(AppAssets.filter),
                       prefixIcon: Image.asset(AppAssets.search),
                     ),
                   )),
@@ -89,11 +87,16 @@ class HomeScreen extends StatelessWidget {
               Gap(30),
               Row(
                 children: [
-                  Text('Categories',
-                      style: TextStyles.getTitle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black)),
+                  Hero(
+                      tag: 'seeAllCategories',
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Text('Categories',
+                            style: TextStyles.getTitle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black)),
+                      )),
                   Spacer(),
                   TextButton(
                       onPressed: () {
@@ -109,19 +112,14 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               Gap(10),
-              SizedBox(
+              CustomHorizontalListView(
                 height: 30,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categories.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    var category = categories[index];
-                    return CategoryNamesList(
-                      category_names_model: category,
-                    );
-                  },
-                  separatorBuilder: (context, index) => Gap(15),
-                ),
+                items: categories,
+                itemBuilder: (context, category, index) {
+                  return CategoryNamesList(
+                    categoryNamesModel: categories[index],
+                  );
+                },
               ),
               Row(
                 children: [
@@ -143,46 +141,44 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               Gap(10),
-              SizedBox(
-                height: 35,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: courses.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    var course = courses[index];
-                    return CoursesNamesList(
-                      courses_model: course,
-                    );
-                  },
-                  separatorBuilder: (context, index) => Gap(15),
-                ),
+              CustomHorizontalListView(
+                height: 30,
+                items: courses,
+                itemBuilder: (context, category, index) {
+                  return CoursesNamesList(
+                    coursesMmodel: courses[index],
+                  );
+                },
               ),
               Gap(30),
-              SizedBox(
+              CustomHorizontalListView(
                 height: 260,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: courses.length - 1,
-                  itemBuilder: (BuildContext context, int index) {
-                    var course = courses[index + 1];
-                    return CoursesList(
-                      courses_model: course,
-                    );
-                  },
-                  separatorBuilder: (context, index) => Gap(15),
-                ),
+                items: courses,
+                courses: true,
+                itemBuilder: (context, category, index) {
+                  return CoursesList(
+                    coursesModel: courses[index + 1],
+                  );
+                },
               ),
               Gap(30),
               Row(
                 children: [
-                  Text('Top Mentors',
-                      style: TextStyles.getTitle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black)),
+                  Hero(
+                      tag: 'seeAllMentors',
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Text('Top Mentors',
+                            style: TextStyles.getTitle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black)),
+                      )),
                   Spacer(),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        pushTo(context, Routes.topMentors);
+                      },
                       child: Text(
                         'SEE ALL >',
                         style: TextStyles.getBody(
@@ -193,19 +189,14 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               Gap(15),
-              SizedBox(
+              CustomHorizontalListView(
                 height: 100,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: mentors.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    var mentor = mentors[index];
-                    return TopMentorList(
-                      mentor_model: mentor,
-                    );
-                  },
-                  separatorBuilder: (context, index) => Gap(15),
-                ),
+                items: mentors,
+                itemBuilder: (context, category, index) {
+                  return MentorNamesList(
+                    mentorModel: mentors[index],
+                  );
+                },
               ),
             ],
           ),

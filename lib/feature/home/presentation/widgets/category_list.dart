@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class CategoryList extends StatelessWidget {
-  const CategoryList({super.key, required this.category_model});
-  final CategoryModel category_model;
+  const CategoryList({super.key, required this.categoryModel});
+  final CategoryModel categoryModel;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset(category_model.image),
+        Image.asset(categoryModel.image),
         Gap(7),
-        Text(category_model.name)
+        Text(categoryModel.name)
       ],
     );
   }
