@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class CategoryList extends StatelessWidget {
   final CategoryModel category_model;
 
-  CategoryList({required this.category_model});
+  const CategoryList({super.key, required this.category_model});
 
   @override
   Widget build(BuildContext context) {
