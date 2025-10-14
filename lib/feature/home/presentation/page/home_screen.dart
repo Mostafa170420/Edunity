@@ -78,7 +78,11 @@ class HomeScreen extends StatelessWidget {
                       onTap: () {
                         pushTo(context, Routes.search);
                       },
-                      suffixIcon: Image.asset(AppAssets.filter),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            pushTo(context, Routes.filter);
+                          },
+                          icon: Image.asset(AppAssets.filter)),
                       prefixIcon: Image.asset(AppAssets.search),
                     ),
                   )),
