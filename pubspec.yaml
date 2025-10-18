@@ -20,7 +20,7 @@ dependencies:
   smooth_page_indicator: ^1.2.1
   iconly: ^1.0.1
   # sign_button:
-  icons_plus: ^1.0.2
+  icons_plus: ^5.0.0
   flutter_svg: ^2.2.1
   percent_indicator: ^4.2.3
 
