@@ -1,18 +1,17 @@
 name: edunity
 description: "A new Flutter project."
- 
-publish_to: 'none' 
- 
+
+publish_to: "none"
+
 version: 1.0.0+1
 
 environment:
   sdk: ^3.6.1
 
- 
 dependencies:
   flutter:
     sdk: flutter
- 
+
   cupertino_icons: ^1.0.8
   go_router: ^16.2.4
   gap: ^3.0.1
@@ -22,17 +21,16 @@ dependencies:
   iconly: ^1.0.1
   # sign_button:
   icons_plus: ^1.0.2
+  flutter_svg: ^2.2.1
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
- 
   flutter_lints: ^5.0.0
 
- 
 flutter:
-  
   uses-material-design: true
   assets:
     - assets/images/
@@ -48,5 +46,3 @@ flutter:
         - asset: assets/fonts/Mulish-Medium.ttf
         - asset: assets/fonts/Mulish-Regular.ttf
         - asset: assets/fonts/Mulish-SemiBold.ttf
-
-  
