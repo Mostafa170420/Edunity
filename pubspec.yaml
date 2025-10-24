@@ -23,6 +23,7 @@ dependencies:
   icons_plus: ^5.0.0
   flutter_svg: ^2.2.1
   percent_indicator: ^4.2.3
+  persistent_bottom_nav_bar: ^6.2.1
 
 dev_dependencies:
   flutter_test:

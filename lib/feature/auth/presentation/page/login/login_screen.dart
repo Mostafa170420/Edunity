@@ -60,7 +60,7 @@ class LoginScreen extends StatelessWidget {
                     width: double.infinity,
                     child: GradientButton(
                       onPressed: () {
-                        pushAndRemoveUntil(context, Routes.home);
+                        pushAndRemoveUntil(context, Routes.main);
                       },
                       label: 'Login',
                       icon: null,
