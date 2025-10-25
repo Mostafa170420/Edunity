@@ -4,8 +4,10 @@ import 'package:edunity/feature/home/presentation/page/category_screen.dart';
 import 'package:edunity/feature/home/presentation/page/home_screen.dart';
 import 'package:edunity/feature/home/presentation/page/search_screen.dart';
 import 'package:edunity/feature/main/main_screen.dart';
-import 'package:edunity/feature/notification/presenetation/pages/notifications.dart';
+import 'package:edunity/feature/my%20courses/presentation/pages/main.dart';
+import 'package:edunity/feature/notification/presentation/pages/notifications.dart';
 import 'package:edunity/feature/onboarding/page/welcome_screen.dart';
+import 'package:edunity/feature/profile/presentation/page/edit_profile.dart';
 import 'package:edunity/feature/profile/presentation/page/profile_screen.dart';
 import 'package:edunity/feature/splash/splash_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -19,8 +21,10 @@ class Routes {
   static const String home = '/home';
   static const String category = '/category';
   static const String search = '/search';
-  static const String profile = '/profile';
   static const String notifications = '/notifications';
+  static const String mainprofile = '/profile';
+  static const String myCourses = '/myCourses';
+  static const String editProfile = '/editProfile';
 
   static final routes = GoRouter(
     routes: [
@@ -32,10 +36,12 @@ class Routes {
       GoRoute(path: home, builder: (context, state) => HomeScreen()),
       GoRoute(path: category, builder: (context, state) => CategoryScreen()),
       GoRoute(path: search, builder: (context, state) => SearchScreen()),
-      GoRoute(path: profile, builder: (context, state) => ProfileScreen()),
       GoRoute(
           path: notifications,
           builder: (context, state) => NotificationScreen()),
+      GoRoute(path: mainprofile, builder: (context, state) => ProfileScreen()),
+      GoRoute(path: myCourses, builder: (context, state) => MyCourses()),
+      GoRoute(path: editProfile, builder: (context, state) => EditProfile()),
     ],
   );
 }

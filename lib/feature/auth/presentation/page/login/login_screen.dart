@@ -60,7 +60,7 @@ class LoginScreen extends StatelessWidget {
                     width: double.infinity,
                     child: GradientButton(
                       onPressed: () {
-                        pushAndRemoveUntil(context, Routes.home);
+                        pushAndRemoveUntil(context, Routes.main);
                       },
                       label: 'Login',
                       icon: null,
@@ -96,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          BrandLogo(BrandLogos.google, size: 18),
+                          Brand(Brands.google, size: 18),
                           SizedBox(width: 8),
                           Text(
                             'Continue with Google',
