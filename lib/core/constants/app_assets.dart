@@ -6,7 +6,8 @@ class AppAssets {
   static const String eye = 'assets/images/eye.png';
   static const String cardBackground = 'assets/images/card_background.png';
   static const String courseBackground = 'assets/images/black.png';
-  static const String bookmark = 'assets/images/bookmark.png';
+  static const String bookmarkOutline = 'assets/icons/Bookmarkoutline.svg';
+  static const String bookmarkFilledpng = 'assets/icons/bookmark.png';
   static const String doneSvg = 'assets/images/done.svg';
   static const String searchBlue = 'assets/images/search_blue.png';
   static const String starSvg = 'assets/images/Star.svg';
@@ -25,11 +26,8 @@ class AppAssets {
   static const String usaLogo = 'assets/icons/americaLogo.svg';
   static const String cameraSvg = 'assets/icons/camera.svg';
 
-
   static const String homeSvg = 'assets/icons/home.svg';
   static const String chatSvg = 'assets/icons/chat.svg';
   static const String coursesSvg = 'assets/icons/courses.svg';
   static const String transactionSvg = 'assets/icons/transaction.svg';
-  
-  
 }

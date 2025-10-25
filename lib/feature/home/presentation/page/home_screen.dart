@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () => pushTo(context, Routes.notifications),
+              onTap: () =>pushTo(context, Routes.notifications),
               child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,

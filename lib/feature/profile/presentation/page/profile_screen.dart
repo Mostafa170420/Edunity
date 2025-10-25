@@ -20,6 +20,11 @@ class ProfileScreen extends StatelessWidget {
         'route': Routes.editProfile
       },
       {
+        'title': 'Bookmarks',
+        'icon': AppAssets.bookmarkOutline,
+        'route': Routes.bookmark
+      },
+      {
         'title': 'Dark Mode',
         'icon': AppAssets.darkModeSvg,
         // 'route': Routes.darkMode

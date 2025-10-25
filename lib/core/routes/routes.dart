@@ -1,5 +1,6 @@
 import 'package:edunity/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:edunity/feature/auth/presentation/page/signup/register_screen.dart';
+import 'package:edunity/feature/bookmark/presentation/pages/bookmark_screen.dart';
 import 'package:edunity/feature/home/presentation/page/category_screen.dart';
 import 'package:edunity/feature/home/presentation/page/home_screen.dart';
 import 'package:edunity/feature/home/presentation/page/search_screen.dart';
@@ -25,6 +26,7 @@ class Routes {
   static const String mainprofile = '/profile';
   static const String myCourses = '/myCourses';
   static const String editProfile = '/editProfile';
+  static const String bookmark = '/bookmark';
 
   static final routes = GoRouter(
     routes: [
@@ -42,6 +44,7 @@ class Routes {
       GoRoute(path: mainprofile, builder: (context, state) => ProfileScreen()),
       GoRoute(path: myCourses, builder: (context, state) => MyCourses()),
       GoRoute(path: editProfile, builder: (context, state) => EditProfile()),
+      GoRoute(path: bookmark, builder: (context, state) => BookmarkScreen()),
     ],
   );
 }
