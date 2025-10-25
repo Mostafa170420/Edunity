@@ -1,10 +1,11 @@
 import 'package:edunity/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:edunity/feature/auth/presentation/page/signup/register_screen.dart';
-import 'package:edunity/feature/onboarding/page/welcome_screen.dart';
 import 'package:edunity/feature/home/presentation/page/category_screen.dart';
 import 'package:edunity/feature/home/presentation/page/home_screen.dart';
 import 'package:edunity/feature/home/presentation/page/search_screen.dart';
 import 'package:edunity/feature/main/main_screen.dart';
+import 'package:edunity/feature/notification/presenetation/pages/notifications.dart';
+import 'package:edunity/feature/onboarding/page/welcome_screen.dart';
 import 'package:edunity/feature/profile/presentation/page/profile_screen.dart';
 import 'package:edunity/feature/splash/splash_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +20,7 @@ class Routes {
   static const String category = '/category';
   static const String search = '/search';
   static const String profile = '/profile';
+  static const String notifications = '/notifications';
 
   static final routes = GoRouter(
     routes: [
@@ -31,6 +33,9 @@ class Routes {
       GoRoute(path: category, builder: (context, state) => CategoryScreen()),
       GoRoute(path: search, builder: (context, state) => SearchScreen()),
       GoRoute(path: profile, builder: (context, state) => ProfileScreen()),
+      GoRoute(
+          path: notifications,
+          builder: (context, state) => NotificationScreen()),
     ],
   );
 }

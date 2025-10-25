@@ -1,5 +1,7 @@
 import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/constants/app_assets.dart';
+import 'package:edunity/core/routes/navigation.dart';
+import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/home/presentation/model/category_model.dart';
@@ -46,15 +48,18 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.greenColor, width: 2),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(AppAssets.bell),
-                ))
+            GestureDetector(
+              onTap: () => pushTo(context, Routes.notifications),
+              child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.greenColor, width: 2),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(AppAssets.bell),
+                  )),
+            )
           ],
         ),
       ),

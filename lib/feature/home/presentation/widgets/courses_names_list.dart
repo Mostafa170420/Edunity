@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class CoursesNamesList extends StatelessWidget {
   final CoursesNamesModel courses_model;
 
-  CoursesNamesList({required this.courses_model});
+  const CoursesNamesList({super.key, required this.courses_model});
 
   @override
   Widget build(BuildContext context) {
