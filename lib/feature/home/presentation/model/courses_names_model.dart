@@ -1,20 +1,36 @@
-class CoursesNamesModel {
+class CoursesModel {
   final String title;
+  final String? image;
+  final String? courseCategorie;
+  final String? description;
+  final double? price;
+  final double? rating;
+  final int? numberOfStudents;
 
-  CoursesNamesModel({required this.title});
+  CoursesModel({
+    required this.title,
+    this.courseCategorie = 'Programming',
+    this.image =
+        'https://www.emexotechnologies.com/wp-content/uploads/2024/05/Flutter-course-in-lucknow.png',
+    this.description =
+        'Learn the fundamentals of programming with this comprehensive course designed for beginners.',
+    this.price = 49.99,
+    this.rating = 4.5,
+    this.numberOfStudents = 1200,
+  });
 }
 
-List<CoursesNamesModel> courses = [
-  CoursesNamesModel(title: 'All'),
-  CoursesNamesModel(title: 'Introduction to Programming'),
-  CoursesNamesModel(title: 'Advanced Mathematics'),
-  CoursesNamesModel(title: 'Graphic Design Advanced'),
-  CoursesNamesModel(title: 'UI/UX Design'),
-  CoursesNamesModel(title: 'Web Development'),
-  CoursesNamesModel(title: 'Data Science'),
-  CoursesNamesModel(title: 'Digital Marketing'),
-  CoursesNamesModel(title: 'Cybersecurity'),
-  CoursesNamesModel(title: 'Project Management'),
-  CoursesNamesModel(title: 'Cloud Computing'),
-  CoursesNamesModel(title: 'Artificial Intelligence'),
+List<CoursesModel> courses = [
+  CoursesModel(title: 'All'),
+  CoursesModel(title: 'Introduction to Programming'),
+  CoursesModel(title: 'Advanced Mathematics'),
+  CoursesModel(title: 'Graphic Design Advanced'),
+  CoursesModel(title: 'UI/UX Design'),
+  CoursesModel(title: 'Web Development'),
+  CoursesModel(title: 'Data Science'),
+  CoursesModel(title: 'Digital Marketing'),
+  CoursesModel(title: 'Cybersecurity'),
+  CoursesModel(title: 'Project Management'),
+  CoursesModel(title: 'Cloud Computing'),
+  CoursesModel(title: 'Artificial Intelligence'),
 ];

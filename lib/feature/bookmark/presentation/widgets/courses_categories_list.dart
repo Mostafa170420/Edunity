@@ -4,7 +4,7 @@ import 'package:edunity/feature/home/presentation/model/courses_names_model.dart
 import 'package:flutter/material.dart';
 
 class CoursesCategoriesList extends StatefulWidget {
-  final List<CoursesNamesModel> courses;
+  final List<CoursesModel> courses;
   const CoursesCategoriesList({super.key, required this.courses});
 
   @override

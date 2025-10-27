@@ -156,12 +156,15 @@ class HomeScreen extends StatelessWidget {
           ),
           Gap(30),
           CustomHorizontalListView(
-            height: 290,
+            height: 230,
             items: courses,
             courses: true,
             itemBuilder: (context, category, index) {
-              return CoursesList(
-                coursesModel: courses[index + 1],
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 17),
+                child: CoursesList(
+                  coursesModel: courses[index + 1],
+                ),
               );
             },
           ),

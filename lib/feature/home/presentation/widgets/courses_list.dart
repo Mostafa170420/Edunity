@@ -4,106 +4,188 @@ import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/home/presentation/model/courses_names_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gap/gap.dart';
+import 'package:iconly/iconly.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class CoursesList extends StatelessWidget {
   const CoursesList({super.key, required this.coursesModel});
-  final CoursesNamesModel coursesModel;
+
+  final CoursesModel coursesModel;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (context , constraints) {
-        return Container(
-          width: 280,
+      builder: (context, constraints) {
+        return SizedBox(
+          width: 300,
+          height: constraints.maxHeight,
           child: Stack(
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(22),
-                
                 child: Image.network(
-                  
-                  "https://www.emexotechnologies.com/wp-content/uploads/2024/05/Flutter-course-in-lucknow.png",
+                  coursesModel.image ?? AppAssets.placeholder,
                   fit: BoxFit.cover,
+                  width: 300,
                   height: constraints.maxHeight,
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                top: constraints.maxHeight * 0.32,
                 child: Container(
-                  height: constraints.maxHeight * 0.49,
-                  // width: 250,
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      color: AppColors.whiteColor,
-                      borderRadius: BorderRadius.circular(22)),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        AppColors.primaryLightColor.withOpacity(0),
+                        AppColors.primaryDarkColor.withOpacity(0.7),
+                        AppColors.primaryLightColor.withOpacity(0.9),
+                      ],
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.darkgreyColor.withAlpha(100),
+                        blurRadius: 12,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(22),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
                         children: [
-                          Text(
-                            'course type',
-                            style: TextStyles.getBody(
-                                color: AppColors.orangeColor, fontSize: 14),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: AppColors.darkgreyColor.withOpacity(0.9),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              coursesModel.courseCategorie ?? '',
+                              style: TextStyles.getSmall(
+                                color: AppColors.whiteColor.withAlpha(200),
+                                fontSize: 12,
+                              ),
+                            ),
                           ),
-                          Spacer(),
-                          IconButton(
-                            icon: SvgPicture.asset(AppAssets.bookmarkOutline),
-                            onPressed: () {},
-                          )
+                          // const SizedBox(width: 10),
+                          const Spacer(),
                         ],
                       ),
-                      // Gap(5),
+                      const SizedBox(height: 6),
+
+                      //Title
                       Text(
                         coursesModel.title,
                         style: TextStyles.getBody(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
-                      // Gap(10),
+                      const SizedBox(height: 4),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            '850\$  ',
-                            style: TextStyles.getBody(
-                                color: AppColors.primaryLightColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                  Icons.star,
-                                  color: AppColors.yellowDarkColor,
-                                ),
-                                onPressed: () {},
-                              ),
-                              Text(
-                                '4.2 ',
-                                style: TextStyles.getBody(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            '7830 Std',
-                            style: TextStyles.getBody(
-                                fontSize: 11, fontWeight: FontWeight.bold),
-                          )
+                          _buildRaiting(),
+                          _buildStudentNum(),
+                          _buildPrice()
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
-              )
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: Icon(
+                      IconlyLight.bookmark,
+                      color: AppColors.whiteColor,
+                      size: 22,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ),
             ],
           ),
         );
-      }
+      },
+    );
+  }
+
+  Row _buildRaiting() {
+    return Row(
+                          children: [
+                            const Icon(
+                              Icons.star,
+                              color: AppColors.orangeColor,
+                              size: 20,
+                            ),
+                            Text(
+                              '${coursesModel.rating}',
+                              style: TextStyles.getBody(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.whiteColor),
+                            ),
+                          ],
+                        );
+  }
+
+  Text _buildPrice() {
+    return Text.rich(
+      TextSpan(
+          text: '\$',
+          style: TextStyles.getBody(
+            color: AppColors.whiteColor,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+          children: [
+            TextSpan(
+              text: ' ${coursesModel.price}',
+              style: TextStyles.getBody(
+                color: AppColors.whiteColor,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ]),
+    );
+  }
+
+  Row _buildStudentNum() {
+    return Row(
+      spacing: 5,
+      children: [
+        Icon(
+          FontAwesome.user_group_solid,
+          size: 12,
+          color: AppColors.whiteColor,
+        ),
+        Text(
+          '${(coursesModel.numberOfStudents ?? 1) / 1000}k',
+          style: TextStyles.getBody(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: AppColors.whiteColor),
+        ),
+      ],
     );
   }
 }

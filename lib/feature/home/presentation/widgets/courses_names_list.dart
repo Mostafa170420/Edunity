@@ -4,7 +4,7 @@ import 'package:edunity/feature/home/presentation/model/courses_names_model.dart
 import 'package:flutter/material.dart';
 
 class CoursesNamesList extends StatefulWidget {
-  final CoursesNamesModel coursesMmodel;
+  final CoursesModel coursesMmodel;
 
   CoursesNamesList({required this.coursesMmodel});
 

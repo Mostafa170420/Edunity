@@ -9,7 +9,7 @@ class TopMentorList extends StatelessWidget {
   const TopMentorList(
       {super.key, required this.mentorModel, required this.coursesNamesModel});
   final MentorModel mentorModel;
-  final CoursesNamesModel coursesNamesModel;
+  final CoursesModel coursesNamesModel;
 
   @override
   Widget build(BuildContext context) {

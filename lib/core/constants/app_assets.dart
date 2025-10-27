@@ -42,4 +42,5 @@ class AppAssets {
   static const String personal_development =
       'assets/icons/personal_development.png';
   static const String web_development = 'assets/icons/web_development.png';
+  static const String placeholder = 'assets/images/placeholder.png';
 }
