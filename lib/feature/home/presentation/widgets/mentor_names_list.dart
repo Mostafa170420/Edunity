@@ -18,7 +18,7 @@ class MentorNamesList extends StatelessWidget {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(22),
-            child: Image.asset(
+            child: Image.network(
               mentorModel.image,
               width: 70,
               height: 70,

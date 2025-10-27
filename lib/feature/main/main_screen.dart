@@ -1,7 +1,7 @@
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/feature/home/presentation/page/home_screen.dart';
-import 'package:edunity/feature/my%20courses/presentation/pages/main.dart';
+import 'package:edunity/feature/my%20courses/presentation/pages/my_courses_page.dart';
 import 'package:edunity/feature/profile/presentation/page/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,6 +28,9 @@ class BottomNavBarState extends State<MainScreen> {
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
+    Color activeColor = AppColors.primaryDarkColor;
+    Color inactiveColor = AppColors.greyColor;
+
     return [
       PersistentBottomNavBarItem(
         icon: SvgPicture.asset(
@@ -35,19 +38,18 @@ class BottomNavBarState extends State<MainScreen> {
           fit: BoxFit.contain,
           width: 26,
           height: 26,
-          colorFilter:
-              ColorFilter.mode(AppColors.primaryLightColor, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(activeColor, BlendMode.srcIn),
         ),
         inactiveIcon: SvgPicture.asset(
           AppAssets.homeSvg,
           fit: BoxFit.contain,
           width: 26,
           height: 26,
-          colorFilter: ColorFilter.mode(AppColors.greyColor, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(inactiveColor, BlendMode.srcIn),
         ),
         title: ("Home"),
-        activeColorPrimary: AppColors.primaryLightColor,
-        inactiveColorPrimary: AppColors.greyColor,
+        activeColorPrimary: activeColor,
+        inactiveColorPrimary: inactiveColor,
       ),
       PersistentBottomNavBarItem(
         icon: SvgPicture.asset(
@@ -55,19 +57,18 @@ class BottomNavBarState extends State<MainScreen> {
           fit: BoxFit.contain,
           width: 26,
           height: 26,
-          colorFilter:
-              ColorFilter.mode(AppColors.primaryLightColor, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(activeColor, BlendMode.srcIn),
         ),
         inactiveIcon: SvgPicture.asset(
           AppAssets.coursesSvg,
           width: 26,
           height: 26,
           fit: BoxFit.contain,
-          colorFilter: ColorFilter.mode(AppColors.greyColor, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(inactiveColor, BlendMode.srcIn),
         ),
         title: ("My Courses"),
-        activeColorPrimary: AppColors.primaryLightColor,
-        inactiveColorPrimary: AppColors.greyColor,
+        activeColorPrimary: activeColor,
+        inactiveColorPrimary: inactiveColor,
       ),
       PersistentBottomNavBarItem(
         icon: SvgPicture.asset(
@@ -75,19 +76,18 @@ class BottomNavBarState extends State<MainScreen> {
           width: 26,
           height: 26,
           fit: BoxFit.contain,
-          colorFilter:
-              ColorFilter.mode(AppColors.primaryLightColor, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(activeColor, BlendMode.srcIn),
         ),
         inactiveIcon: SvgPicture.asset(
           AppAssets.chatSvg,
           width: 26,
           height: 26,
           fit: BoxFit.contain,
-          colorFilter: ColorFilter.mode(AppColors.greyColor, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(inactiveColor, BlendMode.srcIn),
         ),
         title: ("Chat"),
-        activeColorPrimary: AppColors.primaryLightColor,
-        inactiveColorPrimary: AppColors.greyColor,
+        activeColorPrimary: activeColor,
+        inactiveColorPrimary: inactiveColor,
       ),
       PersistentBottomNavBarItem(
         icon: SvgPicture.asset(
@@ -95,19 +95,18 @@ class BottomNavBarState extends State<MainScreen> {
           width: 26,
           height: 26,
           fit: BoxFit.contain,
-          colorFilter:
-              ColorFilter.mode(AppColors.primaryLightColor, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(activeColor, BlendMode.srcIn),
         ),
         inactiveIcon: SvgPicture.asset(
           AppAssets.profileSvg,
           width: 26,
           height: 26,
           fit: BoxFit.contain,
-          colorFilter: ColorFilter.mode(AppColors.greyColor, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(inactiveColor, BlendMode.srcIn),
         ),
         title: ("Profile"),
-        activeColorPrimary: AppColors.primaryLightColor,
-        inactiveColorPrimary: Colors.grey,
+        activeColorPrimary: activeColor,
+        inactiveColorPrimary: inactiveColor,
       ),
     ];
   }
@@ -119,26 +118,37 @@ class BottomNavBarState extends State<MainScreen> {
       controller: _controller,
       screens: _buildScreens(),
       items: _navBarsItems(),
-      confineToSafeArea: true,
+      confineToSafeArea: false, // false to make pages behind nav bar
       backgroundColor: Colors.white,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        colorBehindNavBar: Colors.white,
+        // borderRadius: BorderRadius.circular(22),
+        gradient: LinearGradient(
+            colors: [
+              AppColors.primaryDarkColor.withAlpha(40),
+              AppColors.primaryLightColor.withAlpha(50)
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            transform: GradientRotation(150)),
+        useBackdropFilter: true,
+        // colorBehindNavBar: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(22)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(110),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+            color: AppColors.whiteColor.withAlpha(150),
+            blurRadius: 0,
+            offset: const Offset(0, 0),
           ),
-          
         ]
       ),
-      padding: EdgeInsets.only(top: 4),
+      padding: EdgeInsets.only(top: 12 ,bottom: 20),
       navBarStyle: NavBarStyle.style14, // many styles available
-      navBarHeight: 60,
+      navBarHeight: 90,
+      
+      
     );
   }
 }

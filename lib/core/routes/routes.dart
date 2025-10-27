@@ -7,7 +7,7 @@ import 'package:edunity/feature/home/presentation/page/home_screen.dart';
 import 'package:edunity/feature/home/presentation/page/search_screen.dart';
 import 'package:edunity/feature/home/presentation/page/top_mentor_screen.dart';
 import 'package:edunity/feature/main/main_screen.dart';
-import 'package:edunity/feature/my%20courses/presentation/pages/main.dart';
+import 'package:edunity/feature/my%20courses/presentation/pages/my_courses_page.dart';
 import 'package:edunity/feature/notification/presentation/pages/notifications.dart';
 import 'package:edunity/feature/onboarding/page/welcome_screen.dart';
 import 'package:edunity/feature/profile/presentation/page/edit_profile.dart';

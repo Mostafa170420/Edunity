@@ -34,7 +34,7 @@ class ProfileForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ProfileCard(
-          isCameraEnabled: true,
+          onCameraTap: () {},
         ),
         Gap(20),
         CustomTextField(

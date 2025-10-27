@@ -60,6 +60,7 @@ class _MyCoursesState extends State<MyCourses> {
             ),
             Gap(10),
             screens[currentIndex],
+            Gap(100),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:edunity/core/constants/app_assets.dart';
+import 'package:flutter/foundation.dart';
 
 class MentorModel {
   final String name;
@@ -11,14 +12,33 @@ class MentorModel {
 }
 
 List<MentorModel> mentors = [
-  MentorModel(image: AppAssets.courseBackground, name: 'Samantha '),
-  MentorModel(image: AppAssets.courseBackground, name: 'John'),
-  MentorModel(image: AppAssets.courseBackground, name: 'Emma'),
-  MentorModel(image: AppAssets.courseBackground, name: 'Michael'),
-  MentorModel(image: AppAssets.courseBackground, name: 'Olivia'),
-  MentorModel(image: AppAssets.courseBackground, name: 'James'),
-  MentorModel(image: AppAssets.courseBackground, name: 'Ava'),
-  MentorModel(image: AppAssets.courseBackground, name: 'William'),
-  MentorModel(image: AppAssets.courseBackground, name: 'Isabella'),
-  MentorModel(image: AppAssets.courseBackground, name: 'Benjamin'),
+  MentorModel(
+      image: 'https://i.pravatar.cc/231?u=${655655}', name: 'Samantha '),
+  MentorModel(
+      image: 'https://i.pravatar.cc/231?u=${UniqueKey().hashCode}',
+      name: 'John'),
+  MentorModel(
+      image: 'https://i.pravatar.cc/231?u=${UniqueKey().hashCode}',
+      name: 'Emma'),
+  MentorModel(
+      image: 'https://i.pravatar.cc/231?u=${UniqueKey().hashCode}',
+      name: 'Michael'),
+  MentorModel(
+      image: 'https://i.pravatar.cc/231?u=${UniqueKey().hashCode}',
+      name: 'Olivia'),
+  MentorModel(
+      image: 'https://i.pravatar.cc/231?u=${UniqueKey().hashCode}',
+      name: 'James'),
+  MentorModel(
+      image: 'https://i.pravatar.cc/231?u=${UniqueKey().hashCode}',
+      name: 'Ava'),
+  MentorModel(
+      image: 'https://i.pravatar.cc/231?u=${UniqueKey().hashCode}',
+      name: 'William'),
+  MentorModel(
+      image: 'https://i.pravatar.cc/231?u=${UniqueKey().hashCode}',
+      name: 'Isabella'),
+  MentorModel(
+      image: 'https://i.pravatar.cc/231?u=${UniqueKey().hashCode}',
+      name: 'Benjamin'),
 ];
