@@ -49,15 +49,18 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.greenColor, width: 2),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(AppAssets.bell),
-                ))
+            GestureDetector(
+              onTap: () =>pushTo(context, Routes.notifications),
+              child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.greenColor, width: 2),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(AppAssets.bell),
+                  )),
+            )
           ],
         ),
       ),

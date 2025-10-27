@@ -37,7 +37,7 @@ class CoursesList extends StatelessWidget {
                         ),
                         Spacer(),
                         IconButton(
-                          icon: Image.asset(AppAssets.bookmark),
+                          icon: Image.asset(AppAssets.bookmarkOutline),
                           onPressed: () {},
                         )
                       ],
