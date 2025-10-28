@@ -39,39 +39,6 @@ class _ChooseCoursesListState extends State<ChooseCoursesList> {
       children: [
         Row(
           children: [
-            // ✅ Completed Button
-            Expanded(
-              child: SizedBox(
-                height: 48,
-                child: TextButton(
-                  onPressed: () {
-                    _onButtonPressed(0);
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: selectedIndex == 0
-                        ? AppColors.greenColor
-                        : AppColors.borderColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(22),
-                    ),
-                  ),
-                  child: Text(
-                    'Completed',
-                    style: TextStyles.getSmall(
-                      color: selectedIndex == 0
-                          ? AppColors.whiteColor
-                          : AppColors.darkgreyColor,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            Gap(10),
-
-            // ✅ Ongoing Button
             Expanded(
               child: SizedBox(
                 height: 48,
@@ -79,7 +46,7 @@ class _ChooseCoursesListState extends State<ChooseCoursesList> {
                   onPressed: () => _onButtonPressed(1),
                   style: TextButton.styleFrom(
                     backgroundColor: selectedIndex == 1
-                        ? AppColors.greenColor
+                        ? AppColors.primaryDarkColor
                         : AppColors.borderColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
@@ -89,6 +56,36 @@ class _ChooseCoursesListState extends State<ChooseCoursesList> {
                     'Ongoing',
                     style: TextStyles.getSmall(
                       color: selectedIndex == 1
+                          ? AppColors.whiteColor
+                          : AppColors.darkgreyColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Gap(10),
+
+            Expanded(
+              child: SizedBox(
+                height: 48,
+                child: TextButton(
+                  onPressed: () {
+                    _onButtonPressed(0);
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: selectedIndex == 0
+                        ? AppColors.primaryDarkColor
+                        : AppColors.borderColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(22),
+                    ),
+                  ),
+                  child: Text(
+                    'Completed',
+                    style: TextStyles.getSmall(
+                      color: selectedIndex == 0
                           ? AppColors.whiteColor
                           : AppColors.darkgreyColor,
                       fontSize: 15,

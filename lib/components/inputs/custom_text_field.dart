@@ -65,10 +65,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         )
                       : null),
             ),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.all(11),
-              child: widget.prefixIcon,
-            ),
+            prefixIcon: widget.prefixIcon != null
+                ? Padding(
+                    padding: const EdgeInsets.all(11),
+                    child: widget.prefixIcon,
+                  )
+                : null,
           ),
         ));
   }

@@ -1,5 +1,6 @@
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/utils/colors.dart';
+import 'package:edunity/feature/chat/page/all_chats_screen.dart';
 import 'package:edunity/feature/home/presentation/page/home_screen.dart';
 import 'package:edunity/feature/my%20courses/presentation/pages/my_courses_page.dart';
 import 'package:edunity/feature/profile/presentation/page/profile_screen.dart';
@@ -22,7 +23,7 @@ class BottomNavBarState extends State<MainScreen> {
     return [
       HomeScreen(),
       MyCourses(),
-      Center(child: Text("chat")),
+      ChatsScreen(),
       ProfileScreen(),
     ];
   }
@@ -124,31 +125,28 @@ class BottomNavBarState extends State<MainScreen> {
       resizeToAvoidBottomInset: true,
       stateManagement: true,
       decoration: NavBarDecoration(
-        // borderRadius: BorderRadius.circular(22),
-        gradient: LinearGradient(
-            colors: [
-              AppColors.primaryDarkColor.withAlpha(40),
-              AppColors.primaryLightColor.withAlpha(50)
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            transform: GradientRotation(150)),
-        useBackdropFilter: true,
-        // colorBehindNavBar: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(22)),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.whiteColor.withAlpha(150),
-            blurRadius: 0,
-            offset: const Offset(0, 0),
-          ),
-        ]
-      ),
-      padding: EdgeInsets.only(top: 12 ,bottom: 20),
+          // borderRadius: BorderRadius.circular(22),
+          gradient: LinearGradient(
+              colors: [
+                AppColors.primaryDarkColor.withAlpha(40),
+                AppColors.primaryLightColor.withAlpha(50)
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              transform: GradientRotation(150)),
+          useBackdropFilter: true,
+          // colorBehindNavBar: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(22)),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.whiteColor.withAlpha(150),
+              blurRadius: 0,
+              offset: const Offset(0, 0),
+            ),
+          ]),
+      padding: EdgeInsets.only(top: 12, bottom: 20),
       navBarStyle: NavBarStyle.style14, // many styles available
       navBarHeight: 90,
-      
-      
     );
   }
 }

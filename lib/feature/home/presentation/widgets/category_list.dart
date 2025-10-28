@@ -1,4 +1,4 @@
-import 'package:edunity/feature/home/presentation/model/category_model.dart';
+import 'package:edunity/core/model/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 

@@ -1,7 +1,7 @@
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/feature/home/presentation/model/course_model.dart';
+import 'package:edunity/core/model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconly/iconly.dart';
@@ -24,7 +24,7 @@ class CoursesList extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(22),
                 child: Image.network(
-                  coursesModel.image ?? AppAssets.placeholder,
+                  coursesModel.imageUrl ?? AppAssets.placeholder,
                   fit: BoxFit.cover,
                   width: 300,
                   height: constraints.maxHeight,
@@ -70,7 +70,7 @@ class CoursesList extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
-                              coursesModel.courseCategorie ?? '',
+                              coursesModel.category ?? '',
                               style: TextStyles.getSmall(
                                 color: AppColors.whiteColor.withAlpha(200),
                                 fontSize: 12,
@@ -179,7 +179,7 @@ class CoursesList extends StatelessWidget {
           color: AppColors.whiteColor,
         ),
         Text(
-          '${(coursesModel.numberOfStudents ?? 1) / 1000}k',
+          '${(coursesModel.studentsEnrolled ?? 1) / 1000}k',
           style: TextStyles.getBody(
               fontSize: 11,
               fontWeight: FontWeight.bold,

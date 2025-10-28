@@ -1,8 +1,8 @@
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/feature/home/presentation/model/course_model.dart';
+import 'package:edunity/core/model/course_model.dart';
 import 'package:edunity/feature/home/presentation/widgets/courses_list.dart';
-import 'package:edunity/feature/home/presentation/widgets/courses_names_list.dart';
+import 'package:edunity/feature/home/presentation/widgets/courses_chips_list.dart';
 import 'package:edunity/feature/home/presentation/widgets/custom_list_view_buillder.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -42,25 +42,19 @@ class PopularCoursesSection extends StatelessWidget {
           ),
         ),
         Gap(10),
-        CustomHorizontalListView(
-          height: 30,
-          items: courses,
-          itemBuilder: (context, category, index) {
-            return CoursesNamesList(
-              coursesMmodel: courses[index],
-            );
-          },
+        CoursesChipsList(
+          coursesModel: CoursesModel.courses,
         ),
-        Gap(30),
+        Gap(10),
         CustomHorizontalListView(
           height: 230,
-          items: courses,
+          items: CoursesModel.courses,
           courses: true,
           itemBuilder: (context, category, index) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 17),
               child: CoursesList(
-                coursesModel: courses[index + 1],
+                coursesModel: CoursesModel.courses[index + 1],
               ),
             );
           },
