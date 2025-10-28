@@ -66,9 +66,9 @@ class ChatsScreen extends StatelessWidget {
       ),
       body: ListView.builder(
         physics: const BouncingScrollPhysics(),
-        itemCount: mockChats.length,
+        itemCount: fakeChats.length,
         itemBuilder: (context, index) {
-          final chat = mockChats[index];
+          final chat = fakeChats[index];
           return ChatListTile(chat: chat);
         },
       ),

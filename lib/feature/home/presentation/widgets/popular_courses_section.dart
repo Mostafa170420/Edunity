@@ -1,3 +1,4 @@
+import 'package:edunity/core/model/category_model.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/core/model/course_model.dart';
@@ -42,10 +43,12 @@ class PopularCoursesSection extends StatelessWidget {
           ),
         ),
         Gap(10),
-        CoursesChipsList(
-          coursesModel: CoursesModel.courses,
+        CategoriesChipsList(
+          coursesModel: categories,
+          initialSelectedIndex: 0,
+          includeAll: true,
         ),
-        Gap(10),
+        // Gap(10),
         CustomHorizontalListView(
           height: 230,
           items: CoursesModel.courses,

@@ -3,8 +3,7 @@ import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/core/model/category_model.dart';
-import 'package:edunity/feature/home/presentation/widgets/category_names_list.dart';
-import 'package:edunity/feature/home/presentation/widgets/custom_list_view_buillder.dart';
+import 'package:edunity/feature/home/presentation/widgets/courses_chips_list.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -50,14 +49,10 @@ class CategoriesSection extends StatelessWidget {
           ),
         ),
         Gap(10),
-        CustomHorizontalListView(
-          height: 30,
-          items: categories,
-          itemBuilder: (context, category, index) {
-            return CategoryNamesList(
-              categoryNamesModel: categories[index],
-            );
-          },
+        CategoriesChipsList(
+          coursesModel: categories,
+          isContained: false,
+      
         ),
       ],
     );
