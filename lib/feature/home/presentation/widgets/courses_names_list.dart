@@ -1,6 +1,6 @@
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/feature/home/presentation/model/courses_names_model.dart';
+import 'package:edunity/feature/home/presentation/model/course_model.dart';
 import 'package:flutter/material.dart';
 
 class CoursesNamesList extends StatefulWidget {

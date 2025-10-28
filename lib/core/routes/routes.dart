@@ -1,11 +1,11 @@
 import 'package:edunity/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:edunity/feature/auth/presentation/page/signup/register_screen.dart';
 import 'package:edunity/feature/bookmark/presentation/pages/bookmark_screen.dart';
-import 'package:edunity/feature/home/presentation/page/category_screen.dart';
-import 'package:edunity/feature/home/presentation/page/filter_screen.dart';
+import 'package:edunity/feature/categories/category_screen.dart';
+import 'package:edunity/feature/search/filter_screen.dart';
 import 'package:edunity/feature/home/presentation/page/home_screen.dart';
-import 'package:edunity/feature/home/presentation/page/search_screen.dart';
-import 'package:edunity/feature/home/presentation/page/top_mentor_screen.dart';
+import 'package:edunity/feature/search/search_screen.dart';
+import 'package:edunity/feature/mentors/top_mentor_screen.dart';
 import 'package:edunity/feature/main/main_screen.dart';
 import 'package:edunity/feature/my%20courses/presentation/pages/my_courses_page.dart';
 import 'package:edunity/feature/notification/presentation/pages/notifications.dart';

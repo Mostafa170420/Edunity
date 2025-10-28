@@ -1,6 +1,6 @@
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/feature/home/presentation/model/courses_names_model.dart';
+import 'package:edunity/feature/home/presentation/model/course_model.dart';
 import 'package:edunity/feature/home/presentation/model/mentor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -33,12 +33,12 @@ class TopMentorList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${mentorModel.name}',
+                    mentorModel.name,
                     style: TextStyles.getBody(
                         fontSize: 17, fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    '${coursesNamesModel.title}',
+                    coursesNamesModel.title,
                     style: TextStyles.getBody(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,

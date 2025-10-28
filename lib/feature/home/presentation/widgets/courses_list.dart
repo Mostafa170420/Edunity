@@ -1,7 +1,7 @@
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/feature/home/presentation/model/courses_names_model.dart';
+import 'package:edunity/feature/home/presentation/model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconly/iconly.dart';
@@ -43,8 +43,8 @@ class CoursesList extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       colors: [
                         AppColors.primaryLightColor.withOpacity(0),
-                        AppColors.primaryDarkColor.withOpacity(0.7),
-                        AppColors.primaryLightColor.withOpacity(0.9),
+                        AppColors.primaryDarkColor.withOpacity(0.6),
+                        AppColors.primaryLightColor.withOpacity(0.8),
                       ],
                     ),
                     boxShadow: [

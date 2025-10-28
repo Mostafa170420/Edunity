@@ -4,7 +4,7 @@ import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/home/presentation/model/category_model.dart';
-import 'package:edunity/feature/home/presentation/model/courses_names_model.dart';
+import 'package:edunity/feature/home/presentation/model/course_model.dart';
 import 'package:edunity/feature/home/presentation/model/mentor_model.dart';
 import 'package:edunity/feature/home/presentation/widgets/search_list.dart';
 import 'package:edunity/feature/home/presentation/widgets/top_mentor_list.dart';

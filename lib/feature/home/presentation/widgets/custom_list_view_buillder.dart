@@ -6,14 +6,16 @@ class CustomHorizontalListView<T> extends StatelessWidget {
   final List<T> items;
   final Widget Function(BuildContext context, T item, int index) itemBuilder;
   final bool courses;
+  final double? padding;
 
   const CustomHorizontalListView({
-    Key? key,
+    super.key,
     required this.height,
     required this.items,
     required this.itemBuilder,
     this.courses = false,
-  }) : super(key: key);
+    this.padding,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class CustomHorizontalListView<T> extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: courses ? items.length - 1 : items.length,
+        padding: EdgeInsets.symmetric(horizontal: padding ?? 22),
         itemBuilder: (context, index) {
           final item = items[index];
           return itemBuilder(context, item, index);
