@@ -1,5 +1,7 @@
+import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/constants/app_assets.dart';
+import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
@@ -7,6 +9,7 @@ import 'package:edunity/core/model/category_model.dart';
 import 'package:edunity/feature/home/presentation/widgets/search_list.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:iconly/iconly.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});
@@ -15,12 +18,26 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Search',
-          style: TextStyles.getTitle(fontWeight: FontWeight.bold, fontSize: 21),
-        ),
-        centerTitle: false,
-      ),
+          title: Text(
+            'Search',
+            style:
+                TextStyles.getTitle(fontWeight: FontWeight.bold, fontSize: 21),
+          ),
+          centerTitle: false,
+          actions: [
+            IconButton(
+              icon: const Icon(
+                IconlyLight.filter,
+                color: AppColors.darkgreyColor,
+              ),
+              onPressed: () {
+                pushTo(context, Routes.filter);
+              },
+            )
+          ],
+          actionsPadding: EdgeInsets.only(
+            right: 15,
+          )),
       body: SafeArea(
           child: Padding(
         padding: EdgeInsets.all(25),
@@ -31,12 +48,16 @@ class SearchScreen extends StatelessWidget {
               child: Material(
                 color: Colors.transparent,
                 child: CustomTextField(
-                  controller: Search,
-                  hintText: 'Search For..',
-                  suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: Image.asset(AppAssets.searchWithBackground)),
-                ),
+                    controller: Search,
+                    hintText: 'Search For..',
+                    suffixIcon: GradientButton(
+                        label: '',
+                        onPressed: () {},
+                        width: 40,
+                        borderRadius: 12,
+                        icon: const Icon(IconlyBroken.search,
+                            color: Colors.white),
+                        iconAlignment: IconAlignment.end)),
               ),
             ),
             Gap(30),
