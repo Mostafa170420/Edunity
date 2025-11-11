@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "338318260423",
+    "project_id": "edunity-1",
+    "storage_bucket": "edunity-1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338318260423:android:c48f4bd13c66ca519d66e2",
+        "android_client_info": {
+          "package_name": "com.depi.edunity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW21MRBnaR8GoHzzuj1669kT0bIVpLEQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

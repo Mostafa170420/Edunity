@@ -1,4 +1,4 @@
-package com.example.bookia
+package com.depi.edunity
 
 import io.flutter.embedding.android.FlutterActivity
 
