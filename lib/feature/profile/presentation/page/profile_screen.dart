@@ -15,9 +15,14 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, String>> profileOptions = [
       {
-        'title': 'Profile',
+        'title': 'Edit Profile',
         'icon': AppAssets.profileSvg,
         'route': Routes.editProfile
+      },
+      {
+        'title': 'Bookmarks',
+        'icon': AppAssets.bookmarkOutline,
+        'route': Routes.bookmark
       },
       {
         'title': 'Dark Mode',
@@ -75,7 +80,9 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           children: [
             ProfileCard(
-              isCameraEnabled: false,
+              onCameraTap: () {
+                // Handle camera tap
+              },
             ),
             Gap(30),
             ListView.separated(
@@ -92,6 +99,7 @@ class ProfileScreen extends StatelessWidget {
                 );
               },
             ),
+            Gap(100),
           ],
         ),
       ),

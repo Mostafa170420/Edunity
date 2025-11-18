@@ -1,11 +1,18 @@
-import 'package:edunity/feature/auth/presentation/page/login_screen.dart';
-import 'package:edunity/feature/auth/presentation/page/register_screen.dart';
-import 'package:edunity/feature/auth/presentation/page/welcome_screen.dart';
-import 'package:edunity/feature/home/presentation/page/category_screen.dart';
+import 'package:edunity/core/model/chat_model.dart';
+import 'package:edunity/feature/auth/presentation/page/login/login_screen.dart';
+import 'package:edunity/feature/auth/presentation/page/signup/register_screen.dart';
+import 'package:edunity/feature/bookmark/presentation/pages/bookmark_screen.dart';
+import 'package:edunity/feature/categories/category_screen.dart';
+import 'package:edunity/feature/chat/page/chat_screen.dart';
+import 'package:edunity/feature/course_details/pages/main_tab_screen.dart';
+import 'package:edunity/feature/search/filter_screen.dart';
 import 'package:edunity/feature/home/presentation/page/home_screen.dart';
-import 'package:edunity/feature/home/presentation/page/search_screen.dart';
+import 'package:edunity/feature/search/search_screen.dart';
+import 'package:edunity/feature/mentors/page/top_mentor_screen.dart';
 import 'package:edunity/feature/main/main_screen.dart';
-import 'package:edunity/feature/my%20courses/presentation/pages/main.dart';
+import 'package:edunity/feature/my%20courses/presentation/pages/my_courses_page.dart';
+import 'package:edunity/feature/notification/presentation/pages/notifications.dart';
+import 'package:edunity/feature/onboarding/page/welcome_screen.dart';
 import 'package:edunity/feature/profile/presentation/page/edit_profile.dart';
 import 'package:edunity/feature/profile/presentation/page/profile_screen.dart';
 import 'package:edunity/feature/splash/splash_screen.dart';
@@ -20,9 +27,15 @@ class Routes {
   static const String home = '/home';
   static const String category = '/category';
   static const String search = '/search';
+  static const String notifications = '/notifications';
   static const String mainprofile = '/profile';
   static const String myCourses = '/myCourses';
   static const String editProfile = '/editProfile';
+  static const String bookmark = '/bookmark';
+  static const String topMentors = '/topMentors';
+  static const String filter = '/filter';
+  static const String chatScreen = '/chat';
+  static const String courseDetails = '/courseDetails';
 
   static final routes = GoRouter(
     routes: [
@@ -34,9 +47,28 @@ class Routes {
       GoRoute(path: home, builder: (context, state) => HomeScreen()),
       GoRoute(path: category, builder: (context, state) => CategoryScreen()),
       GoRoute(path: search, builder: (context, state) => SearchScreen()),
+      GoRoute(
+          path: notifications,
+          builder: (context, state) => NotificationScreen()),
       GoRoute(path: mainprofile, builder: (context, state) => ProfileScreen()),
+      GoRoute(
+          path: topMentors, builder: (context, state) => TopMentorsScreen()),
+      GoRoute(path: filter, builder: (context, state) => FilterScreen()),
       GoRoute(path: myCourses, builder: (context, state) => MyCourses()),
       GoRoute(path: editProfile, builder: (context, state) => EditProfile()),
+      GoRoute(path: bookmark, builder: (context, state) => BookmarkScreen()),
+      GoRoute(
+          path: chatScreen,
+          builder: (context, state) => ChatScreen(
+                receiverName: state.extra != null
+                    ? (state.extra as ChatModel).receiverName
+                    : 'Receiver Name',
+                receiverImageUrl: state.extra != null
+                    ? (state.extra as ChatModel).receiverImageUrl
+                    : 'https://i.pravatar.cc/150?img=3',
+              )),
+      GoRoute(
+          path: courseDetails, builder: (context, state) => MainTabScreen()),
     ],
   );
 }
