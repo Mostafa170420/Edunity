@@ -1,3 +1,5 @@
+import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
+import 'package:edunity/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:edunity/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:edunity/feature/auth/presentation/page/signup/register_screen.dart';
 import 'package:edunity/feature/onboarding/page/welcome_screen.dart';
@@ -7,6 +9,7 @@ import 'package:edunity/feature/home/presentation/page/search_screen.dart';
 import 'package:edunity/feature/main/main_screen.dart';
 import 'package:edunity/feature/profile/presentation/page/profile_screen.dart';
 import 'package:edunity/feature/splash/splash_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class Routes {
@@ -25,7 +28,12 @@ class Routes {
       GoRoute(path: splash, builder: (context, state) => SplashScreen()),
       GoRoute(path: welcome, builder: (context, state) => WelcomeScreen()),
       GoRoute(path: login, builder: (context, state) => LoginScreen()),
-      GoRoute(path: register, builder: (context, state) => RegisterScreen()),
+      GoRoute(
+          path: register,
+          builder: (context, state) => BlocProvider(
+                create: (context) => AuthBloc(),
+                child: RegisterScreen(),
+              )),
       GoRoute(path: main, builder: (context, state) => MainScreen()),
       GoRoute(path: home, builder: (context, state) => HomeScreen()),
       GoRoute(path: category, builder: (context, state) => CategoryScreen()),

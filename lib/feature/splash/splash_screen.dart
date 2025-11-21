@@ -71,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       fontWeight: FontWeight.w600)),
               Gap(20),
               LottieBuilder.asset(
-                AppAssets.loadingJson,
+                AppAssets.splashLoadingJson,
                 repeat: true,
               )
             ],
