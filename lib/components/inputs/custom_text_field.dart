@@ -12,6 +12,8 @@ class CustomTextField extends StatefulWidget {
     this.prefixIcon,
     this.readOnly = false,
     this.onTap,
+    this.keyboardType,
+    this.floatingLabelBehavior,
   });
 
   final TextEditingController controller;
@@ -22,6 +24,8 @@ class CustomTextField extends StatefulWidget {
   final Widget? prefixIcon;
   final bool readOnly;
   final Function()? onTap;
+  final TextInputType? keyboardType;
+  final FloatingLabelBehavior? floatingLabelBehavior;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -47,8 +51,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
           obscureText: widget.isPassword && isobscure,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
+          keyboardType: widget.keyboardType,
           decoration: InputDecoration(
             hintText: widget.hintText,
+            floatingLabelBehavior: widget.floatingLabelBehavior,
             suffixIcon: Padding(
               padding: const EdgeInsets.all(10),
               child: widget.suffixIcon ??

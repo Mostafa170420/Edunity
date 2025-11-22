@@ -36,45 +36,50 @@ class _SplashScreenState extends State<SplashScreen> {
               AppColors.primaryLightColor
             ])),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: AppColors.logoBackgroundColor,
-                  boxShadow: [
-                    BoxShadow(
-                        color: AppColors.greyColor.withValues(alpha: 0.6),
-                        blurRadius: 10,
-                        offset: Offset(0, 2)),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Icon(
-                    Icons.menu_book,
-                    size: 50,
-                    color: AppColors.whiteColor,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: AppColors.logoBackgroundColor,
+                    boxShadow: [
+                      BoxShadow(
+                          color: AppColors.greyColor.withValues(alpha: 0.6),
+                          blurRadius: 10,
+                          offset: Offset(0, 2)),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Icon(
+                      Icons.menu_book,
+                      size: 50,
+                      color: AppColors.whiteColor,
+                    ),
                   ),
                 ),
-              ),
-              Gap(25),
-              Text('Edunity',
-                  style: TextStyles.getTitle(
-                      color: AppColors.whiteColor,
-                      fontWeight: FontWeight.bold)),
-              Gap(10),
-              Text('Learn Together, Grow Together',
-                  style: TextStyles.getSmall(
-                      color: AppColors.whiteColor,
-                      fontWeight: FontWeight.w600)),
-              Gap(20),
-              LottieBuilder.asset(
-                AppAssets.loadingJson,
-                repeat: true,
-              )
-            ],
+                Gap(25),
+                Text('Edunity',
+                    style: TextStyles.getTitle(
+                        color: AppColors.whiteColor,
+                        fontWeight: FontWeight.bold)),
+                Gap(10),
+                Text('Learn Together, Grow Together',
+                    style: TextStyles.getSmall(
+                        color: AppColors.whiteColor,
+                        fontWeight: FontWeight.w600)),
+                Gap(20),
+                SizedBox(
+                  height: 150,
+                  child: LottieBuilder.asset(
+                    AppAssets.splashLoadingJson,
+                    repeat: true,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
