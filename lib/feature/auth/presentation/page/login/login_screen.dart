@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:edunity/components/buttons/gradient_button.dart';
+import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/extentions/dialogs.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
@@ -74,14 +75,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyles.getSmall(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      TextFormField(
+                      CustomTextField(
                         controller: bloc.emailController,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          hintText: 'Enter Your Email',
-                          prefixIcon: Icon(IconlyLight.message),
-                        ),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        hintText: 'Enter Your Email',
+                        prefixIcon: Icon(IconlyLight.message),
                         validator: (value) {
                           if (value == null || !value.contains('@')) {
                             return 'Please enter a valid email address';
@@ -97,13 +96,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyles.getSmall(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      TextFormField(
+                      CustomTextField(
                         controller: bloc.passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Your Password',
-                          prefixIcon: Icon(IconlyLight.lock),
-                        ),
+                        isPassword: true,
+                        hintText: 'Enter Your Password',
+                        prefixIcon: Icon(IconlyLight.lock),
                         validator: (value) {
                           if (value == null || value.length < 6) {
                             return 'Password must be at least 6 characters long';

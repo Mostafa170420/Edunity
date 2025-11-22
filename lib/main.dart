@@ -1,9 +1,13 @@
 import 'package:edunity/core/routes/routes.dart';
+import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await SharedPref.init();
   runApp(const MainApp());
 }
 
@@ -16,7 +20,6 @@ class MainApp extends StatelessWidget {
       routerConfig: Routes.routes,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      
     );
   }
 }

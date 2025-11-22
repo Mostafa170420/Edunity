@@ -1,4 +1,3 @@
-import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/home/presentation/model/mentor_model.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,7 @@ class TopMentorList extends StatelessWidget {
         ),
         Gap(7),
         Text(
-          '${mentor_model.name}',
+          mentor_model.name,
           style: TextStyles.getBody(fontSize: 13, fontWeight: FontWeight.w500),
         )
       ],
