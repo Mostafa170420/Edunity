@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:edunity/core/utils/colors.dart';
-import 'package:edunity/core/model/slider_model.dart';
+import 'package:edunity/core/models/slider_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

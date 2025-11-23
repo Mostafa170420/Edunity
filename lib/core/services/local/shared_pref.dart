@@ -26,6 +26,28 @@ class SharedPref {
     return getData(kUserId) as String?;
   }
 
+  static Future<void> setToken(String token) async {
+    await setData('token', token);
+  }
+
+  static String? getToken() {
+    return getData('token') as String?;
+  }
+
+  static Future<void> setIsLoggedIn(bool isLoggedIn) async {
+    await setData('isLoggedIn', isLoggedIn);
+  }
+  static bool? getIsLoggedIn() {
+    return getData('isLoggedIn') as bool?;
+  }
+
+  static Future<void> setUserName(String userName) async {
+    await setData('userName', userName);
+  }
+  static String? getUserName() {
+    return getData('userName') as String?;
+  }
+
   static Future<void> setData(String key, dynamic value) async {
     if (value is int) {
       await pref.setInt(key, value);

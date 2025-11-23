@@ -1,4 +1,4 @@
-import 'package:edunity/core/model/msg_model.dart';
+import 'package:edunity/core/models/msg_model.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:flutter/material.dart';

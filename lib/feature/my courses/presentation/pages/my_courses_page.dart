@@ -1,9 +1,10 @@
 // Import necessary packages and widgets for the "My Courses" screen.
 import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/components/inputs/custom_text_field.dart';
-import 'package:edunity/core/model/student_user_model.dart';
+import 'package:edunity/core/models/student_user_model.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
+import 'package:edunity/feature/auth/data/models/student_model.dart';
 import 'package:edunity/feature/my%20courses/presentation/widgets/choose_courses_list.dart';
 import 'package:edunity/feature/my%20courses/presentation/widgets/courses_list_builder.dart';
 import 'package:flutter/material.dart';
@@ -23,24 +24,25 @@ class _MyCoursesState extends State<MyCourses> {
   // `currentIndex` tracks the selected tab, where 1 is "Ongoing" and 0 is "Completed".
   int currentIndex = 1;
   final searchController = TextEditingController();
-  
+
   // This uses a local, hardcoded student model. In a real application, this data
   // should be fetched from a repository or state management solution.
-  var student = fakeStudent;
+  StudentModel student = StudentModel();
 
   // A list of widgets to display based on the selected tab.
   // Index 0: Completed courses.
   // Index 1: Ongoing courses.
   late final List<Widget> screens = [
     CoursesListBuilder(
-      courses: student.enrolledCourses
+      courses: student.purchasedCourses
           .where((course) => course.completed == true)
           .toList(),
     ),
     CoursesListBuilder(
-      courses: student.enrolledCourses
+      courses: student.purchasedCourses 
           .where((course) => course.completed == false)
-          .toList(),
+          .toList(),  
+
     ),
   ];
 
@@ -80,7 +82,7 @@ class _MyCoursesState extends State<MyCourses> {
                   )),
             ),
             const Gap(20),
-            
+
             // A widget to toggle between "Ongoing" and "Completed" course lists.
             ChooseCoursesList(
               selectedIndex: currentIndex,
@@ -91,10 +93,11 @@ class _MyCoursesState extends State<MyCourses> {
               },
             ),
             const Gap(10),
-            
+
             // Display the selected screen (Ongoing or Completed courses) based on `currentIndex`.
             screens[currentIndex],
-            const Gap(100), // Provides extra space at the bottom of the scroll view.
+            const Gap(
+                100), // Provides extra space at the bottom of the scroll view.
           ],
         ),
       ),

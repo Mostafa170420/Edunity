@@ -9,6 +9,7 @@ class TeacherModel {
   final List<String?> liveSessions; // liveSessionIds
   final List<String?> receivedRequests; // studentRequestIds
 
+
   // Ratings & Reviews
   final double? rating; // average rating from students
   final int? ratingCount;

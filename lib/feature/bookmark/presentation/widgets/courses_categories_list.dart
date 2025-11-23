@@ -1,10 +1,10 @@
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/course_model.dart';
+import 'package:edunity/core/models/course_model.dart';
 import 'package:flutter/material.dart';
 
 class CoursesCategoriesList extends StatefulWidget {
-  final List<CoursesModel> courses;
+  final List<CourseModel> courses;
   const CoursesCategoriesList({super.key, required this.courses});
 
   @override

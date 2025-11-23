@@ -1,6 +1,6 @@
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/course_model.dart';
-import 'package:edunity/core/model/mentor_model.dart';
+import 'package:edunity/core/models/course_model.dart';
+import 'package:edunity/core/models/mentor_model.dart';
 import 'package:edunity/feature/mentors/widgets/top_mentor_list.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -48,7 +48,7 @@ class TopMentorsScreen extends StatelessWidget {
                 },
                 itemBuilder: (BuildContext context, int index) {
                   var mentor = topMentors[index];
-                  var coursesNames = CoursesModel.courses[index + 1];
+                  var coursesNames = courses[index + 1];
                   return TopMentorList(
                       mentor: mentor, coursesNamesModel: coursesNames);
                 },

@@ -1,4 +1,4 @@
-import 'package:edunity/core/model/chat_model.dart';
+import 'package:edunity/core/models/chat_model.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';

@@ -2,7 +2,7 @@ import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/category_model.dart';
+import 'package:edunity/core/models/course_category_model.dart';
 import 'package:edunity/feature/home/presentation/widgets/courses_chips_list.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -50,7 +50,7 @@ class CategoriesSection extends StatelessWidget {
         ),
         Gap(10),
         CategoriesChipsList(
-          coursesModel: categories,
+          CourseModel: categories,
           isContained: false,
       
         ),

@@ -2,7 +2,7 @@ import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/bookmark/presentation/widgets/courses_categories_list.dart';
 import 'package:edunity/feature/bookmark/presentation/widgets/courses_list_builder.dart';
-import 'package:edunity/core/model/course_model.dart';
+import 'package:edunity/core/models/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -34,7 +34,7 @@ class BookmarkScreen extends StatelessWidget {
           child: Column(
             children: [
               Gap(10),
-              CoursesCategoriesList(courses: CoursesModel.courses),
+              CoursesCategoriesList(courses: courses),
               Gap(20),
               CoursesListBuilder(),
             ],

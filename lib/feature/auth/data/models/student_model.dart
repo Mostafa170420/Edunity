@@ -14,9 +14,16 @@ class StudentModel {
     this.name,
     this.email,
     this.avatarUrl,
-    this.purchasedCourses = const [],
-    this.joinedSessions = const [],
-    this.sentRequests = const [],
+    this.purchasedCourses = const [
+      // courseIds
+
+    ],
+    this.joinedSessions = const [
+      // liveSessionIds
+    ],
+    this.sentRequests = const [
+      // studentRequestIds
+    ],
   });
 
   /// Convert Firestore → Model

@@ -2,7 +2,7 @@ import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/mentor_model.dart';
+import 'package:edunity/core/models/mentor_model.dart';
 import 'package:edunity/feature/home/presentation/widgets/custom_list_view_buillder.dart';
 import 'package:edunity/feature/home/presentation/widgets/mentor_names_list.dart';
 import 'package:flutter/material.dart';

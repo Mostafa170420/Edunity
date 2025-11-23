@@ -1,7 +1,7 @@
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/course_model.dart';
-import 'package:edunity/core/model/mentor_model.dart';
+import 'package:edunity/core/models/course_model.dart';
+import 'package:edunity/core/models/mentor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -9,7 +9,7 @@ class TopMentorList extends StatelessWidget {
   const TopMentorList(
       {super.key, required this.mentor, required this.coursesNamesModel});
   final MentorModel mentor;
-  final CoursesModel coursesNamesModel;
+  final CourseModel coursesNamesModel;
 
   @override
   Widget build(BuildContext context) {

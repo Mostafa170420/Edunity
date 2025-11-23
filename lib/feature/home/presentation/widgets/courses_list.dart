@@ -1,16 +1,17 @@
 import 'package:edunity/core/constants/app_assets.dart';
+import 'package:edunity/core/models/course_model.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/course_model.dart';
+import 'package:edunity/core/models/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconly/iconly.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class CoursesList extends StatelessWidget {
-  const CoursesList({super.key, required this.coursesModel});
+  const CoursesList({super.key, required this.courseModel});
 
-  final CoursesModel coursesModel;
+  final CourseModel courseModel;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class CoursesList extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(22),
                 child: Image.network(
-                  coursesModel.imageUrl ?? AppAssets.placeholder,
+                  courseModel.imageUrl ?? AppAssets.placeholder,
                   fit: BoxFit.cover,
                   width: 300,
                   height: constraints.maxHeight,
@@ -70,7 +71,7 @@ class CoursesList extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
-                              coursesModel.category ?? '',
+                              courseModel.categoryId ?? '',
                               style: TextStyles.getSmall(
                                 color: AppColors.whiteColor.withAlpha(200),
                                 fontSize: 12,
@@ -85,7 +86,7 @@ class CoursesList extends StatelessWidget {
 
                       //Title
                       Text(
-                        coursesModel.title,
+                        courseModel.title,
                         style: TextStyles.getBody(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -137,7 +138,7 @@ class CoursesList extends StatelessWidget {
                               size: 20,
                             ),
                             Text(
-                              '${coursesModel.rating}',
+                              '${courseModel}',
                               style: TextStyles.getBody(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -158,7 +159,7 @@ class CoursesList extends StatelessWidget {
           ),
           children: [
             TextSpan(
-              text: ' ${coursesModel.price}',
+              text: ' ${courseModel.price}',
               style: TextStyles.getBody(
                 color: AppColors.whiteColor,
                 fontSize: 20,
@@ -179,7 +180,7 @@ class CoursesList extends StatelessWidget {
           color: AppColors.whiteColor,
         ),
         Text(
-          '${(coursesModel.studentsEnrolled ?? 1) / 1000}k',
+          '${(courseModel.studentsEnrolled ?? 1) / 1000}k',
           style: TextStyles.getBody(
               fontSize: 11,
               fontWeight: FontWeight.bold,

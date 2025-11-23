@@ -1,5 +1,5 @@
 // Import necessary packages and screens for routing.
-import 'package:edunity/core/model/chat_model.dart';
+import 'package:edunity/core/models/chat_model.dart';
 import 'package:edunity/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:edunity/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:edunity/feature/auth/presentation/page/signup/register_screen.dart';

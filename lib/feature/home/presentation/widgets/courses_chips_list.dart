@@ -1,4 +1,4 @@
-import 'package:edunity/core/model/category_model.dart';
+import 'package:edunity/core/models/course_category_model.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/home/presentation/widgets/custom_list_view_buillder.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 typedef OnSelectionChanged = void Function(int index);
 
 class CategoriesChipsList extends StatefulWidget {
-  final List<CategoryModel> coursesModel;
+  final List<CategoryModel> CourseModel;
   final OnSelectionChanged? onSelectionChanged;
   final bool isContained;
   final bool? includeAll;
@@ -15,7 +15,7 @@ class CategoriesChipsList extends StatefulWidget {
 
   const CategoriesChipsList({
     super.key,
-    required this.coursesModel,
+    required this.CourseModel,
     this.onSelectionChanged,
     this.isContained = true,
     this.initialSelectedIndex,
@@ -56,7 +56,7 @@ class _CategoriesChipsListState extends State<CategoriesChipsList> {
   Widget build(BuildContext context) {
     return CustomHorizontalListView(
       height: 30,
-      items: widget.coursesModel,
+      items: widget.CourseModel,
       itemBuilder: (context, item, index) {
         final bool isSelected = index == _selectedIndex;
 
@@ -71,7 +71,7 @@ class _CategoriesChipsListState extends State<CategoriesChipsList> {
             : FontWeight.w400;
 
         final Widget chipContent = Text(
-          widget.coursesModel[index].name,
+          widget.CourseModel[index].name,
           style: TextStyles.getBody(
             fontWeight: fontWeight,
             fontSize: 13,
