@@ -1,5 +1,7 @@
 class AppAssets {
-  static const String loadingJson = 'assets/images/Loading Dots Blue.json';
+  static const String splashLoadingJson =
+      'assets/images/Loading_Dots_Blue.json';
+  static const String loadingJson = 'assets/images/loading.json';
   static const String bell = 'assets/icons/bell.png';
   static const String search = 'assets/icons/search.png';
   static const String filter = 'assets/images/filter.png';

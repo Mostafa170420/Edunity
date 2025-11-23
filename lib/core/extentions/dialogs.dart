@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import '../constants/app_assets.dart';
 import '../utils/colors.dart';
 
 enum DialogeType { success, error }
 
-showeMyDialoge(
+showMyDialoge(
   BuildContext context,
   String message, {
   DialogeType type = DialogeType.error,
@@ -22,9 +24,9 @@ showeMyDialoge(
   );
 }
 
-// showLoadingDialog(BuildContext context) {
-//   showDialog(
-//     context: context,
-//     builder: (context) => Center(child: Lottie.asset(AppAssets.loadingJson)),
-//   );
-// }
+showLoadingDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => Center(child: Lottie.asset(AppAssets.loadingJson)),
+  );
+}

@@ -87,7 +87,7 @@ class _RoleSelectionToggleState extends State<RoleSelectionToggle> {
           children: [
             Expanded(child: _buildRoleChip(UserRole.student, 'Student')),
             const Gap(16),
-            Expanded(child: _buildRoleChip(UserRole.tutor, 'Tutor')),
+            Expanded(child: _buildRoleChip(UserRole.teacher, 'Teacher')),
           ],
         ),
       ],
