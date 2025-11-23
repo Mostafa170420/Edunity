@@ -109,11 +109,23 @@ class BottomNavBarState extends State<MainScreen> {
       controller: _controller, // The controller for the tab view.
       screens: _buildScreens(), // The screens to be displayed.
       items: _navBarsItems(), // The items for the navigation bar.
-      confineToSafeArea: true, // Ensures the content is within the safe area.
-      backgroundColor: Colors.white, // The background color of the navigation bar.
-      handleAndroidBackButtonPress: true, // Handles the back button press on Android.
+      confineToSafeArea: false, // Ensures the content is within the safe area.
+      padding: EdgeInsets.only(
+          top: 12,
+          bottom: MediaQuery.of(context)
+              .padding
+              .bottom), // Padding around the content.
+
+      backgroundColor:
+          Colors.white, // The background color of the navigation bar.
+      handleAndroidBackButtonPress:
+          true, // Handles the back button press on Android.
       resizeToAvoidBottomInset: true, // Resizes the body to avoid the keyboard.
-      stateManagement: true, // This preserves the state of each tab when switching.
+      stateManagement:
+          true, // This preserves the state of each tab when switching.
+      navBarHeight: 90, // The height of the navigation bar.
+      hideNavigationBarWhenKeyboardAppears:
+          true, // Hides the navigation bar when the keyboard appears
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(22),
         gradient: LinearGradient(
@@ -124,8 +136,16 @@ class BottomNavBarState extends State<MainScreen> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.whiteColor.withAlpha(150),
+            blurRadius: 0,
+            offset: const Offset(0, 0),
+          ),
+        ],
       ),
-      navBarStyle: NavBarStyle.style14, // Sets the visual style of the navigation bar.
+      navBarStyle:
+          NavBarStyle.style14, // Sets the visual style of the navigation bar.
     );
   }
 }
