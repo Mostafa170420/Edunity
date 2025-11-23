@@ -1,10 +1,15 @@
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:flutter/foundation.dart';
 
+/// A model representing a mentor.
 class MentorModel {
+  /// The name of the mentor.
   final String name;
+
+  /// The URL of the mentor's image.
   final String image;
 
+  /// A list of the top mentors.
   static List<MentorModel> topMentors = [
     MentorModel(
         image: 'https://i.pravatar.cc/231?u=${655655}', name: 'Samantha '),
@@ -37,6 +42,7 @@ class MentorModel {
         name: 'Benjamin'),
   ];
 
+  /// Creates a new [MentorModel] instance.
   MentorModel({
     required this.image,
     required this.name,

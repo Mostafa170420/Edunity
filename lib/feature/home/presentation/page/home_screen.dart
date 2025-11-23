@@ -1,3 +1,4 @@
+// Import necessary packages and widgets for the home screen.
 import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/routes/navigation.dart';
@@ -13,32 +14,38 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:iconly/iconly.dart';
 
+/// The `HomeScreen` is a stateless widget that represents the main screen of the application.
+/// It displays a variety of content, including a search bar, a slider, course categories,
+/// popular courses, and top mentors.
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Define horizontal padding for consistency across different sections.
     final padding = const EdgeInsets.symmetric(horizontal: 15);
     final searchController = TextEditingController();
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
+      // The `CustomScrollView` allows for a flexible and scrollable layout with different types of content.
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
+          // The custom app bar for the home screen, which includes a welcome message and a notification button.
           CustomSliverAppBar(
-            userName: 'John Doe',
+            userName: 'John Doe', // This should be replaced with the actual user's name.
             onNotificationTap: () {
               pushTo(context, Routes.notifications);
             },
           ),
 
-          // Search Field
+          // A sliver that contains the search field.
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 25),
               child: Hero(
-                tag: 'searchFieldHero',
+                tag: 'searchFieldHero', // A hero tag for the search field animation.
                 child: Material(
                   color: Colors.transparent,
                   child: Padding(
@@ -46,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                     child: CustomTextField(
                       controller: searchController,
                       hintText: 'Search for...',
-                      readOnly: true,
+                      readOnly: true, // The search field is read-only and navigates to the search screen on tap.
                       onTap: () => pushTo(context, Routes.search),
                       suffixIcon: const Icon(IconlyBroken.search),
                     ),
@@ -56,10 +63,10 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-          // Slider
+          // A sliver that contains the image slider.
           SliverToBoxAdapter(child: homeslider()),
 
-          // Categories
+          // A sliver that contains the course categories section.
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 30),
@@ -67,7 +74,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-          // Popular Courses
+          // A sliver that contains the popular courses section.
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 25),
@@ -75,7 +82,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-          // Top Mentors
+          // A sliver that contains the top mentors section.
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 25, bottom: 100),

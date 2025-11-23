@@ -1,3 +1,4 @@
+// Import necessary packages and widgets for the registration screen.
 import 'dart:developer';
 
 import 'package:edunity/components/buttons/gradient_button.dart';
@@ -19,6 +20,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 import 'package:icons_plus/icons_plus.dart';
 
+/// The `RegisterScreen` is a stateful widget that provides the UI for user registration.
+/// It includes fields for name, email, password, and role selection.
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -26,11 +29,14 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
+/// An enum to represent the user's role, which can be either a student or a teacher.
 enum UserRole { student, teacher }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  UserRole _selectedRole = UserRole.student; // Default
+  UserRole _selectedRole = UserRole.student; // The default selected role is 'student'.
 
+  /// This method is called when the user presses the register button.
+  /// It validates the form and, if successful, dispatches a `RegisterEvent` to the `AuthBloc`.
   void _handleRegister(AuthBloc bloc) {
     if (bloc.formKey.currentState!.validate()) {
       final selectedUserType = _selectedRole == UserRole.student
@@ -44,17 +50,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     var bloc = context.read<AuthBloc>();
+
+    // The `BlocListener` listens for state changes in the `AuthBloc` and handles them accordingly.
     return BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLoadingState) {
             showLoadingDialog(context);
           } else if (state is AuthErrorState) {
-            pop(context);
+            pop(context); // Close the loading dialog.
             log('Error: ${state.message}');
-            showMyDialoge(context, state.message!);
+            showMyDialoge(context, state.message!); // Show an error dialog.
           } else if (state is AuthSuccessState) {
-            pop(context);
-            pushWithReplacement(context, Routes.home);
+            pop(context); // Close the loading dialog.
+            pushWithReplacement(context, Routes.main); // Navigate to the main screen.
           }
         },
         child: Scaffold(
@@ -81,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             const AuthHeaderWidget(),
                             const Gap(24),
 
-                            // Full Name Field
+                            // Full Name input field.
                             Text(
                               'Full Name',
                               style: TextStyles.getSmall(
@@ -90,10 +98,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             CustomTextField(
                               controller: bloc.nameController,
                               keyboardType: TextInputType.name,
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
                               hintText: 'Enter Your Name',
-                              prefixIcon: Icon(IconlyLight.profile),
+                              prefixIcon: const Icon(IconlyLight.profile),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your full name';
@@ -103,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             const Gap(16),
 
-                            // Email Field
+                            // Email input field.
                             Text(
                               'Email',
                               style: TextStyles.getSmall(
@@ -112,10 +118,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             CustomTextField(
                               controller: bloc.emailController,
                               keyboardType: TextInputType.emailAddress,
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
                               hintText: 'Enter Your Email',
-                              prefixIcon: Icon(IconlyLight.message),
+                              prefixIcon: const Icon(IconlyLight.message),
                               validator: (value) {
                                 if (value == null || !value.contains('@')) {
                                   return 'Please enter a valid email address';
@@ -125,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             const Gap(16),
 
-                            // Password Field
+                            // Password input field.
                             Text(
                               'Password',
                               style: TextStyles.getSmall(
@@ -135,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               controller: bloc.passwordController,
                               isPassword: true,
                               hintText: 'Enter Your Password',
-                              prefixIcon: Icon(IconlyLight.lock),
+                              prefixIcon: const Icon(IconlyLight.lock),
                               validator: (value) {
                                 if (value == null || value.length < 6) {
                                   return 'Password must be at least 6 characters long';
@@ -145,7 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             const Gap(16),
 
-                            // Confirm Password Field
+                            // Confirm Password input field.
                             Text(
                               'Confirm Password',
                               style: TextStyles.getSmall(
@@ -155,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               controller: bloc.confirmPasswordController,
                               isPassword: true,
                               hintText: 'Re-enter Your Password',
-                              prefixIcon: Icon(IconlyLight.lock),
+                              prefixIcon: const Icon(IconlyLight.lock),
                               validator: (value) {
                                 if (value != bloc.passwordController.text) {
                                   return 'Passwords do not match';
@@ -165,7 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             const Gap(24),
 
-                            // Role Selection Toggle (Fixed component)
+                            // A toggle for selecting the user's role (student or teacher).
                             RoleSelectionToggle(
                               initialRole: _selectedRole,
                               onRoleChanged: (role) {
@@ -176,34 +180,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             const Gap(16),
 
-                            // Terms and Policy Text
+                            // A text widget with the terms of service and privacy policy.
                             Text(
                               'By signing up, you agree to our Terms of Service and Privacy Policy.',
+                              textAlign: TextAlign.center,
                               style: TextStyles.getSmall(
                                   fontSize: 12, fontWeight: FontWeight.w600),
                             ),
                             const Gap(24),
 
-                            // Register Button (Fixed label)
+                            // The main registration button.
                             SizedBox(
                               width: double.infinity,
                               child: GradientButton(
                                 onPressed: () {
                                   _handleRegister(bloc);
                                 },
-                                label:
-                                    'Create Account', // <-- Fixed from 'Login'
-                                icon: null,
-                                iconAlignment: null,
+                                label: 'Create Account',
                                 borderRadius: 15,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15),
                               ),
                             ),
 
                             const Gap(16),
 
-                            // Divider
+                            // A divider with the text "Or Continue With".
                             const Row(
                               children: [
                                 Expanded(child: Divider()),
@@ -217,7 +217,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             const Gap(16),
 
-                            // Google Sign-up Button
+                            // A button for signing up with Google. Note: The functionality is not implemented.
                             ElevatedButton(
                                 onPressed: () {
                                   log('Continue with Google pressed');
@@ -248,7 +248,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ],
                                 )),
                             const Gap(20),
-                            // Login Link (Fixed text)
+                            // A link to the login screen for users who already have an account.
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -257,7 +257,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     pushWithReplacement(context, Routes.login);
                                   },
                                   child: Text(
-                                    "Already have an account? Login", // <-- Fixed
+                                    "Already have an account? Login",
                                     style: TextStyles.getSmall(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
