@@ -50,14 +50,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
           if (state.userType == UserTypeEnum.student) {
             log('Logged in as Student');
-            pushAndRemoveUntil(context, Routes.main,
-                extra: UserTypeEnum.student);
+            pushToBase(context, Routes.main, extra: UserTypeEnum.student);
             // showMyDialoge(context,
             //     'Welcome Student ${FirebaseProvider.getStudentByID(SharedPref.getUserId()).get('name')}');
             log('Logged in as Student');
           } else {
-            pushAndRemoveUntil(context, Routes.main,
-                extra: UserTypeEnum.teacher);
+            pushToBase(context, Routes.main, extra: UserTypeEnum.teacher);
             log('Logged in as Teacher');
           }
         }

@@ -22,10 +22,12 @@ class AuthRepo {
       SharedPref.setUserId(user.uid);
 
       if (userType == UserTypeEnum.teacher) {
+        user.updatePhotoURL('2');
         var teacher = TeacherModel(uid: user.uid, name: name, email: email);
         FirebaseProvider.createTeacher(teacher);
         return 'Teacher';
       } else {
+        user.updatePhotoURL('1');
         var student = StudentModel(uid: user.uid, name: name, email: email);
         FirebaseProvider.createStudent(student);
         return 'Student';
@@ -57,10 +59,16 @@ class AuthRepo {
       SharedPref.setUserId(user.uid);
 
       var studentDoc = await FirebaseProvider.getStudentByID(user.uid);
-      if (studentDoc.exists) return 'Student';
+      if (studentDoc.exists) {
+        user.updatePhotoURL('1');
+        return 'Student';
+      }
 
       var teacherDoc = await FirebaseProvider.getTeacherByID(user.uid);
-      if (teacherDoc.exists) return 'Teacher';
+      if (teacherDoc.exists) {
+        user.updatePhotoURL('2');
+        return 'Teacher';
+      }
       return 'User type not found.';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

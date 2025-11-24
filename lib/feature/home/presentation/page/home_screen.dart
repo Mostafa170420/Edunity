@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
@@ -15,55 +13,47 @@ import 'package:edunity/feature/home/presentation/widgets/top_mentors_section.da
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.userType});
   final UserTypeEnum userType;
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Map<String, dynamic>? userData;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final userId = SharedPref.getUserId();
+    final snapshot = widget.userType == UserTypeEnum.student
+        ? await FirebaseProvider.getStudentByID(userId)
+        : await FirebaseProvider.getTeacherByID(userId);
+
+    setState(() {
+      userData = snapshot.data() as Map<String, dynamic>?;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final padding = const EdgeInsets.symmetric(horizontal: 15);
     final searchController = TextEditingController();
-    var user = SharedPref.getUserId();
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
-          FutureBuilder(
-            future: userType == UserTypeEnum.student
-                ? FirebaseProvider.getStudentByID(user)
-                : FirebaseProvider.getTeacherByID(user),
-            builder: (context, snapshot) {
-              log('snapshot state: ${snapshot.connectionState}');
-              var data = snapshot.data!.data() as Map<String, dynamic>;
-              log('snapshot data: ${data['name']}');
-
-              // if (snapshot.connectionState == ConnectionState.waiting) {
-              //   return const SliverToBoxAdapter(
-              //     child: SizedBox(
-              //       height: 80,
-              //       child: Center(child: CircularProgressIndicator()),
-              //     ),
-              //   );
-              // }
-
-              if (!snapshot.hasData || snapshot.data == null) {
-                return CustomSliverAppBar(
-                  userName: "User",
-                  onNotificationTap: () {
-                    pushTo(context, Routes.notifications);
-                  },
-                );
-              }
-
-              return CustomSliverAppBar(
-                userName: '${data['name']}',
-                onNotificationTap: () {
-                  pushTo(context, Routes.notifications);
-                },
-              );
-            },
+          CustomSliverAppBar(
+            userName: userData?['name'] ?? 'User',
+            onNotificationTap: () => pushTo(context, Routes.notifications),
           ),
 
           // Search Field

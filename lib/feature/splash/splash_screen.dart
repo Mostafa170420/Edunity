@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
+import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
+import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
@@ -17,9 +22,22 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    // bool isOnBoardingShown = SharedPref.getIsOnBoardingShown() ?? false;
+    String? userType = FirebaseAuth.instance.currentUser?.photoURL;
+    log('userType in splash: $userType');
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
-      pushWithReplacement(context, Routes.welcome);
+      if (userType != null) {
+        if (userType == '1') {
+          pushToBase(context, Routes.main, extra: UserTypeEnum.student);
+        } else if (userType == '2') {
+          pushToBase(context, Routes.main, extra: UserTypeEnum.teacher);
+        } else {
+          pushWithReplacement(context, Routes.welcome);
+        }
+      } else {
+        pushWithReplacement(context, Routes.welcome);
+      }
     });
   }
 

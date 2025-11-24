@@ -1,6 +1,7 @@
 import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
+import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/feature/onboarding/model/onboarding_model.dart';
 import 'package:edunity/feature/onboarding/widgets/on_boarding_widgets.dart';
@@ -35,6 +36,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         actions: [
           TextButton.icon(
             onPressed: () {
+              SharedPref.setIsOnBoardingShown(true);
               pushWithReplacement(context, Routes.login);
             },
             label: Text('Skip'),
@@ -98,6 +100,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
             GradientButton(
               onPressed: () {
+                SharedPref.setIsOnBoardingShown(true);
                 // Navigate to next page or main screen
                 pageController.nextPage(
                     duration: Duration(milliseconds: 300),
