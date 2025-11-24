@@ -47,7 +47,6 @@ class AuthRepo {
   static Future<String?> login(
     String email,
     String password,
-    UserTypeEnum userType,
   ) async {
     try {
       var credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -57,7 +56,12 @@ class AuthRepo {
       User user = credential.user!;
       SharedPref.setUserId(user.uid);
 
-      return userType == UserTypeEnum.teacher ? 'Teacher' : 'Student';
+      var studentDoc = await FirebaseProvider.getStudentByID(user.uid);
+      if (studentDoc.exists) return 'Student';
+
+      var teacherDoc = await FirebaseProvider.getTeacherByID(user.uid);
+      if (teacherDoc.exists) return 'Teacher';
+      return 'User type not found.';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         return 'User not found.';

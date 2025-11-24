@@ -52,15 +52,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   login(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
-
-    var result = await AuthRepo.login(
-      emailController.text,
-      passwordController.text,
-      event.userType,
-    );
-    if (result == 'Patient') {
+    var result =
+        await AuthRepo.login(emailController.text, passwordController.text);
+    if (result == 'Student') {
       emit(AuthSuccessState(UserTypeEnum.student));
-    } else if (result == 'Doctor') {
+    } else if (result == 'Teacher') {
       emit(AuthSuccessState(UserTypeEnum.teacher));
     } else {
       emit(AuthErrorState(result));

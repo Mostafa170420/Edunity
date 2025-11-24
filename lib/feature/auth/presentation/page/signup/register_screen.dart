@@ -54,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             showMyDialoge(context, state.message!);
           } else if (state is AuthSuccessState) {
             pop(context);
-            pushWithReplacement(context, Routes.home);
+            pushWithReplacement(context, Routes.main, extra: state.userType);
           }
         },
         child: Scaffold(

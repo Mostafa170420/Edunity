@@ -15,8 +15,8 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-   int currentPage = 0;
-    PageController pageController = PageController();
+  int currentPage = 0;
+  PageController pageController = PageController();
 
   @override
   void initState() {
@@ -77,8 +77,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 
-  
-
   Padding _buildNavBar(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(16.0),
@@ -86,8 +84,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextButton.icon(
-              onPressed: (pageController.hasClients &&
-                      pageController.page != 0)
+              onPressed: (pageController.hasClients && pageController.page != 0)
                   ? () {
                       pageController.previousPage(
                         duration: Duration(milliseconds: 300),

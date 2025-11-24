@@ -5,6 +5,8 @@ import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/extentions/dialogs.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
+import 'package:edunity/core/services/firebase/firebase_provider.dart';
+import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
@@ -28,9 +30,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin(AuthBloc bloc) {
     if (bloc.formKey.currentState!.validate()) {
-      bloc.add(LoginEvent(
-        userType: UserTypeEnum.student,
-      ));
+      bloc.add(LoginEvent());
     }
   }
 
@@ -44,9 +44,22 @@ class _LoginScreenState extends State<LoginScreen> {
           showLoadingDialog(context);
         } else if (state is AuthErrorState) {
           pop(context);
-          showMyDialoge(context, state.message!);
+          showMyDialoge(context, state.message ?? 'An error occurred');
         } else if (state is AuthSuccessState) {
-          pushAndRemoveUntil(context, Routes.main);
+          pop(context);
+
+          if (state.userType == UserTypeEnum.student) {
+            log('Logged in as Student');
+            pushAndRemoveUntil(context, Routes.main,
+                extra: UserTypeEnum.student);
+            // showMyDialoge(context,
+            //     'Welcome Student ${FirebaseProvider.getStudentByID(SharedPref.getUserId()).get('name')}');
+            log('Logged in as Student');
+          } else {
+            pushAndRemoveUntil(context, Routes.main,
+                extra: UserTypeEnum.teacher);
+            log('Logged in as Teacher');
+          }
         }
       },
       child: Scaffold(

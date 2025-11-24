@@ -1,4 +1,5 @@
 import 'package:edunity/core/model/chat_model.dart';
+import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
 import 'package:edunity/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:edunity/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:edunity/feature/auth/presentation/page/signup/register_screen.dart';
@@ -53,8 +54,16 @@ class Routes {
                 create: (context) => AuthBloc(),
                 child: RegisterScreen(),
               )),
-      GoRoute(path: main, builder: (context, state) => MainScreen()),
-      GoRoute(path: home, builder: (context, state) => HomeScreen()),
+      GoRoute(
+          path: main,
+          builder: (context, state) => MainScreen(
+                userType: state.extra as UserTypeEnum,
+              )),
+      GoRoute(
+          path: home,
+          builder: (context, state) => HomeScreen(
+                userType: state.extra as UserTypeEnum,
+              )),
       GoRoute(path: category, builder: (context, state) => CategoryScreen()),
       GoRoute(path: search, builder: (context, state) => SearchScreen()),
       GoRoute(

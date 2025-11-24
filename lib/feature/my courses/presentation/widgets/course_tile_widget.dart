@@ -42,7 +42,7 @@ class CourseTileWidget extends StatelessWidget {
             ),
             child: Image.network(
               course.imageUrl ?? AppAssets.courseBackground,
-              width: 130,
+              width: 100,
               height: double.infinity,
               fit: BoxFit.cover,
             ),
