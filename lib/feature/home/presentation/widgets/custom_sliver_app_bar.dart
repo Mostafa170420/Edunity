@@ -28,7 +28,7 @@ class CustomSliverAppBar extends StatelessWidget {
       backgroundColor: AppColors.backgroundColor,
       elevation: 4,
       automaticallyImplyLeading: false,
-      shadowColor: AppColors.primaryDarkColor.withOpacity(0.15),
+      shadowColor: AppColors.primaryDarkColor.withValues(alpha: 0.15),
       forceElevated: true,
       centerTitle: false,
       expandedHeight: kExpandedHeight,
@@ -48,7 +48,7 @@ class CustomSliverAppBar extends StatelessWidget {
           titlePadding: EdgeInsets.only(
               left: 15, right: 15, top: 0, bottom: bottomPadding),
           title: Padding(
-            padding:  EdgeInsets.only(bottom: bottomPadding * 0.6),
+            padding: EdgeInsets.only(bottom: bottomPadding * 0.6),
             child: Text.rich(
               TextSpan(
                 text: 'Hi, ',

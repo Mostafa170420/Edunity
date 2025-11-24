@@ -36,6 +36,8 @@ showMyDialoge(
 showLoadingDialog(BuildContext context) {
   showDialog(
     context: context,
-    builder: (context) => Center(child: Lottie.asset(AppAssets.loadingJson)),
+    builder: (context) => Center(
+        child:
+            SizedBox(height: 150, child: Lottie.asset(AppAssets.loadingJson))),
   );
 }

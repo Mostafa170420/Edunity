@@ -22,8 +22,8 @@ class SharedPref {
     await setData(kUserId, uid);
   }
 
-  static String? getUserId() {
-    return getData(kUserId) as String?;
+  static String getUserId() {
+    return getData(kUserId) as String;
   }
 
   static Future<void> setData(String key, dynamic value) async {

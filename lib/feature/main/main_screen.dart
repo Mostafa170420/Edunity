@@ -1,6 +1,7 @@
 // Import necessary packages and widgets for the main screen.
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/utils/colors.dart';
+import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
 import 'package:edunity/feature/chat/page/all_chats_screen.dart';
 import 'package:edunity/feature/home/presentation/page/home_screen.dart';
 import 'package:edunity/feature/my%20courses/presentation/pages/my_courses_page.dart';
@@ -12,7 +13,8 @@ import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 /// The `MainScreen` is a stateful widget that serves as the main container for the app's
 /// primary features, accessible through a persistent bottom navigation bar.
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({super.key, required this.userType});
+  final UserTypeEnum userType;
 
   @override
   BottomNavBarState createState() => BottomNavBarState();
@@ -28,10 +30,10 @@ class BottomNavBarState extends State<MainScreen> {
   /// Builds the list of screens to be displayed in the bottom navigation bar.
   List<Widget> _buildScreens() {
     return [
-      const HomeScreen(),
-      const MyCourses(),
-      const ChatsScreen(),
-      const ProfileScreen(),
+      HomeScreen(userType: widget.userType),
+      MyCourses(),
+      ChatsScreen(),
+      ProfileScreen(),
     ];
   }
 

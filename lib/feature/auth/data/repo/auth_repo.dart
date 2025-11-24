@@ -30,19 +30,21 @@ class AuthRepo {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       User user = credential.user!;
-      
+
       // Update the user's display name.
       await user.updateDisplayName(name);
-      
+
       // Store the user ID locally.
       SharedPref.setUserId(user.uid);
 
       // Create a user record in Firestore based on the user type.
       if (userType == UserTypeEnum.teacher) {
+        user.updatePhotoURL('2');
         var teacher = TeacherModel(uid: user.uid, name: name, email: email);
         FirebaseProvider.createTeacher(teacher);
         return 'Teacher';
       } else {
+        user.updatePhotoURL('1');
         var student = StudentModel(uid: user.uid, name: name, email: email);
         FirebaseProvider.createStudent(student);
         return 'Student';
@@ -73,7 +75,6 @@ class AuthRepo {
   static Future<String?> login(
     String email,
     String password,
-    UserTypeEnum userType,
   ) async {
     try {
       // Sign in the user with email and password.
@@ -82,12 +83,22 @@ class AuthRepo {
         password: password,
       );
       User user = credential.user!;
-      
+
       // Store the user ID locally.
       SharedPref.setUserId(user.uid);
 
-      // Return the user type. Note: This doesn't verify the user type from the database.
-      return userType == UserTypeEnum.teacher ? 'Teacher' : 'Student';
+      var studentDoc = await FirebaseProvider.getStudentByID(user.uid);
+      if (studentDoc.exists) {
+        user.updatePhotoURL('1');
+        return 'Student';
+      }
+
+      var teacherDoc = await FirebaseProvider.getTeacherByID(user.uid);
+      if (teacherDoc.exists) {
+        user.updatePhotoURL('2');
+        return 'Teacher';
+      }
+      return 'User type not found.';
     } on FirebaseAuthException catch (e) {
       // Handle specific Firebase Authentication exceptions.
       if (e.code == 'user-not-found') {

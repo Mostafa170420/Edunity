@@ -28,7 +28,11 @@ class FirebaseProvider {
     studentCollection.doc(student.uid).update(student.toUpdateData());
   }
 
-  static getTeacherByID(String id) {
+  static Future<DocumentSnapshot<Object?>> getTeacherByID(String id) {
     return teacherCollection.doc(id).get();
+  }
+
+  static Future<DocumentSnapshot<Object?>> getStudentByID(String id) {
+    return studentCollection.doc(id).get();
   }
 }

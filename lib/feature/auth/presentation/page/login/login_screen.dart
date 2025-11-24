@@ -1,5 +1,5 @@
-// Import necessary packages and widgets for the login screen.
 import 'dart:developer';
+
 import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/extentions/dialogs.dart';
@@ -18,8 +18,6 @@ import 'package:gap/gap.dart';
 import 'package:iconly/iconly.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-/// The `LoginScreen` is a stateful widget that provides the user interface for logging in.
-/// It includes text fields for email and password, a login button, and a link to the registration screen.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -28,14 +26,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  /// This method is called when the user presses the login button.
-  /// It validates the form and, if successful, dispatches a `LoginEvent` to the `AuthBloc`.
   void _handleLogin(AuthBloc bloc) {
     if (bloc.formKey.currentState!.validate()) {
-      bloc.add(LoginEvent(
-        // Note: The user type is hardcoded to 'student'. This might need to be made dynamic.
-        userType: UserTypeEnum.student,
-      ));
+      bloc.add(LoginEvent());
     }
   }
 
@@ -43,18 +36,26 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var bloc = context.read<AuthBloc>();
 
-    // The `BlocListener` listens for state changes in the `AuthBloc` and shows dialogs
-    // or navigates to other screens accordingly.
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLoadingState) {
           showLoadingDialog(context);
         } else if (state is AuthErrorState) {
-          pop(context); // Close the loading dialog
-          showMyDialoge(context, state.message!); // Show an error dialog
+          pop(context);
+          showMyDialoge(context, state.message ?? 'An error occurred');
         } else if (state is AuthSuccessState) {
-          // Navigate to the main screen and remove all previous routes.
-          pushAndRemoveUntil(context, Routes.main);
+          pop(context);
+
+          if (state.userType == UserTypeEnum.student) {
+            log('Logged in as Student');
+            pushToBase(context, Routes.main, extra: UserTypeEnum.student);
+            // showMyDialoge(context,
+            //     'Welcome Student ${FirebaseProvider.getStudentByID(SharedPref.getUserId()).get('name')}');
+            log('Logged in as Student');
+          } else {
+            pushToBase(context, Routes.main, extra: UserTypeEnum.teacher);
+            log('Logged in as Teacher');
+          }
         }
       },
       child: Scaffold(
@@ -74,11 +75,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // The header widget for the authentication screens.
                       const AuthHeaderWidget(),
                       const Gap(24),
 
-                      // Email input field.
+                      // Email Field
                       Text(
                         'Email',
                         style: TextStyles.getSmall(
@@ -87,8 +87,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       CustomTextField(
                         controller: bloc.emailController,
                         keyboardType: TextInputType.emailAddress,
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
                         hintText: 'Enter Your Email',
-                        prefixIcon: const Icon(IconlyLight.message),
+                        prefixIcon: Icon(IconlyLight.message),
                         validator: (value) {
                           if (value == null || !value.contains('@')) {
                             return 'Please enter a valid email address';
@@ -98,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const Gap(16),
 
-                      // Password input field.
+                      // Password Field
                       Text(
                         'Password',
                         style: TextStyles.getSmall(
@@ -108,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: bloc.passwordController,
                         isPassword: true,
                         hintText: 'Enter Your Password',
-                        prefixIcon: const Icon(IconlyLight.lock),
+                        prefixIcon: Icon(IconlyLight.lock),
                         validator: (value) {
                           if (value == null || value.length < 6) {
                             return 'Password must be at least 6 characters long';
@@ -118,18 +119,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const Gap(24),
 
-                      // The main login button.
+                      // Login Button
                       SizedBox(
                         width: double.infinity,
                         child: GradientButton(
                           onPressed: () => _handleLogin(bloc),
                           label: 'Login',
                           borderRadius: 15,
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          icon: null,
+                          iconAlignment: null,
                         ),
                       ),
                       const Gap(16),
 
-                      // A divider with the text "Or Continue With".
+                      // Divider
                       const Row(
                         children: [
                           Expanded(child: Divider()),
@@ -142,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const Gap(16),
 
-                      // A button for signing in with Google. Note: The functionality is not implemented.
+                      // Google Sign-in
                       ElevatedButton(
                         onPressed: () {
                           log('Continue with Google pressed');
@@ -173,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const Gap(20),
 
-                      // A link to the registration screen.
+                      // Sign Up link
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

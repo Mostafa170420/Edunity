@@ -5,7 +5,7 @@ class AppAssets {
       'assets/images/Loading_Dots_Blue.json';
 
   /// The path to the general loading animation.
-  static const String loadingJson = 'assets/images/loading.json';
+  static const String loadingJson = 'assets/images/Loading.json';
 
   /// The path to the bell icon.
   static const String bell = 'assets/icons/bell.png';

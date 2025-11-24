@@ -1,5 +1,6 @@
 // Import necessary packages and screens for routing.
 import 'package:edunity/core/model/chat_model.dart';
+import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
 import 'package:edunity/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:edunity/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:edunity/feature/auth/presentation/page/signup/register_screen.dart';
@@ -45,10 +46,10 @@ class Routes {
     routes: [
       // The splash screen is the initial route of the application.
       GoRoute(path: splash, builder: (context, state) => SplashScreen()),
-      
+
       // The welcome screen is shown after the splash screen.
       GoRoute(path: welcome, builder: (context, state) => WelcomeScreen()),
-      
+
       // The login screen, with the AuthBloc provided to its widget tree.
       GoRoute(
           path: login,
@@ -56,7 +57,7 @@ class Routes {
                 create: (context) => AuthBloc(),
                 child: LoginScreen(),
               )),
-              
+
       // The register screen, also with the AuthBloc.
       GoRoute(
           path: register,
@@ -64,43 +65,45 @@ class Routes {
                 create: (context) => AuthBloc(),
                 child: RegisterScreen(),
               )),
-              
-      // The main screen of the application.
-      GoRoute(path: main, builder: (context, state) => MainScreen()),
-      
-      // The home screen.
-      GoRoute(path: home, builder: (context, state) => HomeScreen()),
-      
-      // The category screen.
+      GoRoute(
+          path: main,
+          builder: (context, state) => MainScreen(
+                userType: state.extra as UserTypeEnum,
+              )),
+      GoRoute(
+          path: home,
+          builder: (context, state) => HomeScreen(
+                userType: state.extra as UserTypeEnum,
+              )),
       GoRoute(path: category, builder: (context, state) => CategoryScreen()),
-      
+
       // The search screen.
       GoRoute(path: search, builder: (context, state) => SearchScreen()),
-      
+
       // The notifications screen.
       GoRoute(
           path: notifications,
           builder: (context, state) => NotificationScreen()),
-          
+
       // The user's profile screen.
       GoRoute(path: mainprofile, builder: (context, state) => ProfileScreen()),
-      
+
       // The screen for the user's enrolled courses.
       GoRoute(
           path: topMentors, builder: (context, state) => TopMentorsScreen()),
-          
+
       // The filter screen for searching.
       GoRoute(path: filter, builder: (context, state) => FilterScreen()),
-      
+
       // The screen for the user's enrolled courses.
       GoRoute(path: myCourses, builder: (context, state) => MyCourses()),
-      
+
       // The screen for editing the user's profile.
       GoRoute(path: editProfile, builder: (context, state) => EditProfile()),
-      
+
       // The screen for the user's bookmarked courses.
       GoRoute(path: bookmark, builder: (context, state) => BookmarkScreen()),
-      
+
       // The chat screen, which takes receiver information as an extra parameter.
       GoRoute(
           path: chatScreen,
