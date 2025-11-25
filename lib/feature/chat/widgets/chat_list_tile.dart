@@ -26,7 +26,7 @@ class ChatListTile extends StatelessWidget {
       fontWeight: chat.isUnread ? FontWeight.w600 : FontWeight.w400,
       color: chat.isUnread ? AppColors.darkgreyColor : AppColors.greyColor,
     );
-    
+
     final timeStyle = TextStyles.getSmall(
       fontSize: 12,
       fontWeight: chat.isUnread ? FontWeight.w700 : FontWeight.w400,
@@ -61,6 +61,7 @@ class ChatListTile extends StatelessWidget {
               backgroundImage: chat.receiverImageUrl != null
                   ? NetworkImage(chat.receiverImageUrl!)
                   : null,
+              backgroundColor: AppColors.primaryDarkColor.withOpacity(0.8),
               child: chat.receiverImageUrl == null
                   ? const Icon(
                       Icons.person,
@@ -68,7 +69,6 @@ class ChatListTile extends StatelessWidget {
                       size: 28,
                     )
                   : null,
-              backgroundColor: AppColors.primaryDarkColor.withOpacity(0.8),
             ),
             const Gap(15),
 
@@ -108,7 +108,8 @@ class ChatListTile extends StatelessWidget {
                     width: 10,
                     height: 10,
                     decoration: const BoxDecoration(
-                      color: AppColors.primaryDarkColor, // Use primary color for unread dot
+                      color: AppColors
+                          .primaryDarkColor, // Use primary color for unread dot
                       shape: BoxShape.circle,
                     ),
                   ),

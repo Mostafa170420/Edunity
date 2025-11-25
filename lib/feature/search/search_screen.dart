@@ -1,6 +1,5 @@
 import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/components/inputs/custom_text_field.dart';
-import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';

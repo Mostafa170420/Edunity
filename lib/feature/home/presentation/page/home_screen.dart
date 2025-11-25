@@ -1,16 +1,13 @@
 import 'package:edunity/components/inputs/custom_text_field.dart';
-import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';
-import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/home/presentation/widgets/categories_section.dart';
 import 'package:edunity/feature/home/presentation/widgets/custom_sliver_app_bar.dart';
 import 'package:edunity/feature/home/presentation/widgets/homeslider.dart';
 import 'package:edunity/feature/home/presentation/widgets/popular_courses_section.dart';
 import 'package:edunity/feature/home/presentation/widgets/top_mentors_section.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:iconly/iconly.dart';
 
 class HomeScreen extends StatelessWidget {

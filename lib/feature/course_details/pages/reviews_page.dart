@@ -9,7 +9,6 @@ class ReviewsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int ratingTotal = 4;
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -20,35 +19,15 @@ class ReviewsPage extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      "Student \nReviews",
-                      style: TextStyles.getBody(fontSize: 18),
+                      "Student Reviews:",
+                      style: TextStyles.getBody(fontSize: 20),
                     )
                   ],
                 ),
                 Gap(20),
-                Row(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: List.generate(5, (index) {
-                        return Icon(
-                          index < ratingTotal ? Icons.star : Icons.star_border,
-                          color: Colors.amber,
-                        );
-                      }),
-                    ),
-                    Text(
-                      "4.9",
-                      style: TextStyles.getBody(fontSize: 18),
-                    )
-                  ],
-                ),
-                Gap(20),
-                Text("(324 Reviews)")
               ],
             ),
-            Gap(20),
+            Gap(25),
             ListView.separated(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),

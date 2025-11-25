@@ -29,8 +29,8 @@ class OverviewPage extends StatelessWidget {
             ),
             Gap(10),
             Text("Master the fundamentals and advanced concepts of "
-                    "calculus with hands-on practice and real-world applications." +
-                "Perfect for students preparing for exams or " +
+                    "calculus with hands-on practice and real-world applications."
+                    "Perfect for students preparing for exams or " +
                 "looking to strengthen their mathematical foundation."),
             Gap(30),
             Text(
@@ -42,6 +42,7 @@ class OverviewPage extends StatelessWidget {
             SizedBox(
               height: 300,
               child: ListView.builder(
+                  itemCount: courseContent.length,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {

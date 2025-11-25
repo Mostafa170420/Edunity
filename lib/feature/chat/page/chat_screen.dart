@@ -28,17 +28,20 @@ class _ChatScreenState extends State<ChatScreen> {
   // Mock messages for demonstration
   final List<MessageModel> _messages = [
     MessageModel(
-      text: "Hi John! I saw your message about the Python course. How can I help you?",
+      text:
+          "Hi John! I saw your message about the Python course. How can I help you?",
       isMe: false,
       time: "9:30 AM",
     ),
     MessageModel(
-      text: "Hello Professor. I was wondering if the prerequisites section is mandatory for the final project.",
+      text:
+          "Hello Professor. I was wondering if the prerequisites section is mandatory for the final project.",
       isMe: true,
       time: "9:32 AM",
     ),
     MessageModel(
-      text: "That's a great question. The prerequisites are highly recommended to ensure you have a solid foundation, but the final project criteria only requires concepts from Module 4 onwards. You'll be fine!",
+      text:
+          "That's a great question. The prerequisites are highly recommended to ensure you have a solid foundation, but the final project criteria only requires concepts from Module 4 onwards. You'll be fine!",
       isMe: false,
       time: "9:35 AM",
     ),
@@ -56,7 +59,8 @@ class _ChatScreenState extends State<ChatScreen> {
           MessageModel(
             text: _messageController.text.trim(),
             isMe: true,
-            time: "${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}",
+            time:
+                "${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}",
           ),
         );
         _messageController.clear();
@@ -86,7 +90,6 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           // Message Input Area
-          
         ],
       ),
       bottomNavigationBar: _buildMessageInput(),
@@ -98,9 +101,10 @@ class _ChatScreenState extends State<ChatScreen> {
     return AppBar(
       backgroundColor: AppColors.whiteColor,
       elevation: 0,
-      surfaceTintColor: Colors.transparent, 
+      surfaceTintColor: Colors.transparent,
       leading: IconButton(
-        icon: const Icon(IconlyLight.arrow_left_2, color: AppColors.darkgreyColor),
+        icon: const Icon(IconlyLight.arrow_left_2,
+            color: AppColors.darkgreyColor),
         onPressed: () => Navigator.of(context).pop(),
       ),
       titleSpacing: 0, // Remove default title spacing
@@ -112,6 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
             backgroundImage: widget.receiverImageUrl != null
                 ? NetworkImage(widget.receiverImageUrl!)
                 : null,
+            backgroundColor: AppColors.primaryDarkColor.withOpacity(0.8),
             child: widget.receiverImageUrl == null
                 ? const Icon(
                     IconlyLight.profile,
@@ -119,7 +124,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     size: 20,
                   )
                 : null,
-            backgroundColor: AppColors.primaryDarkColor.withOpacity(0.8),
           ),
           const Gap(12),
           Text(
@@ -138,7 +142,8 @@ class _ChatScreenState extends State<ChatScreen> {
           onPressed: () {},
         ),
         IconButton(
-          icon: const Icon(IconlyLight.video, color: AppColors.primaryDarkColor),
+          icon:
+              const Icon(IconlyLight.video, color: AppColors.primaryDarkColor),
           onPressed: () {},
         ),
         const Gap(5),
@@ -166,7 +171,8 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             // Attachment button
             IconButton(
-              icon: const Icon(IconlyLight.image, color: AppColors.primaryDarkColor),
+              icon: const Icon(IconlyLight.image,
+                  color: AppColors.primaryDarkColor),
               onPressed: () {},
             ),
             Expanded(
@@ -178,8 +184,10 @@ class _ChatScreenState extends State<ChatScreen> {
                   onSubmitted: (_) => _sendMessage(),
                   decoration: InputDecoration(
                     hintText: 'Message...',
-                    hintStyle: TextStyles.getBody(color: AppColors.greyColor, fontSize: 14),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    hintStyle: TextStyles.getBody(
+                        color: AppColors.greyColor, fontSize: 14),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     filled: true,
                     fillColor: AppColors.backgroundColor,
                     border: OutlineInputBorder(
@@ -192,7 +200,8 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             // Send button
             IconButton(
-              icon: const Icon(IconlyLight.send, color: AppColors.primaryDarkColor),
+              icon: const Icon(IconlyLight.send,
+                  color: AppColors.primaryDarkColor),
               onPressed: _sendMessage,
             ),
           ],

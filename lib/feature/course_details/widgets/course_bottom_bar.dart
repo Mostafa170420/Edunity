@@ -1,6 +1,5 @@
 import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/core/utils/colors.dart';
-import 'package:edunity/core/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 

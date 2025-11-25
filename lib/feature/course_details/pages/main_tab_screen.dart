@@ -45,12 +45,13 @@ class _MainTabScreenState extends State<MainTabScreen> {
                         horizontal: 16, vertical: 12),
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      color:
+                          AppColors.logoBackgroundColor.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: TabBar(
                       indicator: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.logoBackgroundColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       labelColor: Colors.black,

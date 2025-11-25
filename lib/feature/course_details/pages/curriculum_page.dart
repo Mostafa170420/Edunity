@@ -1,3 +1,4 @@
+import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/feature/course_details/model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -28,7 +29,8 @@ class CurriculumPage extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 228, 239, 254), // soft pink
+        color:
+            AppColors.logoBackgroundColor.withValues(alpha: 0.3), // soft pink
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
