@@ -1,3 +1,4 @@
+import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/core/model/mentor_model.dart';
 import 'package:flutter/material.dart';

@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 
+/// A model representing a chat conversation.
 class ChatModel {
+  /// The unique identifier for the chat.
   final String id;
+
+  /// The name of the person the user is chatting with.
   final String receiverName;
+
+  /// The URL of the receiver's profile image.
   final String? receiverImageUrl;
+
+  /// The last message sent in the chat.
   final String lastMessage;
+
+  /// The time the last message was sent.
   final String lastMessageTime;
+
+  /// Whether the chat has unread messages.
   final bool isUnread;
 
+  /// Creates a new [ChatModel] instance.
   ChatModel({
     required this.id,
     required this.receiverName,
@@ -18,6 +31,7 @@ class ChatModel {
   });
 }
 
+/// A list of fake chat data for demonstration purposes.
 final List<ChatModel> fakeChats = [
   ChatModel(
     id: 'chat_1',

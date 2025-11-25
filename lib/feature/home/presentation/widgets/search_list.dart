@@ -12,7 +12,7 @@ class SearchList extends StatelessWidget {
     return Row(
       children: [
         Text(
-          category_model.name,
+          '${category_model.name}',
           style: TextStyles.getBody(
               fontSize: 15,
               fontWeight: FontWeight.bold,

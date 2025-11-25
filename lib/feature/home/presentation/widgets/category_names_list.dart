@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class CategoryNamesList extends StatefulWidget {
   final CategoryModel categoryNamesModel;
 
-  const CategoryNamesList({super.key, required this.categoryNamesModel});
+  CategoryNamesList({super.key, required this.categoryNamesModel});
 
   @override
   State<CategoryNamesList> createState() => _CategoryNamesListState();

@@ -1,7 +1,9 @@
+/// A customizable text field widget with support for validation, password masking, and custom icons.
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
+  /// Creates a [CustomTextField].
   const CustomTextField({
     super.key,
     required this.controller,
@@ -12,22 +14,46 @@ class CustomTextField extends StatefulWidget {
     this.prefixIcon,
     this.readOnly = false,
     this.onTap,
+    this.keyboardType,
+    this.floatingLabelBehavior,
   });
 
+  /// The controller for the text field.
   final TextEditingController controller;
+
+  /// The hint text to display when the text field is empty.
   final String? hintText;
+
+  /// The validator function to use for validating the text field's input.
   final String? Function(String?)? validator;
+
+  /// Whether the text field is for a password.
   final bool isPassword;
+
+  /// An optional icon to display at the end of the text field.
   final Widget? suffixIcon;
+
+  /// An optional icon to display at the beginning of the text field.
   final Widget? prefixIcon;
+
+  /// Whether the text field is read-only.
   final bool readOnly;
+
+  /// The callback function to execute when the text field is tapped.
   final Function()? onTap;
+
+  /// The type of keyboard to use for the text field.
+  final TextInputType? keyboardType;
+
+  /// The floating label behavior for the text field's label.
+  final FloatingLabelBehavior? floatingLabelBehavior;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
+  /// Whether the password text should be obscured.
   bool isobscure = true;
   @override
   Widget build(BuildContext context) {
@@ -35,7 +61,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 12,
               offset: const Offset(0, 6),
             ),
@@ -47,8 +73,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
           obscureText: widget.isPassword && isobscure,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
+          keyboardType: widget.keyboardType,
           decoration: InputDecoration(
             hintText: widget.hintText,
+            floatingLabelBehavior: widget.floatingLabelBehavior,
             suffixIcon: Padding(
               padding: const EdgeInsets.all(10),
               child: widget.suffixIcon ??

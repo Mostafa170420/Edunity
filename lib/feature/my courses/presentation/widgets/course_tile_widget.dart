@@ -2,6 +2,7 @@ import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/core/model/course_model.dart';
+import 'package:edunity/feature/bookmark/model/courses_names_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -41,7 +42,7 @@ class CourseTileWidget extends StatelessWidget {
             ),
             child: Image.network(
               course.imageUrl ?? AppAssets.courseBackground,
-              width: 130,
+              width: 100,
               height: double.infinity,
               fit: BoxFit.cover,
             ),
