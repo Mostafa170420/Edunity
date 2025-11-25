@@ -120,4 +120,6 @@ class AppAssets {
 
   /// The path to the placeholder image.
   static const String placeholder = 'assets/images/placeholder.png';
+  static const String emptyUser = 'assets/images/empty_user.png';
+  static const String mathBlackBoard = 'assets/images/math_blackboard.png';
 }
