@@ -23,7 +23,7 @@ class _MyCoursesState extends State<MyCourses> {
   // `currentIndex` tracks the selected tab, where 1 is "Ongoing" and 0 is "Completed".
   int currentIndex = 1;
   final searchController = TextEditingController();
-  
+
   // This uses a local, hardcoded student model. In a real application, this data
   // should be fetched from a repository or state management solution.
   var student = fakeStudent;
@@ -80,7 +80,7 @@ class _MyCoursesState extends State<MyCourses> {
                   )),
             ),
             const Gap(20),
-            
+
             // A widget to toggle between "Ongoing" and "Completed" course lists.
             ChooseCoursesList(
               selectedIndex: currentIndex,
@@ -91,10 +91,11 @@ class _MyCoursesState extends State<MyCourses> {
               },
             ),
             const Gap(10),
-            
+
             // Display the selected screen (Ongoing or Completed courses) based on `currentIndex`.
             screens[currentIndex],
-            const Gap(100), // Provides extra space at the bottom of the scroll view.
+            const Gap(
+                100), // Provides extra space at the bottom of the scroll view.
           ],
         ),
       ),

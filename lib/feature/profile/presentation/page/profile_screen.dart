@@ -77,6 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
+            const Gap(30),
 
             // A `ListView` to display the list of profile options.
             ListView.separated(

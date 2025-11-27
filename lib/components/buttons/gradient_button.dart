@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class GradientButton extends StatelessWidget {
   /// The text to display on the button.
   final String? label;
-  
+
   /// An optional icon to display on the button.
   final Widget? icon;
 
@@ -51,7 +51,7 @@ class GradientButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: (label == null || label!.isEmpty)
-      // If there is no label, create a button with only an icon.
+          // If there is no label, create a button with only an icon.
           ? TextButton(
               onPressed: onPressed,
               style: ElevatedButton.styleFrom(
@@ -62,7 +62,7 @@ class GradientButton extends StatelessWidget {
               ),
               child: icon ?? const SizedBox(),
             )
-            // If there is a label, create a button with an icon and a label.
+          // If there is a label, create a button with an icon and a label.
           : TextButton.icon(
               icon: icon,
               iconAlignment: iconAlignment,

@@ -10,15 +10,15 @@ import 'package:flutter/material.dart';
 void main() async {
   // Ensure that the Flutter binding is initialized before any Flutter-specific code is executed.
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Firebase with the default options for the current platform.
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   // Initialize shared preferences for local storage.
   SharedPref.init();
-  
+
   // Run the main application widget.
   runApp(const MainApp());
 }
@@ -35,10 +35,10 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       // The router configuration for the application.
       routerConfig: Routes.routes,
-      
+
       // Hide the debug banner in the top-right corner of the screen.
       debugShowCheckedModeBanner: false,
-      
+
       // The light theme for the application.
       theme: AppTheme.lightTheme,
     );

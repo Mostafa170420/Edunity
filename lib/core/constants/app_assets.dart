@@ -34,8 +34,7 @@ class AppAssets {
   /// The path to the filled bookmark icon.
   static const String bookmarkFilledpng = 'assets/icons/bookmark.png';
 
-  /// The path to the done icon.
-  static const String doneSvg = 'assets/images/done.svg';
+  /// The path to the done icon.  static const String doneSvg = 'assets/images/done.svg';
 
   /// The path to the blue search icon.
   static const String searchBlue = 'assets/images/search_blue.png';
@@ -124,4 +123,6 @@ class AppAssets {
 
   /// The path to the placeholder image.
   static const String placeholder = 'assets/images/placeholder.png';
+  static const String emptyUser = 'assets/images/empty_user.png';
+  static const String mathBlackBoard = 'assets/images/math_blackboard.png';
 }

@@ -4,7 +4,7 @@ import 'package:edunity/core/constants/app_assets.dart';
 class CategoryModel {
   /// The path to the category's image.
   final String image;
-  
+
   /// The name of the category.
   final String name;
 

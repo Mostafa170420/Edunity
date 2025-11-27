@@ -1,4 +1,6 @@
 import 'package:edunity/core/constants/app_assets.dart';
+import 'package:edunity/core/routes/navigation.dart';
+import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/core/model/course_model.dart';
@@ -130,21 +132,21 @@ class CoursesList extends StatelessWidget {
 
   Row _buildRaiting() {
     return Row(
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              color: AppColors.orangeColor,
-                              size: 20,
-                            ),
-                            Text(
-                              '${coursesModel.rating}',
-                              style: TextStyles.getBody(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.whiteColor),
-                            ),
-                          ],
-                        );
+      children: [
+        const Icon(
+          Icons.star,
+          color: AppColors.orangeColor,
+          size: 20,
+        ),
+        Text(
+          '${coursesModel.rating}',
+          style: TextStyles.getBody(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: AppColors.whiteColor),
+        ),
+      ],
+    );
   }
 
   Text _buildPrice() {
