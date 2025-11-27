@@ -5,6 +5,8 @@ class SharedPref {
 
   static const String kIsOnBoardingShown = 'isOnBoardingShown';
   static const String kUserId = 'kUserId';
+  static const String kUserType = 'kUserType';
+  static const String kUserImage = 'kUserImage';
 
   static Future<void> init() async {
     pref = await SharedPreferences.getInstance();
@@ -24,6 +26,22 @@ class SharedPref {
 
   static String getUserId() {
     return getData(kUserId) as String;
+  }
+
+  static Future<void> setUserType(String type) async {
+    await setData(kUserType, type);
+  }
+
+  static String getUserType() {
+    return getData(kUserType) as String;
+  }
+
+  static Future<void> setUserImage(String type) async {
+    await setData(kUserImage, type);
+  }
+
+  static String getUserImage() {
+    return getData(kUserImage) as String;
   }
 
   static Future<void> setData(String key, dynamic value) async {

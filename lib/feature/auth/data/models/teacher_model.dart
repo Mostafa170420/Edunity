@@ -3,6 +3,9 @@ class TeacherModel {
   final String? name;
   final String? email;
   final String? avatarUrl;
+  final String? bio;
+  final String? dob; // Date of birth
+  final bool darkMode; // User preference for dark mode
 
   // Courses & Sessions
   final List<String?> uploadedCourses; // courseIds
@@ -22,6 +25,9 @@ class TeacherModel {
     this.name,
     this.email,
     this.avatarUrl,
+    this.bio,
+    this.dob,
+    this.darkMode = false,
     this.uploadedCourses = const [],
     this.liveSessions = const [],
     this.receivedRequests = const [],
@@ -32,12 +38,15 @@ class TeacherModel {
   });
 
   /// Firestore → Model
-  factory TeacherModel.fromMap(Map<String, dynamic> map, String uid) {
+  factory TeacherModel.fromJson(Map<String, dynamic> map, String uid) {
     return TeacherModel(
       uid: uid,
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       avatarUrl: map['avatarUrl'] ?? '',
+      bio: map['bio'] ?? '',
+      dob: map['dob'] ?? '',
+      darkMode: map['darkMode'] ?? false,
       uploadedCourses: List<String>.from(map['uploadedCourses'] ?? []),
       liveSessions: List<String>.from(map['liveSessions'] ?? []),
       receivedRequests: List<String>.from(map['receivedRequests'] ?? []),
@@ -49,11 +58,14 @@ class TeacherModel {
   }
 
   /// Model → Firestore
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'name': name,
       'email': email,
       'avatarUrl': avatarUrl,
+      'bio': bio,
+      'dob': dob,
+      'darkMode': darkMode,
       'uploadedCourses': uploadedCourses,
       'liveSessions': liveSessions,
       'receivedRequests': receivedRequests,
@@ -64,11 +76,14 @@ class TeacherModel {
     };
   }
 
-  /// CopyWith (for partial updates)
+  /// CopyWith for partial updates
   TeacherModel copyWith({
     String? name,
     String? email,
     String? avatarUrl,
+    String? bio,
+    String? dob,
+    bool? darkMode,
     List<String>? uploadedCourses,
     List<String>? liveSessions,
     List<String>? receivedRequests,
@@ -76,13 +91,15 @@ class TeacherModel {
     int? ratingCount,
     double? earnings,
     double? balance,
-    DateTime? updatedAt,
   }) {
     return TeacherModel(
       uid: uid,
       name: name ?? this.name,
       email: email ?? this.email,
       avatarUrl: avatarUrl ?? this.avatarUrl,
+      bio: bio ?? this.bio,
+      dob: dob ?? this.dob,
+      darkMode: darkMode ?? this.darkMode,
       uploadedCourses: uploadedCourses ?? this.uploadedCourses,
       liveSessions: liveSessions ?? this.liveSessions,
       receivedRequests: receivedRequests ?? this.receivedRequests,
@@ -93,11 +110,15 @@ class TeacherModel {
     );
   }
 
+  /// Partial update data for Firestore
   Map<String, dynamic> toUpdateData() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (name != null) data['name'] = name;
     if (email != null) data['email'] = email;
     if (avatarUrl != null) data['avatarUrl'] = avatarUrl;
+    if (bio != null) data['bio'] = bio;
+    if (dob != null) data['dob'] = dob;
+    data['darkMode'] = darkMode;
     if (rating != null) data['rating'] = rating;
     if (earnings != null) data['earnings'] = earnings;
     if (balance != null) data['balance'] = balance;

@@ -13,19 +13,19 @@ class FirebaseProvider {
   );
 
   static createTeacher(TeacherModel teacher) async {
-    teacherCollection.doc(teacher.uid).set(teacher.toMap());
+    teacherCollection.doc(teacher.uid).set(teacher.toJson());
   }
 
   static createStudent(StudentModel student) async {
-    studentCollection.doc(student.uid).set(student.toMap());
+    studentCollection.doc(student.uid).set(student.toJson());
   }
 
-  static updateTeacher(TeacherModel doctor) async {
-    teacherCollection.doc(doctor.uid).update(doctor.toUpdateData());
+  static updateTeacher(TeacherModel teacher) async {
+    await teacherCollection.doc(teacher.uid).update(teacher.toUpdateData());
   }
 
   static updateStudent(StudentModel student) async {
-    studentCollection.doc(student.uid).update(student.toUpdateData());
+    await studentCollection.doc(student.uid).update(student.toUpdateData());
   }
 
   static Future<DocumentSnapshot<Object?>> getTeacherByID(String id) {

@@ -7,6 +7,9 @@ class AppAssets {
   /// The path to the general loading animation.
   static const String loadingJson = 'assets/images/Loading.json';
 
+  /// The path to the default user image.
+  static const String defaultUser = 'assets/images/defaultUser.png';
+
   /// The path to the bell icon.
   static const String bell = 'assets/icons/bell.png';
 
@@ -26,7 +29,7 @@ class AppAssets {
   static const String courseBackground = 'assets/images/black.png';
 
   /// The path to the bookmark outline icon.
-  static const String bookmarkOutline = 'assets/icons/Bookmarkoutline.svg';
+  static const String bookmarkOutlineSvg = 'assets/icons/Bookmarkoutline.svg';
 
   /// The path to the filled bookmark icon.
   static const String bookmarkFilledpng = 'assets/icons/bookmark.png';
@@ -72,7 +75,7 @@ class AppAssets {
   static const String calendarSvg = 'assets/icons/calendar.svg';
 
   /// The path to the USA logo.
-  static const String usaLogo = 'assets/icons/americaLogo.svg';
+  static const String usaLogoSvg = 'assets/icons/americaLogo.svg';
 
   /// The path to the camera icon.
   static const String cameraSvg = 'assets/icons/camera.svg';

@@ -16,6 +16,7 @@ class CustomTextField extends StatefulWidget {
     this.onTap,
     this.keyboardType,
     this.floatingLabelBehavior,
+    this.maxLines = 1,
   });
 
   /// The controller for the text field.
@@ -48,6 +49,8 @@ class CustomTextField extends StatefulWidget {
   /// The floating label behavior for the text field's label.
   final FloatingLabelBehavior? floatingLabelBehavior;
 
+  final int? maxLines;
+
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
@@ -73,26 +76,25 @@ class _CustomTextFieldState extends State<CustomTextField> {
           obscureText: widget.isPassword && isobscure,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
+          maxLines: widget.isPassword ? 1 : (widget.maxLines ?? 1),
           keyboardType: widget.keyboardType,
           decoration: InputDecoration(
             hintText: widget.hintText,
             floatingLabelBehavior: widget.floatingLabelBehavior,
-            suffixIcon: Padding(
-              padding: const EdgeInsets.all(10),
-              child: widget.suffixIcon ??
-                  (widget.isPassword
-                      ? IconButton(
-                          icon: Image.asset(
-                            isobscure ? AppAssets.eye : AppAssets.eye,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              isobscure = !isobscure;
-                            });
-                          },
-                        )
-                      : null),
-            ),
+            suffixIcon: widget.suffixIcon ??
+                (widget.isPassword
+                    ? IconButton(
+                        icon: Image.asset(
+                          isobscure ? AppAssets.eye : AppAssets.eye,
+                        ),
+                        iconSize: 30,
+                        onPressed: () {
+                          setState(() {
+                            isobscure = !isobscure;
+                          });
+                        },
+                      )
+                    : null),
             prefixIcon: widget.prefixIcon != null
                 ? Padding(
                     padding: const EdgeInsets.all(11),

@@ -7,6 +7,7 @@ import 'package:edunity/feature/auth/presentation/page/signup/register_screen.da
 import 'package:edunity/feature/bookmark/presentation/pages/bookmark_screen.dart';
 import 'package:edunity/feature/categories/category_screen.dart';
 import 'package:edunity/feature/chat/page/chat_screen.dart';
+import 'package:edunity/feature/profile/presentation/bloc/profile_bloc.dart';
 import 'package:edunity/feature/search/filter_screen.dart';
 import 'package:edunity/feature/home/presentation/page/home_screen.dart';
 import 'package:edunity/feature/search/search_screen.dart';
@@ -18,6 +19,7 @@ import 'package:edunity/feature/onboarding/page/welcome_screen.dart';
 import 'package:edunity/feature/profile/presentation/page/edit_profile.dart';
 import 'package:edunity/feature/profile/presentation/page/profile_screen.dart';
 import 'package:edunity/feature/splash/splash_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -86,7 +88,13 @@ class Routes {
           builder: (context, state) => NotificationScreen()),
 
       // The user's profile screen.
-      GoRoute(path: mainprofile, builder: (context, state) => ProfileScreen()),
+      GoRoute(
+        path: mainprofile,
+        builder: (context, state) => BlocProvider(
+          create: (context) => ProfileBloc(),
+          child: ProfileScreen(),
+        ),
+      ),
 
       // The screen for the user's enrolled courses.
       GoRoute(
@@ -99,7 +107,12 @@ class Routes {
       GoRoute(path: myCourses, builder: (context, state) => MyCourses()),
 
       // The screen for editing the user's profile.
-      GoRoute(path: editProfile, builder: (context, state) => EditProfile()),
+      GoRoute(
+          path: editProfile,
+          builder: (context, state) => BlocProvider(
+                create: (context) => ProfileBloc(),
+                child: EditProfile(),
+              )),
 
       // The screen for the user's bookmarked courses.
       GoRoute(path: bookmark, builder: (context, state) => BookmarkScreen()),

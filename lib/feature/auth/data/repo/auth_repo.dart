@@ -1,4 +1,3 @@
-// Import necessary packages for logging, Firebase Authentication, and other project services.
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:edunity/core/services/firebase/firebase_provider.dart';
@@ -7,17 +6,7 @@ import 'package:edunity/feature/auth/data/models/student_model.dart';
 import 'package:edunity/feature/auth/data/models/teacher_model.dart';
 import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
 
-/// The `AuthRepo` class handles all authentication-related data operations.
-/// It communicates with Firebase Authentication and the Firebase Firestore database
-/// through the `FirebaseProvider`.
 class AuthRepo {
-  /// Registers a new user with email, password, and user type.
-  ///
-  /// This method creates a new user account using Firebase Authentication.
-  /// If successful, it also creates a corresponding student or teacher document
-  /// in the Firestore database.
-  ///
-  /// Returns a string indicating the result of the operation ('Teacher', 'Student', or an error message).
   static Future<String?> register(
     String name,
     String email,
@@ -40,11 +29,13 @@ class AuthRepo {
       // Create a user record in Firestore based on the user type.
       if (userType == UserTypeEnum.teacher) {
         user.updatePhotoURL('2');
+        SharedPref.setUserType('Teacher');
         var teacher = TeacherModel(uid: user.uid, name: name, email: email);
         FirebaseProvider.createTeacher(teacher);
         return 'Teacher';
       } else {
         user.updatePhotoURL('1');
+        SharedPref.setUserType('Student');
         var student = StudentModel(uid: user.uid, name: name, email: email);
         FirebaseProvider.createStudent(student);
         return 'Student';
@@ -65,13 +56,6 @@ class AuthRepo {
     }
   }
 
-  /// Logs in a user with their email and password.
-  ///
-  /// This method signs in an existing user with Firebase Authentication.
-  /// If successful, it stores the user's ID in shared preferences.
-  ///
-  /// Returns a string indicating the user type ('Teacher' or 'Student') on success,
-  /// or an error message on failure.
   static Future<String?> login(
     String email,
     String password,
@@ -90,12 +74,14 @@ class AuthRepo {
       var studentDoc = await FirebaseProvider.getStudentByID(user.uid);
       if (studentDoc.exists) {
         user.updatePhotoURL('1');
+        SharedPref.setUserType('Student');
         return 'Student';
       }
 
       var teacherDoc = await FirebaseProvider.getTeacherByID(user.uid);
       if (teacherDoc.exists) {
         user.updatePhotoURL('2');
+        SharedPref.setUserType('Teacher');
         return 'Teacher';
       }
       return 'User type not found.';
