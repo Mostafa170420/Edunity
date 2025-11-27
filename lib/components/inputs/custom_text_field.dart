@@ -1,4 +1,5 @@
 /// A customizable text field widget with support for validation, password masking, and custom icons.
+library;
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 

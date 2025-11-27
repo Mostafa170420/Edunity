@@ -1,7 +1,7 @@
 import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/constants/app_assets.dart';
-import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/core/model/category_model.dart';
+import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/home/presentation/widgets/category_list.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';

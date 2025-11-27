@@ -1,17 +1,16 @@
 import 'package:edunity/core/constants/app_assets.dart';
+import 'package:edunity/core/model/course_model.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class CourseTileWidget extends StatelessWidget {
+class CourseTileWidgetTeacher extends StatelessWidget {
   final CoursesModel course;
   final bool completed;
-  const CourseTileWidget({
+  const CourseTileWidgetTeacher({
     super.key,
     required this.course,
     this.completed = true,
@@ -136,63 +135,6 @@ class CourseTileWidget extends StatelessWidget {
                     ],
                   ),
                   Gap(10),
-                  completed
-                      ? Expanded(
-                          child: InkWell(
-                            onTap: () {},
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "View Certificate",
-                                  style: TextStyles.getSmall(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: AppColors.greenColor,
-                                  ).copyWith(
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppColors.greenColor,
-                                    decorationThickness: 1.5,
-                                  ),
-                                  textAlign: TextAlign.end,
-                                ),
-                                const Spacer(),
-                                Icon(
-                                  Icons.verified,
-                                  color: AppColors.greenColor,
-                                  size: 24,
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              LinearPercentIndicator(
-                                width: 145,
-                                lineHeight: 8,
-                                percent: course.progressPercent ?? 0,
-                                animation: true,
-                                backgroundColor: AppColors.borderColor,
-                                progressColor: AppColors.primaryDarkColor,
-                                barRadius: const Radius.circular(6),
-                                padding: EdgeInsets.zero,
-                                trailing: Text(
-                                  ' ${((course.progressPercent ?? 0) * (course.lessonsCount ?? 1)).toInt()} / ${course.lessonsCount ?? 1}',
-                                  style: TextStyles.getSmall(
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 12,
-                                    color: AppColors.darkColor,
-                                  ),
-                                ),
-                              ),
-                              // Spacer(),
-                            ],
-                          ),
-                        ),
                 ],
               ),
             ),

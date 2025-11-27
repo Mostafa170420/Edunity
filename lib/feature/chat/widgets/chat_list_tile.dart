@@ -61,6 +61,7 @@ class ChatListTile extends StatelessWidget {
               backgroundImage: chat.receiverImageUrl != null
                   ? NetworkImage(chat.receiverImageUrl!)
                   : null,
+              backgroundColor: AppColors.primaryDarkColor.withOpacity(0.8),
               child: chat.receiverImageUrl == null
                   ? const Icon(
                       Icons.person,
@@ -68,7 +69,6 @@ class ChatListTile extends StatelessWidget {
                       size: 28,
                     )
                   : null,
-              backgroundColor: AppColors.primaryDarkColor.withOpacity(0.8),
             ),
             const Gap(15),
 

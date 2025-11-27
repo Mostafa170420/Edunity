@@ -1,5 +1,6 @@
 // Import necessary packages and widgets for the login screen.
 import 'dart:developer';
+
 import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/extentions/dialogs.dart';
@@ -54,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
           showMyDialoge(context, state.message!); // Show an error dialog
         } else if (state is AuthSuccessState) {
           // Navigate to the main screen and remove all previous routes.
-          pushAndRemoveUntil(context, Routes.main);
+          pushAndRemoveUntil(context, Routes.teacherHome);
         }
       },
       child: Scaffold(
