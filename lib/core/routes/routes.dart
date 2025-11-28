@@ -7,9 +7,11 @@ import 'package:edunity/feature/auth/presentation/page/signup/register_screen.da
 import 'package:edunity/feature/bookmark/presentation/pages/bookmark_screen.dart';
 import 'package:edunity/feature/categories/category_screen.dart';
 import 'package:edunity/feature/chat/page/chat_screen.dart';
+import 'package:edunity/feature/home/presentation/bloc/home_bloc.dart';
+import 'package:edunity/feature/home/presentation/page/course_upload_screen.dart';
 import 'package:edunity/feature/profile/presentation/bloc/profile_bloc.dart';
 import 'package:edunity/feature/search/filter_screen.dart';
-import 'package:edunity/feature/home/presentation/page/home_screen.dart';
+import 'package:edunity/feature/home/presentation/page/student_home_screen.dart';
 import 'package:edunity/feature/search/search_screen.dart';
 import 'package:edunity/feature/mentors/page/top_mentor_screen.dart';
 import 'package:edunity/feature/main/main_screen.dart';
@@ -37,6 +39,7 @@ class Routes {
   static const String notifications = '/notifications';
   static const String mainprofile = '/profile';
   static const String myCourses = '/myCourses';
+  static const String addCourses = '/addCourses';
   static const String editProfile = '/editProfile';
   static const String bookmark = '/bookmark';
   static const String topMentors = '/topMentors';
@@ -74,13 +77,20 @@ class Routes {
               )),
       GoRoute(
           path: home,
-          builder: (context, state) => HomeScreen(
+          builder: (context, state) => StudentHomeScreen(
                 userType: state.extra as UserTypeEnum,
               )),
       GoRoute(path: category, builder: (context, state) => CategoryScreen()),
 
       // The search screen.
       GoRoute(path: search, builder: (context, state) => SearchScreen()),
+
+      GoRoute(
+          path: addCourses,
+          builder: (context, state) => BlocProvider(
+                create: (context) => HomeBloc(),
+                child: TeacherAddCourseScreen(),
+              )),
 
       // The notifications screen.
       GoRoute(

@@ -14,15 +14,15 @@ import 'package:edunity/feature/home/presentation/widgets/top_mentors_section.da
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.userType});
+class TeacherHomeScreen extends StatefulWidget {
+  const TeacherHomeScreen({super.key, required this.userType});
   final UserTypeEnum userType;
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<TeacherHomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<TeacherHomeScreen> {
   Map<String, dynamic>? userData;
 
   @override
@@ -44,23 +44,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Define horizontal padding for consistency across different sections.
     final padding = const EdgeInsets.symmetric(horizontal: 15);
     final searchController = TextEditingController();
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      // The `CustomScrollView` allows for a flexible and scrollable layout with different types of content.
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
-          // The custom app bar for the home screen, which includes a welcome message and a notification button.
           CustomSliverAppBar(
             userName: userData?['name'] ?? 'User',
+            userType: widget.userType,
             onNotificationTap: () => pushTo(context, Routes.notifications),
           ),
-
-          // A sliver that contains the search field.
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 25),
@@ -84,27 +80,19 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-
-          // A sliver that contains the image slider.
           SliverToBoxAdapter(child: homeslider()),
-
-          // A sliver that contains the course categories section.
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 30),
               child: CategoriesSection(padding: padding),
             ),
           ),
-
-          // A sliver that contains the popular courses section.
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 25),
               child: PopularCoursesSection(padding: padding),
             ),
           ),
-
-          // A sliver that contains the top mentors section.
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 25, bottom: 100),

@@ -17,6 +17,7 @@ class CustomTextField extends StatefulWidget {
     this.keyboardType,
     this.floatingLabelBehavior,
     this.maxLines = 1,
+    this.label,
   });
 
   /// The controller for the text field.
@@ -36,6 +37,8 @@ class CustomTextField extends StatefulWidget {
 
   /// An optional icon to display at the beginning of the text field.
   final Widget? prefixIcon;
+
+  final Widget? label;
 
   /// Whether the text field is read-only.
   final bool readOnly;
@@ -80,6 +83,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           keyboardType: widget.keyboardType,
           decoration: InputDecoration(
             hintText: widget.hintText,
+            label: widget.label,
             floatingLabelBehavior: widget.floatingLabelBehavior,
             suffixIcon: widget.suffixIcon ??
                 (widget.isPassword

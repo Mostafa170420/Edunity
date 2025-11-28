@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edunity/feature/auth/data/models/student_model.dart';
 import 'package:edunity/feature/auth/data/models/teacher_model.dart';
+import 'package:edunity/feature/home/data/model/course_model.dart';
 
 class FirebaseProvider {
   static final FirebaseFirestore firebase = FirebaseFirestore.instance;
@@ -12,12 +13,20 @@ class FirebaseProvider {
     'Student',
   );
 
+  static final CollectionReference courseCollection = firebase.collection(
+    'Courses',
+  );
+
   static createTeacher(TeacherModel teacher) async {
     teacherCollection.doc(teacher.uid).set(teacher.toJson());
   }
 
   static createStudent(StudentModel student) async {
     studentCollection.doc(student.uid).set(student.toJson());
+  }
+
+  static createCourse(CourseModel courses) async {
+    courseCollection.doc(courses.id).set(courses.toJson());
   }
 
   static updateTeacher(TeacherModel teacher) async {

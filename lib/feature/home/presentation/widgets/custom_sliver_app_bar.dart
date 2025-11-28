@@ -1,7 +1,9 @@
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
+import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
+import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 
@@ -11,12 +13,16 @@ const double kMaxTitleBottomPadding = 28.0;
 
 class CustomSliverAppBar extends StatelessWidget {
   final String userName;
+  final UserTypeEnum userType;
   final VoidCallback? onNotificationTap;
+  final VoidCallback? onAddCourseTap;
 
   const CustomSliverAppBar({
     super.key,
     required this.userName,
     this.onNotificationTap,
+    this.onAddCourseTap,
+    required this.userType,
   });
 
   @override
@@ -94,6 +100,31 @@ class CustomSliverAppBar extends StatelessWidget {
         );
       }),
       actions: [
+        userType == UserTypeEnum.teacher
+            ? Container(
+                margin: const EdgeInsets.only(right: 10),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: AppColors.darkgreyColor.withOpacity(0.6),
+                    width: 2,
+                  ),
+                ),
+                child: Badge(
+                  backgroundColor: AppColors.redColor,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: onAddCourseTap ??
+                        () => pushTo(context, Routes.addCourses),
+                    icon: Icon(
+                      IconlyBroken.plus,
+                      color: AppColors.darkgreyColor,
+                      size: 26,
+                    ),
+                  ),
+                ),
+              )
+            : SizedBox(),
         Container(
           margin: const EdgeInsets.only(right: 10),
           decoration: BoxDecoration(

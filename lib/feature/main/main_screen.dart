@@ -3,7 +3,8 @@ import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
 import 'package:edunity/feature/chat/page/all_chats_screen.dart';
-import 'package:edunity/feature/home/presentation/page/home_screen.dart';
+import 'package:edunity/feature/home/presentation/page/student_home_screen.dart';
+import 'package:edunity/feature/home/presentation/page/teacher_home_screen.dart';
 import 'package:edunity/feature/my%20courses/presentation/pages/my_courses_page.dart';
 import 'package:edunity/feature/profile/presentation/page/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,9 @@ class BottomNavBarState extends State<MainScreen> {
   /// Builds the list of screens to be displayed in the bottom navigation bar.
   List<Widget> _buildScreens() {
     return [
-      HomeScreen(userType: widget.userType),
+      widget.userType == UserTypeEnum.student
+          ? StudentHomeScreen(userType: widget.userType)
+          : TeacherHomeScreen(userType: widget.userType),
       MyCourses(),
       ChatsScreen(),
       ProfileScreen(),
