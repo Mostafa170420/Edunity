@@ -1,7 +1,8 @@
 class CourseModel {
   final String? id; // Firestore document ID
   final String? category;
-  final String? duration; // e.g., "1:36:10"
+  final String? duration;
+  final String? description;
   final String? instructor;
   final String? language;
   final String? level;
@@ -10,12 +11,12 @@ class CourseModel {
   final double? rating;
   final String? thumbnail;
   //final List<String>? videoLinks; // URLs to videos
-  final String? dbLocation; // e.g., "nam5"
 
   CourseModel({
     this.id,
     this.category,
     this.duration,
+    this.description,
     this.instructor,
     this.language,
     this.level,
@@ -24,7 +25,6 @@ class CourseModel {
     this.rating,
     this.thumbnail,
     //  this.videoLinks = const [],
-    this.dbLocation,
   });
 
   /// Firestore → Model
@@ -33,6 +33,7 @@ class CourseModel {
       id: id,
       category: map['category'] ?? '',
       duration: map['duration'] ?? '',
+      description: map['description'] ?? '',
       instructor: map['instructor'] ?? '',
       language: map['language'] ?? '',
       level: map['level'] ?? '',
@@ -41,7 +42,6 @@ class CourseModel {
       rating: (map['rating'] ?? 0).toDouble(),
       thumbnail: map['thumbnail'] ?? '',
       //  videoLinks: List<String>.from(map['videoLinks'] ?? []),
-      dbLocation: map['dbLocation'] ?? '',
     );
   }
 
@@ -50,6 +50,7 @@ class CourseModel {
     return {
       'category': category,
       'duration': duration,
+      'description': description,
       'instructor': instructor,
       'language': language,
       'level': level,
@@ -58,7 +59,6 @@ class CourseModel {
       'rating': rating,
       'thumbnail': thumbnail,
       // 'videoLinks': videoLinks,
-      'dbLocation': dbLocation,
     };
   }
 
@@ -66,6 +66,7 @@ class CourseModel {
   CourseModel copyWith({
     String? category,
     String? duration,
+    String? description,
     String? instructor,
     String? language,
     String? level,
@@ -74,12 +75,12 @@ class CourseModel {
     double? rating,
     String? thumbnail,
     //  List<String>? videoLinks,
-    String? dbLocation,
   }) {
     return CourseModel(
       id: id,
       category: category ?? this.category,
       duration: duration ?? this.duration,
+      description: description ?? this.description,
       instructor: instructor ?? this.instructor,
       language: language ?? this.language,
       level: level ?? this.level,
@@ -88,7 +89,6 @@ class CourseModel {
       rating: rating ?? this.rating,
       thumbnail: thumbnail ?? this.thumbnail,
       //   videoLinks: videoLinks ?? this.videoLinks,
-      dbLocation: dbLocation ?? this.dbLocation,
     );
   }
 
@@ -97,6 +97,7 @@ class CourseModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (category != null) data['category'] = category;
     if (duration != null) data['duration'] = duration;
+    if (description != null) data['description'] = description;
     if (instructor != null) data['instructor'] = instructor;
     if (language != null) data['language'] = language;
     if (level != null) data['level'] = level;
@@ -105,14 +106,27 @@ class CourseModel {
     if (rating != null) data['rating'] = rating;
     if (thumbnail != null) data['thumbnail'] = thumbnail;
     // if (videoLinks != null) data['videoLinks'] = videoLinks;
-    if (dbLocation != null) data['dbLocation'] = dbLocation;
+
     return data;
   }
 }
 
 Map<String, String> courses = {
-  " Blender 4.0 Beginner Donut Tutorial (Newest)": "2Bz9t17Yb3P317IT8Flg",
+  "Blender 4.0 Beginner Donut Tutorial (Newest)": "2Bz9t17Yb3P317IT8Flg",
   "Financial Accounting Course": "5A0t5bMjH6y4McGdb2tY",
   "Programming & Web Development Crash Courses": "5ySUxDnmfYBtYamk48Wz",
-  " Microsoft Office Tutorials": "78ZsJD0wB5TcDElZhCnd",
+  "Microsoft Office Tutorials": "78ZsJD0wB5TcDElZhCnd",
+  "Animated Character Creation in Blender 3D": "7KFbKOVRwfyyotPqb1hU",
+  "Human Resource Management (Complete Course)": "8DCA5VSZ0FOvVWnxlYmR",
+  "Digital Marketing": "Po1v7lV9KZwFcebx1Lud",
+  "Microsoft Excel Training Tutorials for Beginners": "UASqqXGLJGJjOHnJsBhP",
+  "Web Development Tutorials For Beginners": "WPLNg0Fcnb5LbMXdIuTZ",
+  "Self-Development, Productivity & Mastering Your Daily Life":
+      "gCfU2dMW3624UeObhPIv",
+  "Productivity & Self Development": "jURt6Ugdi9747wvyfqAS",
+  "Graphic Design Fundamentals": "ktbSMAEBvF12WUhFC6oE",
+  "Graphic Design Fundamentals Course": "my5mLrhzStit0fInFPkO",
+  "Human Resource Management Training Programs": "ohkXo9us5HhiB4UEM2Fz",
+  "Accounting Basics for Beginners": "xk8QpsyS1uIGSuDTFP1Q",
+  "SEO Tutorials (Beginner to Advanced)": "zE4GvaDqPjTdh55QKNM6",
 };

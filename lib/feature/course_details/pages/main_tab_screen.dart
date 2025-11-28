@@ -6,11 +6,13 @@ import 'package:edunity/feature/course_details/pages/curriculum_page.dart';
 import 'package:edunity/feature/course_details/pages/overview_page.dart';
 import 'package:edunity/feature/course_details/pages/reviews_page.dart';
 import 'package:edunity/feature/course_details/widgets/course_bottom_bar.dart';
+import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class MainTabScreen extends StatefulWidget {
-  const MainTabScreen({super.key});
+  const MainTabScreen({super.key, required this.course});
+  final CourseModel course;
 
   @override
   State<MainTabScreen> createState() => _MainTabScreenState();

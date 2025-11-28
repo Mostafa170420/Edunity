@@ -12,6 +12,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeEvent>((event, emit) async {
       if (event is CourseUploadEvent) {
         await uploadCourse(event, emit);
+      } else if (event is DataLoadEvent) {
+        await loadHomeData(event, emit);
       }
     });
   }
@@ -52,7 +54,28 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (result == null) {
         emit(HomeErrorState('Failed to upload course.'));
       } else {
-        emit(HomeSuccessState(message: result));
+        emit(HomeSuccessState());
+      }
+    } catch (e, stackTrace) {
+      log('Error uploading course: $e', stackTrace: stackTrace);
+      emit(HomeErrorState('An error occurred while uploading the course.'));
+    }
+  }
+
+  Future<void> loadHomeData(
+      DataLoadEvent event, Emitter<HomeState> emit) async {
+    emit(HomeLoadingState());
+
+    try {
+      var coursesDocs = await HomeRepo.loadCourses();
+      var userData = await HomeRepo.getUserData(event.userType);
+
+      if (coursesDocs == null) {
+        emit(HomeErrorState('Failed to load course.'));
+      } else if (userData == null) {
+        emit(HomeErrorState('Failed to load user data.'));
+      } else {
+        emit(HomeSuccessState(courses: coursesDocs, userData: userData));
       }
     } catch (e, stackTrace) {
       log('Error uploading course: $e', stackTrace: stackTrace);

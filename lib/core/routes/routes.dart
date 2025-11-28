@@ -7,6 +7,8 @@ import 'package:edunity/feature/auth/presentation/page/signup/register_screen.da
 import 'package:edunity/feature/bookmark/presentation/pages/bookmark_screen.dart';
 import 'package:edunity/feature/categories/category_screen.dart';
 import 'package:edunity/feature/chat/page/chat_screen.dart';
+import 'package:edunity/feature/course_details/pages/main_tab_screen.dart';
+import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:edunity/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:edunity/feature/home/presentation/page/course_upload_screen.dart';
 import 'package:edunity/feature/profile/presentation/bloc/profile_bloc.dart';
@@ -21,7 +23,6 @@ import 'package:edunity/feature/onboarding/page/welcome_screen.dart';
 import 'package:edunity/feature/profile/presentation/page/edit_profile.dart';
 import 'package:edunity/feature/profile/presentation/page/profile_screen.dart';
 import 'package:edunity/feature/splash/splash_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -33,12 +34,12 @@ class Routes {
   static const String login = '/login';
   static const String register = '/register';
   static const String main = '/main';
-  static const String home = '/home';
   static const String category = '/category';
   static const String search = '/search';
   static const String notifications = '/notifications';
   static const String mainprofile = '/profile';
   static const String myCourses = '/myCourses';
+  static const String courseDetails = '/courseDetails';
   static const String addCourses = '/addCourses';
   static const String editProfile = '/editProfile';
   static const String bookmark = '/bookmark';
@@ -70,16 +71,19 @@ class Routes {
                 create: (context) => AuthBloc(),
                 child: RegisterScreen(),
               )),
+
       GoRoute(
-          path: main,
-          builder: (context, state) => MainScreen(
-                userType: state.extra as UserTypeEnum,
-              )),
-      GoRoute(
-          path: home,
-          builder: (context, state) => StudentHomeScreen(
-                userType: state.extra as UserTypeEnum,
-              )),
+        path: main,
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => HomeBloc()),
+            BlocProvider(create: (context) => ProfileBloc()),
+          ],
+          child: MainScreen(
+            userType: state.extra as UserTypeEnum,
+          ),
+        ),
+      ),
       GoRoute(path: category, builder: (context, state) => CategoryScreen()),
 
       // The search screen.
@@ -105,6 +109,11 @@ class Routes {
           child: ProfileScreen(),
         ),
       ),
+      GoRoute(
+          path: courseDetails,
+          builder: (context, state) => MainTabScreen(
+                course: state.extra as CourseModel,
+              )),
 
       // The screen for the user's enrolled courses.
       GoRoute(
