@@ -1,4 +1,5 @@
 import 'package:edunity/core/constants/app_assets.dart';
+import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/course_details/model/reviews_model.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class ReviewsCardUI extends StatelessWidget {
       width: 325,
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 228, 239, 254),
+          color: AppColors.logoBackgroundColor.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(20)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
