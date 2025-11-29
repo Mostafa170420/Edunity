@@ -1,9 +1,15 @@
+import 'dart:math';
+
+import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/core/constants/app_assets.dart';
+import 'package:edunity/core/extentions/dialogs.dart';
 import 'package:edunity/core/routes/navigation.dart';
+import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/profile/data/model/profile_tabs_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -35,7 +41,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: AppColors.backgroundColor,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.only(
+          left: 24,
+          right: 24,
+          top: 24,
+          bottom: MediaQuery.of(context).padding.bottom + 100,
+        ),
         child: Column(
           children: [
             Stack(
@@ -101,7 +112,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               },
             ),
-            const Gap(100),
+
+            GradientButton(
+                label: 'Logout',
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                onPressed: () {
+                  showSignOutDialog(context);
+                })
           ],
         ),
       ),
