@@ -123,6 +123,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
             Text(
               widget.course.name ?? "N/A",
               style: TextStyles.getBody(fontSize: 19),
+              maxLines: 2,
             ),
             const Gap(20),
             Row(
