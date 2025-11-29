@@ -55,6 +55,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       .map((doc) => CourseModel.fromJson(
                           doc.data() as Map<String, dynamic>))
                       .toList();
+
                   return CoursesGridBuilder(courses: courses);
                 },
               ),

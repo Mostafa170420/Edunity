@@ -50,12 +50,20 @@ class ProfileRepo {
       log(SharedPref.getUserId());
       if (SharedPref.getUserType() == 'Teacher') {
         await FirebaseProvider.updateTeacher(TeacherModel(
-            uid: SharedPref.getUserId(), name: name, bio: bio, dob: dob));
+            uid: SharedPref.getUserId(),
+            name: name,
+            bio: bio,
+            dob: dob,
+            avatarUrl: image));
         log(SharedPref.getUserId());
         return "updated";
       } else if (SharedPref.getUserType() == 'Student') {
         await FirebaseProvider.updateStudent(StudentModel(
-            uid: SharedPref.getUserId(), name: name, bio: bio, dob: dob));
+            uid: SharedPref.getUserId(),
+            name: name,
+            bio: bio,
+            dob: dob,
+            avatarUrl: image));
         return "updated";
       }
       log('wtf2');

@@ -69,14 +69,15 @@ class _SearchScreenState extends State<SearchScreen> {
                     hintText: 'Search For..',
                     onChanged: (searchKey) {
                       setState(() {
-                        searchText = searchKey.trim();
+                        searchText = searchKey.trim().toLowerCase();
                       });
                     },
                     suffixIcon: GradientButton(
                       label: '',
                       onPressed: () {
                         setState(() {
-                          searchText = searchController.text.trim();
+                          searchText =
+                              searchController.text.trim().toLowerCase();
                         });
                       },
                       width: 40,

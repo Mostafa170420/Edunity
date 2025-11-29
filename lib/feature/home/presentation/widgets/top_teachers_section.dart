@@ -10,8 +10,8 @@ import 'package:edunity/feature/home/presentation/widgets/mentor_names_list.dart
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class TopMentorsSection extends StatelessWidget {
-  const TopMentorsSection({
+class TopTeachersSection extends StatelessWidget {
+  const TopTeachersSection({
     super.key,
     required this.padding,
   });
@@ -23,10 +23,11 @@ class TopMentorsSection extends StatelessWidget {
     return FutureBuilder<QuerySnapshot>(
         future: FirebaseProvider.sortTeacherByRating(),
         builder: (context, snapshot) {
-          final teachers = snapshot.data!.docs.map((doc) {
-            return TeacherModel.fromJson(
-                doc.data() as Map<String, dynamic>, doc.id);
-          }).toList();
+          final teachers = snapshot.data?.docs.map((doc) {
+                return TeacherModel.fromJson(
+                    doc.data() as Map<String, dynamic>, doc.id);
+              }).toList() ??
+              [];
           return Column(
             children: [
               Padding(

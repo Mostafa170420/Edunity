@@ -180,6 +180,8 @@ class _EditProfileState extends State<EditProfile> {
               if (file != null) {
                 bloc.imageUrl = await uploadImageToCloudinary(file!) ?? '';
                 SharedPref.setUserImage(bloc.imageUrl ?? AppAssets.defaultUser);
+              } else {
+                bloc.imageUrl = SharedPref.getUserImage() ?? '';
               }
               bloc.add(UpdateProfileEvent());
             },

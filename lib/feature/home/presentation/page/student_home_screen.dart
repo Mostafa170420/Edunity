@@ -113,7 +113,7 @@ class _HomeScreenState extends State<StudentHomeScreen> {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 25, bottom: 100),
-                  child: TopMentorsSection(padding: padding),
+                  child: TopTeachersSection(padding: padding),
                 ),
               ),
             ],

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/text_styles.dart';
@@ -48,6 +50,10 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
                 itemCount: categories.length,
                 itemBuilder: (BuildContext context, int index) {
                   var category = categories[index];
+                  for (var cat in categories) {
+                    log('Category: ${cat.name}');
+                  }
+
                   return GestureDetector(
                     onTap: () {
                       pushTo(context, Routes.categoryScreen,

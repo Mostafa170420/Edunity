@@ -55,6 +55,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   updateProfile(UpdateProfileEvent event, Emitter<ProfileState> emit) async {
     emit(ProfileLoadingState());
     try {
+      log('Updating profile with: ${fullNameController.text}, ${bioController.text}, ${dobController.text}, $imageUrl');
+
       var result = await ProfileRepo.editProfile(fullNameController.text,
           bioController.text, dobController.text, imageUrl ?? '');
 

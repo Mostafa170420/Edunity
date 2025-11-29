@@ -53,10 +53,10 @@ class TeacherModel {
       uploadedCourses: List<String>.from(map['uploadedCourses'] ?? []),
       liveSessions: List<String>.from(map['liveSessions'] ?? []),
       receivedRequests: List<String>.from(map['receivedRequests'] ?? []),
-      rating: (map['rating'] ?? 0).toDouble(),
-      ratingCount: map['ratingCount'] ?? 0,
-      earnings: (map['earnings'] ?? 0).toDouble(),
-      balance: (map['balance'] ?? 0).toDouble(),
+      rating: double.parse(map['rating']?.toString() ?? '0'),
+      ratingCount: int.parse(map['ratingCount']?.toString() ?? '0'),
+      earnings: double.parse(map['earnings']?.toString() ?? '0'),
+      balance: double.parse(map['balance']?.toString() ?? '0'),
     );
   }
 

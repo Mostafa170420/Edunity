@@ -76,7 +76,8 @@ class _HomeScreenState extends State<TeacherHomeScreen> {
             slivers: [
               CustomSliverAppBar(
                 userName: (state is HomeSuccessState && state.userData != null)
-                    ? (state.userData?['name'] as String?) ?? 'User'
+                    ? (state.userData?['name'] as String?)?.split(' ')[0] ??
+                        'User'
                     : 'User',
                 userType: widget.userType,
                 onNotificationTap: () => pushTo(context, Routes.notifications),
@@ -116,7 +117,7 @@ class _HomeScreenState extends State<TeacherHomeScreen> {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 25, bottom: 100),
-                  child: TopMentorsSection(padding: padding),
+                  child: TopTeachersSection(padding: padding),
                 ),
               ),
             ],

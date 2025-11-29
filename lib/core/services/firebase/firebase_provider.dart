@@ -29,10 +29,10 @@ class FirebaseProvider {
     courseCollection.doc(courses.id).set(courses.toJson());
   }
 
-  static Future<QuerySnapshot> getCoursesByName(String name) async {
+  static Future<QuerySnapshot> getCoursesByName(String searchKey) async {
     return await courseCollection
-        .orderBy('name')
-        .startAt([name]).endAt(['$name\uf8ff']).get();
+        .orderBy('nameLowercase')
+        .startAt([searchKey]).endAt(['$searchKey\uf8ff']).get();
   }
 
   static Future<QuerySnapshot> getCoursesByCategory(String category) async {

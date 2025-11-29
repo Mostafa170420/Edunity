@@ -234,7 +234,12 @@ class _MainTabScreenState extends State<MainTabScreen> {
 
   Stack _headerImage() {
     return Stack(children: [
-      Image.network(widget.course.thumbnail ?? ""),
+      Image.network(
+        widget.course.thumbnail ?? "",
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 200,
+      ),
       //Image.asset(AppAssets.mathBlackBoard),
       Positioned(
           bottom: 20,
