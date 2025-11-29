@@ -36,7 +36,7 @@ class PopularCoursesSection extends StatelessWidget {
               Spacer(),
               TextButton(
                   onPressed: () {
-                    pushTo(context, Routes.category);
+                    pushTo(context, Routes.allCategories);
                   },
                   child: Text(
                     'SEE ALL >',

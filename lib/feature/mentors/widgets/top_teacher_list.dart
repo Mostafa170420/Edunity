@@ -1,15 +1,12 @@
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/course_model.dart';
-import 'package:edunity/core/model/mentor_model.dart';
+import 'package:edunity/feature/auth/data/models/teacher_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class TopMentorList extends StatelessWidget {
-  const TopMentorList(
-      {super.key, required this.mentor, required this.coursesNamesModel});
-  final MentorModel mentor;
-  final CoursesModel coursesNamesModel;
+class TopTeacherList extends StatelessWidget {
+  const TopTeacherList({super.key, required this.teacher});
+  final TeacherModel teacher;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +22,7 @@ class TopMentorList extends StatelessWidget {
               CircleAvatar(
                 radius: 35,
                 backgroundImage: NetworkImage(
-                  mentor.image,
+                  teacher.avatarUrl ?? '',
                 ),
               ),
               Gap(10),
@@ -33,12 +30,12 @@ class TopMentorList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    mentor.name,
+                    teacher.name ?? '',
                     style: TextStyles.getBody(
                         fontSize: 17, fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    coursesNamesModel.title,
+                    teacher.category ?? '',
                     style: TextStyles.getBody(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,

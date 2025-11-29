@@ -35,6 +35,13 @@ class FirebaseProvider {
         .startAt([name]).endAt(['$name\uf8ff']).get();
   }
 
+  static Future<QuerySnapshot> getCoursesByCategory(String category) async {
+    return await courseCollection
+        .orderBy('category')
+        .where('category', isEqualTo: category)
+        .get();
+  }
+
   static updateTeacher(TeacherModel teacher) async {
     await teacherCollection.doc(teacher.uid).update(teacher.toUpdateData());
   }
@@ -49,5 +56,13 @@ class FirebaseProvider {
 
   static Future<DocumentSnapshot<Object?>> getStudentByID(String id) {
     return studentCollection.doc(id).get();
+  }
+
+  static Future<QuerySnapshot> getAllCourses() {
+    return courseCollection.get();
+  }
+
+  static Future<QuerySnapshot> sortTeacherByRating() async {
+    return await teacherCollection.orderBy('rating', descending: true).get();
   }
 }

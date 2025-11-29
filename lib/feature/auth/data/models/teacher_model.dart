@@ -6,6 +6,7 @@ class TeacherModel {
   final String? bio;
   final String? dob; // Date of birth
   final bool darkMode; // User preference for dark mode
+  final String? category;
 
   // Courses & Sessions
   final List<String?> uploadedCourses; // courseIds
@@ -28,6 +29,7 @@ class TeacherModel {
     this.bio,
     this.dob,
     this.darkMode = false,
+    this.category,
     this.uploadedCourses = const [],
     this.liveSessions = const [],
     this.receivedRequests = const [],
@@ -47,6 +49,7 @@ class TeacherModel {
       bio: map['bio'] ?? '',
       dob: map['dob'] ?? '',
       darkMode: map['darkMode'] ?? false,
+      category: map['category'] ?? '',
       uploadedCourses: List<String>.from(map['uploadedCourses'] ?? []),
       liveSessions: List<String>.from(map['liveSessions'] ?? []),
       receivedRequests: List<String>.from(map['receivedRequests'] ?? []),
@@ -66,6 +69,7 @@ class TeacherModel {
       'bio': bio,
       'dob': dob,
       'darkMode': darkMode,
+      'category': category,
       'uploadedCourses': uploadedCourses,
       'liveSessions': liveSessions,
       'receivedRequests': receivedRequests,
@@ -84,6 +88,7 @@ class TeacherModel {
     String? bio,
     String? dob,
     bool? darkMode,
+    String? category,
     List<String>? uploadedCourses,
     List<String>? liveSessions,
     List<String>? receivedRequests,
@@ -100,6 +105,7 @@ class TeacherModel {
       bio: bio ?? this.bio,
       dob: dob ?? this.dob,
       darkMode: darkMode ?? this.darkMode,
+      category: category ?? this.category,
       uploadedCourses: uploadedCourses ?? this.uploadedCourses,
       liveSessions: liveSessions ?? this.liveSessions,
       receivedRequests: receivedRequests ?? this.receivedRequests,
@@ -119,6 +125,7 @@ class TeacherModel {
     if (bio != null) data['bio'] = bio;
     if (dob != null) data['dob'] = dob;
     data['darkMode'] = darkMode;
+    if (category != null) data['category'] = category;
     if (rating != null) data['rating'] = rating;
     if (earnings != null) data['earnings'] = earnings;
     if (balance != null) data['balance'] = balance;

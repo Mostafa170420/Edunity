@@ -1,58 +1,67 @@
-import 'package:edunity/components/inputs/custom_text_field.dart';
-import 'package:edunity/core/constants/app_assets.dart';
-import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/category_model.dart';
-import 'package:edunity/feature/home/presentation/widgets/category_list.dart';
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'dart:developer';
 
-class CategoryScreen extends StatelessWidget {
-  CategoryScreen({super.key});
-  var categorySearch = TextEditingController();
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edunity/core/services/firebase/firebase_provider.dart';
+import 'package:edunity/core/utils/text_styles.dart';
+import 'package:edunity/feature/home/data/model/course_model.dart';
+import 'package:edunity/feature/search/widgets/courses_grid_builder.dart';
+import 'package:flutter/material.dart';
+
+class CategoryScreen extends StatefulWidget {
+  const CategoryScreen({super.key, required this.categoryName});
+  final String categoryName;
+
+  @override
+  State<CategoryScreen> createState() => _CategoryScreenState();
+}
+
+class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Hero(
-            tag: 'seeAllCategories',
-            child: Material(
-              color: Colors.transparent,
-              child: Text(
-                'All Categories',
-                style: TextStyles.getTitle(
-                    fontWeight: FontWeight.bold, fontSize: 21),
-              ),
-            )),
-        centerTitle: false,
+        title: Text(widget.categoryName,
+            style:
+                TextStyles.getTitle(fontWeight: FontWeight.w500, fontSize: 25)),
+        centerTitle: true,
       ),
-      body: SafeArea(
-          child: Padding(
-        padding: EdgeInsets.all(25),
+      body: Padding(
+        padding: EdgeInsets.all(20),
         child: Column(
           children: [
-            CustomTextField(
-              controller: categorySearch,
-              hintText: 'Search For..',
-              suffixIcon: IconButton(
-                  onPressed: () {},
-                  icon: Image.asset(AppAssets.searchWithBackground)),
-            ),
-            Gap(60),
             Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                itemCount: categories.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var category = categories[index];
-                  return CategoryList(categoryModel: category);
+              child: FutureBuilder<QuerySnapshot>(
+                future:
+                    FirebaseProvider.getCoursesByCategory(widget.categoryName),
+                // initialData: InitialData,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+                  if (snapshot.hasData) {
+                    log('📊 Data received - docs length: ${snapshot.data!.docs.length}');
+                    if (snapshot.data!.docs.isNotEmpty) {
+                      log('✅ Found ${snapshot.data!.docs.length} documents');
+                    } else {
+                      log('📭 No documents found in query');
+                    }
+                  } else {
+                    log('📭 No data at all');
+                  }
+                  final courses = snapshot.data!.docs
+                      .map((doc) => CourseModel.fromJson(
+                          doc.data() as Map<String, dynamic>))
+                      .toList();
+                  return CoursesGridBuilder(courses: courses);
                 },
               ),
             ),
           ],
         ),
-      )),
+      ),
     );
   }
 }

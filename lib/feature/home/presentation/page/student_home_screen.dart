@@ -13,7 +13,7 @@ import 'package:edunity/feature/home/presentation/bloc/home_state.dart';
 import 'package:edunity/feature/home/presentation/widgets/custom_sliver_app_bar.dart';
 import 'package:edunity/feature/home/presentation/widgets/homeslider.dart';
 import 'package:edunity/feature/home/presentation/widgets/popular_courses_section.dart';
-import 'package:edunity/feature/home/presentation/widgets/top_mentors_section.dart';
+import 'package:edunity/feature/home/presentation/widgets/top_teachers_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';

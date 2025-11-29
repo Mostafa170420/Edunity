@@ -1,12 +1,13 @@
-import 'package:edunity/core/utils/colors.dart';
+import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/mentor_model.dart';
+import 'package:edunity/feature/auth/data/models/teacher_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class MentorNamesList extends StatelessWidget {
-  const MentorNamesList({super.key, required this.mentorModel});
-  final MentorModel mentorModel;
+  const MentorNamesList.teachersNamesList(
+      {super.key, required this.teacherModel});
+  final TeacherModel teacherModel;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class MentorNamesList extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(22),
             child: Image.network(
-              mentorModel.image,
+              teacherModel.avatarUrl ?? AppAssets.defaultUser,
               width: 70,
               height: 70,
               fit: BoxFit.cover,
@@ -28,7 +29,7 @@ class MentorNamesList extends StatelessWidget {
         ),
         Gap(7),
         Text(
-          mentorModel.name,
+          teacherModel.name ?? '',
           style: TextStyles.getBody(fontSize: 13, fontWeight: FontWeight.w500),
         )
       ],

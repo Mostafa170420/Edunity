@@ -1,17 +1,16 @@
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/course_model.dart';
-import 'package:edunity/core/model/mentor_model.dart';
-import 'package:edunity/feature/mentors/widgets/top_mentor_list.dart';
+import 'package:edunity/feature/auth/data/models/teacher_model.dart';
+import 'package:edunity/feature/mentors/widgets/top_teacher_list.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:iconly/iconly.dart';
 
-class TopMentorsScreen extends StatelessWidget {
-  const TopMentorsScreen({super.key});
+class TopteachersScreen extends StatelessWidget {
+  const TopteachersScreen({super.key, required this.teachers});
+  final List<TeacherModel> teachers;
   @override
   Widget build(BuildContext context) {
     // var mentorSearch = TextEditingController();
-    var topMentors = MentorModel.topMentors;
     return Scaffold(
       appBar: AppBar(
         title: Hero(
@@ -40,17 +39,14 @@ class TopMentorsScreen extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.separated(
-                itemCount: topMentors.length,
+                itemCount: teachers.length,
                 separatorBuilder: (BuildContext context, int index) {
                   return Column(
                     children: [Gap(20), Divider(), Gap(20)],
                   );
                 },
                 itemBuilder: (BuildContext context, int index) {
-                  var mentor = topMentors[index];
-                  var coursesNames = CoursesModel.courses[index + 1];
-                  return TopMentorList(
-                      mentor: mentor, coursesNamesModel: coursesNames);
+                  return TopTeacherList(teacher: teachers[index]);
                 },
               ),
             ),
