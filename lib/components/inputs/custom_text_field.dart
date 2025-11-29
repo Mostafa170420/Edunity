@@ -18,6 +18,7 @@ class CustomTextField extends StatefulWidget {
     this.floatingLabelBehavior,
     this.maxLines = 1,
     this.label,
+    this.onChanged,
   });
 
   /// The controller for the text field.
@@ -54,6 +55,8 @@ class CustomTextField extends StatefulWidget {
 
   final int? maxLines;
 
+  final Function(String)? onChanged;
+
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
@@ -74,11 +77,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ],
         ),
         child: TextFormField(
+          onChanged: widget.onChanged,
           controller: widget.controller,
           validator: widget.validator,
           obscureText: widget.isPassword && isobscure,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
+          textCapitalization: TextCapitalization.sentences,
           maxLines: widget.isPassword ? 1 : (widget.maxLines ?? 1),
           keyboardType: widget.keyboardType,
           decoration: InputDecoration(

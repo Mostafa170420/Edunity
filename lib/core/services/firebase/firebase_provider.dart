@@ -29,6 +29,12 @@ class FirebaseProvider {
     courseCollection.doc(courses.id).set(courses.toJson());
   }
 
+  static Future<QuerySnapshot> getCoursesByName(String name) async {
+    return await courseCollection
+        .orderBy('name')
+        .startAt([name]).endAt(['$name\uf8ff']).get();
+  }
+
   static updateTeacher(TeacherModel teacher) async {
     await teacherCollection.doc(teacher.uid).update(teacher.toUpdateData());
   }

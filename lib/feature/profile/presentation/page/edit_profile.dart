@@ -120,9 +120,10 @@ class _EditProfileState extends State<EditProfile> {
                             radius: 65,
                             backgroundImage: _imagePath != null
                                 ? FileImage(File(_imagePath!))
-                                : SharedPref.getUserImage().isEmpty
+                                : (SharedPref.getUserImage() ?? '').isEmpty
                                     ? AssetImage(AppAssets.defaultUser)
-                                    : NetworkImage(SharedPref.getUserImage())
+                                    : NetworkImage(
+                                            SharedPref.getUserImage() ?? '')
                                         as ImageProvider,
                           ),
                         ),

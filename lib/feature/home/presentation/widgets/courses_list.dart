@@ -21,7 +21,6 @@ class CoursesList extends StatelessWidget {
           onTap: () => pushTo(context, Routes.courseDetails, extra: course),
           child: SizedBox(
             width: 300,
-            height: constraints.maxHeight,
             child: Stack(
               children: [
                 ClipRRect(

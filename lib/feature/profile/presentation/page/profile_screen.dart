@@ -66,11 +66,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                       child: CircleAvatar(
-                          radius: 65,
-                          backgroundImage: SharedPref.getUserImage().isNotEmpty
-                              ? NetworkImage(SharedPref.getUserImage())
-                                  as ImageProvider
-                              : AssetImage(AppAssets.defaultUser)),
+                        radius: 65,
+                        backgroundImage:
+                            (SharedPref.getUserImage() ?? '').isNotEmpty
+                                ? NetworkImage(SharedPref.getUserImage() ?? '')
+                                    as ImageProvider
+                                : AssetImage(AppAssets.defaultUser),
+                      ),
                     ),
                     Gap(50)
                   ],
