@@ -10,7 +10,6 @@ import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
 import 'package:edunity/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:edunity/feature/home/presentation/bloc/home_event.dart';
 import 'package:edunity/feature/home/presentation/bloc/home_state.dart';
-import 'package:edunity/feature/home/presentation/widgets/categories_section.dart';
 import 'package:edunity/feature/home/presentation/widgets/custom_sliver_app_bar.dart';
 import 'package:edunity/feature/home/presentation/widgets/homeslider.dart';
 import 'package:edunity/feature/home/presentation/widgets/popular_courses_section.dart';
@@ -106,12 +105,6 @@ class _HomeScreenState extends State<TeacherHomeScreen> {
                 ),
               ),
               SliverToBoxAdapter(child: homeslider()),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: CategoriesSection(padding: padding),
-                ),
-              ),
               SliverToBoxAdapter(
                   child: Padding(
                 padding: const EdgeInsets.only(top: 25),

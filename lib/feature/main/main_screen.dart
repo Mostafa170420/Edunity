@@ -132,7 +132,10 @@ class BottomNavBarState extends State<MainScreen> {
       hideNavigationBarWhenKeyboardAppears:
           true, // Hides the navigation bar when the keyboard appears
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
         gradient: LinearGradient(
           colors: [
             AppColors.primaryDarkColor.withAlpha(40),

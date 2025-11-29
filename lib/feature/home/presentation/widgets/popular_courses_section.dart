@@ -1,4 +1,6 @@
 import 'package:edunity/core/model/category_model.dart';
+import 'package:edunity/core/routes/navigation.dart';
+import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
@@ -33,7 +35,9 @@ class PopularCoursesSection extends StatelessWidget {
                       color: Colors.black)),
               Spacer(),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    pushTo(context, Routes.category);
+                  },
                   child: Text(
                     'SEE ALL >',
                     style: TextStyles.getBody(
@@ -59,7 +63,7 @@ class PopularCoursesSection extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 17),
               child: CoursesList(
-                course: courses[index + 1],
+                course: courses[index],
               ),
             );
           },

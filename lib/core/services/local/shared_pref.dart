@@ -40,8 +40,8 @@ class SharedPref {
     await setData(kUserImage, type);
   }
 
-  static String getUserImage() {
-    return getData(kUserImage) as String;
+  static String? getUserImage() {
+    return getData(kUserImage) as String?;
   }
 
   static Future<void> setData(String key, dynamic value) async {
