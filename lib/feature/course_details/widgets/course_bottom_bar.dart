@@ -48,23 +48,7 @@ class _CourseBottomBarState extends State<CourseBottomBar> {
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: isFav
-                    ? Icon(
-                        Icons.favorite,
-                        color: AppColors.redColor,
-                      )
-                    : Icon(Icons.favorite_border_outlined),
-                color: AppColors.greyColor,
-                onPressed: () {
-                  setState(() {
-                    isFav = !isFav;
-                  });
-                },
-              ),
-              Gap(10)
-            ],
+            children: [Gap(10)],
           ),
           GradientButton(
               label: "Add to Cart",

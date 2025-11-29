@@ -7,10 +7,19 @@ class CourseModel {
   final String? language;
   final String? level;
   final String? name;
+
+  // 🔥 NEW FIELD
+  final String? nameLowercase;
+
   final int? numberOfVideos;
   final double? rating;
   final String? thumbnail;
-  //final List<String>? videoLinks; // URLs to videos
+  final List<String>? whatYouLearn;
+
+  // NEW VIDEO FIELDS
+  final List<String>? videoNames;
+  final List<String>? videoLinks;
+  final List<String>? videoDurations;
 
   CourseModel({
     this.id,
@@ -21,10 +30,16 @@ class CourseModel {
     this.language,
     this.level,
     this.name,
+
+    // 🔥 NEW
+    this.nameLowercase,
     this.numberOfVideos,
     this.rating,
     this.thumbnail,
-    //  this.videoLinks = const [],
+    this.whatYouLearn,
+    this.videoNames,
+    this.videoLinks,
+    this.videoDurations,
   });
 
   /// Firestore → Model
@@ -38,10 +53,23 @@ class CourseModel {
       language: map['language'] ?? '',
       level: map['level'] ?? '',
       name: map['name'] ?? '',
+
+      // 🔥 NEW
+      nameLowercase: map['nameLowercase'] ?? '',
+
       numberOfVideos: map['numberOfVideos'] ?? 0,
       rating: (map['rating'] ?? 0).toDouble(),
       thumbnail: map['thumbnail'] ?? '',
-      //  videoLinks: List<String>.from(map['videoLinks'] ?? []),
+      whatYouLearn: map['whatYouLearn'] != null
+          ? List<String>.from(map['whatYouLearn'])
+          : [],
+      videoNames:
+          map['videoNames'] != null ? List<String>.from(map['videoNames']) : [],
+      videoLinks:
+          map['videoLinks'] != null ? List<String>.from(map['videoLinks']) : [],
+      videoDurations: map['videoDurations'] != null
+          ? List<String>.from(map['videoDurations'])
+          : [],
     );
   }
 
@@ -55,10 +83,17 @@ class CourseModel {
       'language': language,
       'level': level,
       'name': name,
+
+      // 🔥 NEW
+      'nameLowercase': nameLowercase,
+
       'numberOfVideos': numberOfVideos,
       'rating': rating,
       'thumbnail': thumbnail,
-      // 'videoLinks': videoLinks,
+      'whatYouLearn': whatYouLearn,
+      'videoNames': videoNames,
+      'videoLinks': videoLinks,
+      'videoDurations': videoDurations,
     };
   }
 
@@ -71,10 +106,16 @@ class CourseModel {
     String? language,
     String? level,
     String? name,
+
+    // 🔥 NEW
+    String? nameLowercase,
     int? numberOfVideos,
     double? rating,
     String? thumbnail,
-    //  List<String>? videoLinks,
+    List<String>? whatYouLearn,
+    List<String>? videoNames,
+    List<String>? videoLinks,
+    List<String>? videoDurations,
   }) {
     return CourseModel(
       id: id,
@@ -85,16 +126,24 @@ class CourseModel {
       language: language ?? this.language,
       level: level ?? this.level,
       name: name ?? this.name,
+
+      // 🔥 NEW
+      nameLowercase: nameLowercase ?? this.nameLowercase,
+
       numberOfVideos: numberOfVideos ?? this.numberOfVideos,
       rating: rating ?? this.rating,
       thumbnail: thumbnail ?? this.thumbnail,
-      //   videoLinks: videoLinks ?? this.videoLinks,
+      whatYouLearn: whatYouLearn ?? this.whatYouLearn,
+      videoNames: videoNames ?? this.videoNames,
+      videoLinks: videoLinks ?? this.videoLinks,
+      videoDurations: videoDurations ?? this.videoDurations,
     );
   }
 
-  /// Partial update data for Firestore
+  /// Partial update for Firestore
   Map<String, dynamic> toUpdateData() {
     final Map<String, dynamic> data = <String, dynamic>{};
+
     if (category != null) data['category'] = category;
     if (duration != null) data['duration'] = duration;
     if (description != null) data['description'] = description;
@@ -102,10 +151,17 @@ class CourseModel {
     if (language != null) data['language'] = language;
     if (level != null) data['level'] = level;
     if (name != null) data['name'] = name;
+
+    // 🔥 NEW
+    if (nameLowercase != null) data['nameLowercase'] = nameLowercase;
+
     if (numberOfVideos != null) data['numberOfVideos'] = numberOfVideos;
     if (rating != null) data['rating'] = rating;
     if (thumbnail != null) data['thumbnail'] = thumbnail;
-    // if (videoLinks != null) data['videoLinks'] = videoLinks;
+    if (whatYouLearn != null) data['whatYouLearn'] = whatYouLearn;
+    if (videoNames != null) data['videoNames'] = videoNames;
+    if (videoLinks != null) data['videoLinks'] = videoLinks;
+    if (videoDurations != null) data['videoDurations'] = videoDurations;
 
     return data;
   }

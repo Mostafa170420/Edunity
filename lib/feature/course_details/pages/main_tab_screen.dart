@@ -21,7 +21,10 @@ class MainTabScreen extends StatefulWidget {
 class _MainTabScreenState extends State<MainTabScreen> {
   @override
   Widget build(BuildContext context) {
-    int rating = 4;
+    int rating = (widget.course.rating ?? 0).toInt();
+    String? duration = widget.course.duration;
+    String? language = widget.course.language;
+    String? courseRating = widget.course.rating.toString();
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -40,7 +43,9 @@ class _MainTabScreenState extends State<MainTabScreen> {
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
                 SliverToBoxAdapter(child: _headerImage()),
-                SliverToBoxAdapter(child: _courseDetails(rating)),
+                SliverToBoxAdapter(
+                    child: _courseDetails(
+                        rating, duration, language, courseRating)),
                 SliverToBoxAdapter(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
@@ -70,11 +75,13 @@ class _MainTabScreenState extends State<MainTabScreen> {
                 ),
               ];
             },
-            body: const TabBarView(
+            body: TabBarView(
               physics: NeverScrollableScrollPhysics(),
               children: [
-                OverviewPage(),
-                CurriculumPage(),
+                OverviewPage(course: widget.course),
+                CurriculumPage(
+                  course: widget.course,
+                ),
                 ReviewsPage(),
               ],
             ),
@@ -85,7 +92,8 @@ class _MainTabScreenState extends State<MainTabScreen> {
     );
   }
 
-  Padding _courseDetails(int rating) {
+  Padding _courseDetails(
+      int rating, String? duration, String? language, String? courseRating) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: SingleChildScrollView(
@@ -103,7 +111,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
                       border: Border.all(
                           color: AppColors.primaryDarkColor, width: 1)),
                   child: Text(
-                    "Mathematics",
+                    widget.course.category ?? "Non-categorized",
                     style: TextStyle(
                         color: AppColors.primaryDarkColor,
                         fontWeight: FontWeight.bold),
@@ -113,8 +121,9 @@ class _MainTabScreenState extends State<MainTabScreen> {
             ),
             const Gap(20),
             Text(
-              "Advanced Calculus Mastery",
+              widget.course.name ?? "N/A",
               style: TextStyles.getBody(fontSize: 19),
+              maxLines: 2,
             ),
             const Gap(20),
             Row(
@@ -136,9 +145,16 @@ class _MainTabScreenState extends State<MainTabScreen> {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          "Dr. Sarah Ahmed",
-                          style: TextStyles.getSmall(),
+                        Container(
+                          constraints: BoxConstraints(
+                              maxWidth:
+                                  MediaQuery.of(context).size.width * 0.55),
+                          child: Text(
+                            widget.course.instructor ?? "N/A",
+                            style: TextStyles.getSmall(),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         )
                       ],
                     ),
@@ -189,25 +205,25 @@ class _MainTabScreenState extends State<MainTabScreen> {
                     );
                   }),
                 ),
-                const Text("4.9"),
+                Text(courseRating ?? "N/A"),
                 const Gap(5),
                 const Text("(324 Reviews)")
               ],
             ),
             const Gap(15),
             Row(
-              children: const [
+              children: [
                 Icon(Icons.people_alt_outlined),
                 Gap(8),
                 Text("1,240 Students"),
                 Gap(20),
                 Icon(Icons.access_time_outlined),
                 Gap(8),
-                Text("12 hours"),
+                Text(duration ?? "N/A"),
                 Gap(20),
                 Icon(Icons.language_outlined),
                 Gap(8),
-                Text("English")
+                Text(language ?? "N/A")
               ],
             )
           ],
@@ -218,7 +234,8 @@ class _MainTabScreenState extends State<MainTabScreen> {
 
   Stack _headerImage() {
     return Stack(children: [
-      Image.asset(AppAssets.mathBlackBoard),
+      Image.network(widget.course.thumbnail ?? ""),
+      //Image.asset(AppAssets.mathBlackBoard),
       Positioned(
           bottom: 20,
           left: 15,
