@@ -13,6 +13,7 @@ import 'package:edunity/feature/course_details/pages/main_tab_screen.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:edunity/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:edunity/feature/home/presentation/page/course_upload_screen.dart';
+import 'package:edunity/feature/mentors/page/teacher_details_screen.dart';
 import 'package:edunity/feature/profile/presentation/bloc/profile_bloc.dart';
 import 'package:edunity/feature/search/page/filter_screen.dart';
 import 'package:edunity/feature/search/page/search_screen.dart';
@@ -42,6 +43,7 @@ class Routes {
   static const String mainprofile = '/profile';
   static const String myCourses = '/myCourses';
   static const String courseDetails = '/courseDetails';
+  static const String teacherDetails = '/teacherDetails';
   static const String addCourses = '/addCourses';
   static const String editProfile = '/editProfile';
   static const String bookmark = '/bookmark';
@@ -137,6 +139,11 @@ class Routes {
 
       // The screen for the user's enrolled courses.
       GoRoute(path: myCourses, builder: (context, state) => MyCourses()),
+
+      GoRoute(
+          path: teacherDetails,
+          builder: (context, state) =>
+              TeacherDetailsScreen(teacher: state.extra as TeacherModel)),
 
       // The screen for editing the user's profile.
       GoRoute(

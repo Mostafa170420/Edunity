@@ -64,8 +64,14 @@ class TopTeachersSection extends StatelessWidget {
                 height: 100,
                 items: teachers,
                 itemBuilder: (context, category, index) {
-                  return MentorNamesList.teachersNamesList(
-                    teacherModel: teachers[index],
+                  return GestureDetector(
+                    onTap: () {
+                      pushTo(context, Routes.teacherDetails,
+                          extra: teachers[index]);
+                    },
+                    child: MentorNamesList.teachersNamesList(
+                      teacherModel: teachers[index],
+                    ),
                   );
                 },
               )
