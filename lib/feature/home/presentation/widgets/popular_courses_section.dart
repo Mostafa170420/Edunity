@@ -30,9 +30,9 @@ class PopularCoursesSection extends StatelessWidget {
             children: [
               Text('Polupar Courses',
                   style: TextStyles.getTitle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black)),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  )),
               Spacer(),
               TextButton(
                   onPressed: () {

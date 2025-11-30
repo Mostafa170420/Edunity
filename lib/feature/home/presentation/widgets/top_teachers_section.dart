@@ -40,9 +40,9 @@ class TopTeachersSection extends StatelessWidget {
                           color: Colors.transparent,
                           child: Text('Top Mentors',
                               style: TextStyles.getTitle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black)),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              )),
                         )),
                     Spacer(),
                     TextButton(

@@ -7,6 +7,7 @@ class SharedPref {
   static const String kUserId = 'kUserId';
   static const String kUserType = 'kUserType';
   static const String kUserImage = 'kUserImage';
+  static const String kDarkMode = 'kDarkMode';
 
   static Future<void> init() async {
     pref = await SharedPreferences.getInstance();
@@ -42,6 +43,14 @@ class SharedPref {
 
   static String? getUserImage() {
     return getData(kUserImage) as String?;
+  }
+
+  static bool? getDarkMode() {
+    return getData(kDarkMode) as bool?;
+  }
+
+  static Future<void> setDarkMode(bool mode) async {
+    await setData(kDarkMode, mode);
   }
 
   static Future<void> setData(String key, dynamic value) async {

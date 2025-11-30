@@ -74,13 +74,19 @@ class CoursesGridBuilder extends StatelessWidget {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              color: AppColors.darkgreyColor,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .surface
+                                  .withOpacity(0.6),
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: Text(
                               ' ${course.category} ',
                               style: TextStyles.getSmall(
-                                  color: AppColors.whiteColor.withAlpha(200),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withAlpha(200),
                                   fontSize: 12),
                             ),
                           ),
@@ -90,7 +96,7 @@ class CoursesGridBuilder extends StatelessWidget {
                             style: TextStyles.getBody(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                                color: Theme.of(context).colorScheme.onSurface),
                           ),
                           Gap(4),
                           Row(
@@ -105,7 +111,9 @@ class CoursesGridBuilder extends StatelessWidget {
                                     style: TextStyles.getBody(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
-                                        color: AppColors.whiteColor),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface),
                                   ),
                                 ],
                               ),
@@ -114,7 +122,9 @@ class CoursesGridBuilder extends StatelessWidget {
                                 style: TextStyles.getBody(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.whiteColor),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface),
                               ),
                             ],
                           ),

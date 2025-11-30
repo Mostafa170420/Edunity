@@ -18,19 +18,22 @@ class ChatListTile extends StatelessWidget {
     final titleStyle = TextStyles.getBody(
       fontSize: 16,
       fontWeight: chat.isUnread ? FontWeight.w600 : FontWeight.w500,
-      color: AppColors.darkgreyColor,
     );
 
     final subtitleStyle = TextStyles.getBody(
       fontSize: 14,
       fontWeight: chat.isUnread ? FontWeight.w600 : FontWeight.w400,
-      color: chat.isUnread ? AppColors.darkgreyColor : AppColors.greyColor,
+      color: chat.isUnread
+          ? AppColors.primaryDarkColor.withValues(alpha: 0.8)
+          : AppColors.greyColor,
     );
 
     final timeStyle = TextStyles.getSmall(
       fontSize: 12,
       fontWeight: chat.isUnread ? FontWeight.w700 : FontWeight.w400,
-      color: chat.isUnread ? AppColors.primaryDarkColor : AppColors.greyColor,
+      color: chat.isUnread
+          ? AppColors.primaryDarkColor.withValues(alpha: 2)
+          : AppColors.greyColor,
     );
 
     return InkWell(
@@ -45,7 +48,6 @@ class ChatListTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
         decoration: const BoxDecoration(
-          color: AppColors.whiteColor,
           border: Border(
             bottom: BorderSide(
               color: Color(0xFFE5E7EB), // Very light border for separation
@@ -61,6 +63,8 @@ class ChatListTile extends StatelessWidget {
               backgroundImage: chat.receiverImageUrl != null
                   ? NetworkImage(chat.receiverImageUrl!)
                   : null,
+              backgroundColor:
+                  AppColors.primaryDarkColor.withValues(alpha: 0.8),
               child: chat.receiverImageUrl == null
                   ? const Icon(
                       Icons.person,
@@ -68,7 +72,6 @@ class ChatListTile extends StatelessWidget {
                       size: 28,
                     )
                   : null,
-              backgroundColor: AppColors.primaryDarkColor.withOpacity(0.8),
             ),
             const Gap(15),
 

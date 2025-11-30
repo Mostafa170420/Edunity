@@ -121,8 +121,10 @@ class BottomNavBarState extends State<MainScreen> {
               .padding
               .bottom), // Padding around the content.
 
+      // Prefer the theme's bottom navigation background so dark mode is applied
       backgroundColor:
-          Colors.white, // The background color of the navigation bar.
+          Theme.of(context).bottomNavigationBarTheme.backgroundColor ??
+              Theme.of(context).colorScheme.surface,
       handleAndroidBackButtonPress:
           true, // Handles the back button press on Android.
       resizeToAvoidBottomInset: true, // Resizes the body to avoid the keyboard.
@@ -146,7 +148,9 @@ class BottomNavBarState extends State<MainScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.whiteColor.withAlpha(150),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? (Theme.of(context).colorScheme.surface).withAlpha(150)
+                : Theme.of(context).colorScheme.background.withAlpha(150),
             blurRadius: 0,
             offset: const Offset(0, 0),
           ),

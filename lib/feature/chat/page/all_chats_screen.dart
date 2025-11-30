@@ -12,9 +12,7 @@ class ChatsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.whiteColor,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
         automaticallyImplyLeading: false, // لا يوجد زر رجوع افتراضي
@@ -23,7 +21,6 @@ class ChatsScreen extends StatelessWidget {
           style: TextStyles.getTitle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: AppColors.darkgreyColor,
           ),
         ),
         actions: [
@@ -58,7 +55,8 @@ class ChatsScreen extends StatelessWidget {
                   offset: const Offset(0, 2),
                 ),
               ],
-              color: AppColors.whiteColor, // Ensure the container itself is white
+              color:
+                  AppColors.whiteColor, // Ensure the container itself is white
             ),
             height: 1.0, // Just a visual divider
           ),

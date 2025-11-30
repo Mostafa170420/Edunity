@@ -44,9 +44,9 @@ class CoursesList extends StatelessWidget {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          AppColors.primaryLightColor.withOpacity(0),
-                          AppColors.primaryDarkColor.withOpacity(0.6),
-                          AppColors.primaryLightColor.withOpacity(0.8),
+                          AppColors.primaryLightColor.withValues(alpha: 0.0),
+                          AppColors.primaryDarkColor.withValues(alpha: 0.6),
+                          AppColors.primaryLightColor.withValues(alpha: 0.8),
                         ],
                       ),
                       boxShadow: [
@@ -68,13 +68,15 @@ class CoursesList extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 5, vertical: 2),
                               decoration: BoxDecoration(
-                                color: AppColors.darkgreyColor.withOpacity(0.9),
+                                color: AppColors.darkgreyColor
+                                    .withValues(alpha: 0.9),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
                                 course.category ?? '',
                                 style: TextStyles.getSmall(
-                                  color: AppColors.whiteColor.withAlpha(200),
+                                  color: AppColors.whiteColor
+                                      .withValues(alpha: 0.8),
                                   fontSize: 12,
                                 ),
                               ),
@@ -91,7 +93,6 @@ class CoursesList extends StatelessWidget {
                           style: TextStyles.getBody(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -116,7 +117,6 @@ class CoursesList extends StatelessWidget {
                       constraints: const BoxConstraints(),
                       icon: Icon(
                         IconlyLight.bookmark,
-                        color: AppColors.whiteColor,
                         size: 22,
                       ),
                       onPressed: () {},
@@ -142,9 +142,9 @@ class CoursesList extends StatelessWidget {
         Text(
           '${course.rating}',
           style: TextStyles.getBody(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: AppColors.whiteColor),
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );
@@ -155,7 +155,6 @@ class CoursesList extends StatelessWidget {
       TextSpan(
           text: '\$',
           style: TextStyles.getBody(
-            color: AppColors.whiteColor,
             fontSize: 15,
             fontWeight: FontWeight.bold,
           ),
@@ -163,7 +162,6 @@ class CoursesList extends StatelessWidget {
             TextSpan(
               text: '49.99',
               style: TextStyles.getBody(
-                color: AppColors.whiteColor,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -179,14 +177,13 @@ class CoursesList extends StatelessWidget {
         Icon(
           FontAwesome.user_group_solid,
           size: 12,
-          color: AppColors.whiteColor,
         ),
         Text(
           '\$1.2k',
           style: TextStyles.getBody(
-              fontSize: 11,
-              fontWeight: FontWeight.bold,
-              color: AppColors.whiteColor),
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

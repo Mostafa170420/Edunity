@@ -7,6 +7,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 // The main entry point of the application.
+
+late ValueNotifier<bool> darkModeNotifier;
+
 void main() async {
   // Ensure that the Flutter binding is initialized before any Flutter-specific code is executed.
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +20,10 @@ void main() async {
   );
 
   // Initialize shared preferences for local storage.
-  SharedPref.init();
+  await SharedPref.init();
+
+  // Initialize dark mode notifier after shared preferences are ready
+  darkModeNotifier = ValueNotifier(SharedPref.getDarkMode() ?? false);
 
   // Run the main application widget.
   runApp(const MainApp());
@@ -28,19 +34,19 @@ class MainApp extends StatelessWidget {
   // Constructor for the MainApp widget.
   const MainApp({super.key});
 
-  // Describes the part of the user interface represented by this widget.
   @override
   Widget build(BuildContext context) {
-    // MaterialApp.router is used for applications that use the new router API.
-    return MaterialApp.router(
-      // The router configuration for the application.
-      routerConfig: Routes.routes,
-
-      // Hide the debug banner in the top-right corner of the screen.
-      debugShowCheckedModeBanner: false,
-
-      // The light theme for the application.
-      theme: AppTheme.lightTheme,
-    );
+    return ValueListenableBuilder(
+        valueListenable: darkModeNotifier,
+        builder: (context, box, child) {
+          bool isDark = SharedPref.getDarkMode() ?? false;
+          return MaterialApp.router(
+            routerConfig: Routes.routes,
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+          );
+        });
   }
 }

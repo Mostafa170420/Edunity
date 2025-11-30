@@ -51,7 +51,6 @@ void showSignOutDialog(BuildContext context) {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      backgroundColor: AppColors.logoBackgroundColor.withValues(alpha: 1.95),
       title: Text(
         'Confirm Sign Out',
         style: TextStyles.getBody(),

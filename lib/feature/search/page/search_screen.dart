@@ -46,7 +46,6 @@ class _SearchScreenState extends State<SearchScreen> {
           IconButton(
             icon: const Icon(
               IconlyLight.filter,
-              color: AppColors.darkgreyColor,
             ),
             onPressed: () {
               pushTo(context, Routes.filter);
