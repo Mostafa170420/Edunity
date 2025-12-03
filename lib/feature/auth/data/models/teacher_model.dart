@@ -9,9 +9,12 @@ class TeacherModel {
   final String? category;
 
   // Courses & Sessions
-  final List<String?> uploadedCourses; // courseIds
-  final List<String?> liveSessions; // liveSessionIds
-  final List<String?> receivedRequests; // studentRequestIds
+  final List<String> uploadedCourses; // courseIds
+  final List<String> liveSessions; // liveSessionIds
+  final List<String> receivedRequests; // studentRequestIds
+
+  // NEW: Bookmarked courses
+  final List<String> bookmarkedCourses;
 
   // Ratings & Reviews
   final double? rating; // average rating from students
@@ -33,6 +36,7 @@ class TeacherModel {
     this.uploadedCourses = const [],
     this.liveSessions = const [],
     this.receivedRequests = const [],
+    this.bookmarkedCourses = const [], // NEW
     this.rating,
     this.ratingCount,
     this.earnings,
@@ -53,10 +57,14 @@ class TeacherModel {
       uploadedCourses: List<String>.from(map['uploadedCourses'] ?? []),
       liveSessions: List<String>.from(map['liveSessions'] ?? []),
       receivedRequests: List<String>.from(map['receivedRequests'] ?? []),
-      rating: double.parse(map['rating']?.toString() ?? '0'),
-      ratingCount: int.parse(map['ratingCount']?.toString() ?? '0'),
-      earnings: double.parse(map['earnings']?.toString() ?? '0'),
-      balance: double.parse(map['balance']?.toString() ?? '0'),
+
+      // NEW
+      bookmarkedCourses: List<String>.from(map['bookmarkedCourses'] ?? []),
+
+      rating: double.tryParse(map['rating']?.toString() ?? '') ?? 0,
+      ratingCount: int.tryParse(map['ratingCount']?.toString() ?? '') ?? 0,
+      earnings: double.tryParse(map['earnings']?.toString() ?? '') ?? 0,
+      balance: double.tryParse(map['balance']?.toString() ?? '') ?? 0,
     );
   }
 
@@ -73,6 +81,10 @@ class TeacherModel {
       'uploadedCourses': uploadedCourses,
       'liveSessions': liveSessions,
       'receivedRequests': receivedRequests,
+
+      // NEW
+      'bookmarkedCourses': bookmarkedCourses,
+
       'rating': rating,
       'ratingCount': ratingCount,
       'earnings': earnings,
@@ -92,6 +104,7 @@ class TeacherModel {
     List<String>? uploadedCourses,
     List<String>? liveSessions,
     List<String>? receivedRequests,
+    List<String>? bookmarkedCourses, // NEW
     double? rating,
     int? ratingCount,
     double? earnings,
@@ -109,6 +122,10 @@ class TeacherModel {
       uploadedCourses: uploadedCourses ?? this.uploadedCourses,
       liveSessions: liveSessions ?? this.liveSessions,
       receivedRequests: receivedRequests ?? this.receivedRequests,
+
+      // NEW
+      bookmarkedCourses: bookmarkedCourses ?? this.bookmarkedCourses,
+
       rating: rating ?? this.rating,
       ratingCount: ratingCount ?? this.ratingCount,
       earnings: earnings ?? this.earnings,
@@ -119,16 +136,23 @@ class TeacherModel {
   /// Partial update data for Firestore
   Map<String, dynamic> toUpdateData() {
     final Map<String, dynamic> data = <String, dynamic>{};
+
     if (name != null) data['name'] = name;
     if (email != null) data['email'] = email;
     if (avatarUrl != null) data['avatarUrl'] = avatarUrl;
     if (bio != null) data['bio'] = bio;
     if (dob != null) data['dob'] = dob;
+
     data['darkMode'] = darkMode;
+
     if (category != null) data['category'] = category;
     if (rating != null) data['rating'] = rating;
     if (earnings != null) data['earnings'] = earnings;
     if (balance != null) data['balance'] = balance;
+
+    if (bookmarkedCourses.isNotEmpty) {
+      data['bookmarkedCourses'] = bookmarkedCourses;
+    }
     return data;
   }
 }

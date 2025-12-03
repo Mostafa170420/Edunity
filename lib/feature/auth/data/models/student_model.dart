@@ -7,11 +7,14 @@ class StudentModel {
   final String? bio;
 
   // Learning activity
-  final List<String?> purchasedCourses; // courseIds
-  final List<String?> completedCourses; // completed courseIds
+  final List<String> purchasedCourses; // courseIds
+  final List<String> completedCourses; // completed courseIds
   final Map<String, double>? courseProgress; // courseId -> progress %
-  final List<String?> joinedSessions; // liveSessionIds
-  final List<String?> sentRequests; // studentRequestIds
+  final List<String> joinedSessions; // liveSessionIds
+  final List<String> sentRequests; // studentRequestIds
+
+  // NEW: Bookmarked courses
+  final List<String> bookmarkedCourses;
 
   // Preferences
   final bool darkMode;
@@ -28,6 +31,7 @@ class StudentModel {
     this.courseProgress,
     this.joinedSessions = const [],
     this.sentRequests = const [],
+    this.bookmarkedCourses = const [],
     this.darkMode = false,
   });
 
@@ -47,6 +51,10 @@ class StudentModel {
           : {},
       joinedSessions: List<String>.from(map['joinedSessions'] ?? []),
       sentRequests: List<String>.from(map['sentRequests'] ?? []),
+
+      // NEW
+      bookmarkedCourses: List<String>.from(map['bookmarkedCourses'] ?? []),
+
       darkMode: map['darkMode'] ?? false,
     );
   }
@@ -64,6 +72,10 @@ class StudentModel {
       'courseProgress': courseProgress,
       'joinedSessions': joinedSessions,
       'sentRequests': sentRequests,
+
+      // NEW
+      'bookmarkedCourses': bookmarkedCourses,
+
       'darkMode': darkMode,
     };
   }
@@ -80,6 +92,7 @@ class StudentModel {
     Map<String, double>? courseProgress,
     List<String>? joinedSessions,
     List<String>? sentRequests,
+    List<String>? bookmarkedCourses,
     bool? darkMode,
   }) {
     return StudentModel(
@@ -94,6 +107,10 @@ class StudentModel {
       courseProgress: courseProgress ?? this.courseProgress,
       joinedSessions: joinedSessions ?? this.joinedSessions,
       sentRequests: sentRequests ?? this.sentRequests,
+
+      // NEW
+      bookmarkedCourses: bookmarkedCourses ?? this.bookmarkedCourses,
+
       darkMode: darkMode ?? this.darkMode,
     );
   }
@@ -101,17 +118,32 @@ class StudentModel {
   /// Build partial update map for Firestore
   Map<String, dynamic> toUpdateData() {
     final data = <String, dynamic>{};
+
     if (name != null) data['name'] = name;
     if (email != null) data['email'] = email;
     if (avatarUrl != null) data['avatarUrl'] = avatarUrl;
     if (dob != null) data['dob'] = dob;
     if (bio != null) data['bio'] = bio;
-    data['purchasedCourses'] = purchasedCourses;
+
+    if (purchasedCourses.isNotEmpty) {
+      data['purchasedCourses'] = purchasedCourses;
+    }
     data['completedCourses'] = completedCourses;
     if (courseProgress != null) data['courseProgress'] = courseProgress;
-    data['joinedSessions'] = joinedSessions;
-    data['sentRequests'] = sentRequests;
+    if (joinedSessions.isNotEmpty) {
+      data['joinedSessions'] = joinedSessions;
+    }
+    if (sentRequests.isNotEmpty) {
+      data['sentRequests'] = sentRequests;
+    }
+
+    // NEW
+    if (bookmarkedCourses.isNotEmpty) {
+      data['bookmarkedCourses'] = bookmarkedCourses;
+    }
+
     data['darkMode'] = darkMode;
+
     return data;
   }
 }

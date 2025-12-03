@@ -42,6 +42,10 @@ class FirebaseProvider {
         .get();
   }
 
+  static Future<QuerySnapshot> getCoursesByIds(List<String> ids) {
+    return courseCollection.where(FieldPath.documentId, whereIn: ids).get();
+  }
+
   static updateTeacher(TeacherModel teacher) async {
     await teacherCollection.doc(teacher.uid).update(teacher.toUpdateData());
   }
