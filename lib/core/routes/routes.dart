@@ -5,7 +5,6 @@ import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
 import 'package:edunity/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:edunity/feature/auth/presentation/page/login/login_screen.dart';
 import 'package:edunity/feature/auth/presentation/page/signup/register_screen.dart';
-import 'package:edunity/feature/bookmark/presentation/pages/bookmark_screen.dart';
 import 'package:edunity/feature/categories/All_category_screen.dart';
 import 'package:edunity/feature/categories/category_screen.dart';
 import 'package:edunity/feature/chat/page/chat_screen.dart';
@@ -15,6 +14,7 @@ import 'package:edunity/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:edunity/feature/home/presentation/page/course_upload_screen.dart';
 import 'package:edunity/feature/mentors/page/teacher_details_screen.dart';
 import 'package:edunity/feature/profile/presentation/bloc/profile_bloc.dart';
+import 'package:edunity/feature/profile/presentation/page/bookmarks_screen.dart';
 import 'package:edunity/feature/search/page/filter_screen.dart';
 import 'package:edunity/feature/search/page/search_screen.dart';
 import 'package:edunity/feature/mentors/page/top_teacher_screen.dart';
@@ -154,7 +154,7 @@ class Routes {
               )),
 
       // The screen for the user's bookmarked courses.
-      GoRoute(path: bookmark, builder: (context, state) => BookmarkScreen()),
+      GoRoute(path: bookmark, builder: (context, state) => BookmarksScreen()),
 
       // The chat screen, which takes receiver information as an extra parameter.
       GoRoute(

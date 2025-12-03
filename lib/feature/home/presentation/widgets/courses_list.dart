@@ -1,24 +1,38 @@
+import 'dart:developer';
+
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
+import 'package:edunity/core/services/firebase/firebase_provider.dart';
+import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
+import 'package:edunity/feature/auth/data/models/student_model.dart';
+import 'package:edunity/feature/auth/data/models/teacher_model.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class CoursesList extends StatelessWidget {
+class CoursesList extends StatefulWidget {
   const CoursesList({super.key, required this.course});
 
   final CourseModel course;
+
+  @override
+  State<CoursesList> createState() => _CoursesListState();
+}
+
+class _CoursesListState extends State<CoursesList> {
+  late bool isBookmarked = false;
+  List<CourseModel> bookmarkedCourses = [];
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         return GestureDetector(
-          onTap: () => pushTo(context, Routes.courseDetails, extra: course),
+          onTap: () =>
+              pushTo(context, Routes.courseDetails, extra: widget.course),
           child: SizedBox(
             width: 300,
             child: Stack(
@@ -26,7 +40,7 @@ class CoursesList extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(22),
                   child: Image.network(
-                    course.thumbnail ?? AppAssets.placeholder,
+                    widget.course.thumbnail ?? AppAssets.placeholder,
                     fit: BoxFit.cover,
                     width: 300,
                     height: constraints.maxHeight,
@@ -72,7 +86,7 @@ class CoursesList extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
-                                course.category ?? '',
+                                widget.course.category ?? '',
                                 style: TextStyles.getSmall(
                                   color: AppColors.whiteColor.withAlpha(200),
                                   fontSize: 12,
@@ -87,7 +101,7 @@ class CoursesList extends StatelessWidget {
 
                         //Title
                         Text(
-                          course.name ?? '',
+                          widget.course.name ?? '',
                           style: TextStyles.getBody(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -110,18 +124,20 @@ class CoursesList extends StatelessWidget {
                 Align(
                   alignment: Alignment.topRight,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      icon: Icon(
-                        IconlyLight.bookmark,
-                        color: AppColors.whiteColor,
-                        size: 22,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        icon: Icon(
+                          isBookmarked
+                              ? Icons.bookmark
+                              : Icons.bookmark_outline,
+                          color: isBookmarked ? Colors.amber : Colors.white,
+                        ),
+                        onPressed: () async {
+                          log('Bookmark button pressed');
+
+                          bookmarkCourses();
+                        },
+                      )),
                 ),
               ],
             ),
@@ -129,6 +145,44 @@ class CoursesList extends StatelessWidget {
         );
       },
     );
+  }
+
+  void bookmarkCourses() async {
+    setState(() {
+      isBookmarked = !isBookmarked;
+    });
+
+    final courseId = widget.course.id ?? '';
+    final userId = SharedPref.getUserId();
+
+    if (SharedPref.getUserType() == 'Student') {
+      final snapshot = await FirebaseProvider.getStudentByID(userId);
+      List<String> bookmarkedIds =
+          List<String>.from(snapshot['bookmarkedCourses']);
+      log('Current bookmarked IDs: $bookmarkedIds');
+      if (isBookmarked) {
+        bookmarkedIds.add(courseId);
+      } else {
+        bookmarkedIds.remove(courseId);
+      }
+      await FirebaseProvider.updateStudent(StudentModel(
+        uid: userId,
+        bookmarkedCourses: bookmarkedIds,
+      ));
+    } else {
+      final snapshot = await FirebaseProvider.getTeacherByID(userId);
+      List<String> bookmarkedIds =
+          List<String>.from(snapshot['bookmarkedCourses']);
+      if (isBookmarked) {
+        bookmarkedIds.add(courseId);
+      } else {
+        bookmarkedIds.remove(courseId);
+      }
+      await FirebaseProvider.updateTeacher(TeacherModel(
+        uid: userId,
+        bookmarkedCourses: bookmarkedIds,
+      ));
+    }
   }
 
   Row _buildRaiting() {
@@ -140,7 +194,7 @@ class CoursesList extends StatelessWidget {
           size: 20,
         ),
         Text(
-          '${course.rating}',
+          '${widget.course.rating}',
           style: TextStyles.getBody(
               fontSize: 15,
               fontWeight: FontWeight.bold,
