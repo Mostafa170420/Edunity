@@ -29,10 +29,10 @@ class OnBoardingWidgets extends StatelessWidget {
             child: onboardingPage.icon,
           ),
         ),
-        SizedBox(height: 30),
+        SizedBox(height: 25),
         Text(
           onboardingPage.title,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 15),
         Padding(

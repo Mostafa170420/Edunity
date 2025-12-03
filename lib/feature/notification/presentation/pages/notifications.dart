@@ -1,5 +1,6 @@
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
+import 'package:edunity/main.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -15,8 +16,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final activeColor = AppColors.primaryDarkColor;
-    final inactiveColor = Colors.white;
+    final activeColor = darkModeNotifier.value
+        ? AppColors.darkBackgroundColor
+        : AppColors.primaryLightColor;
+    final inactiveColor = darkModeNotifier.value
+        ? AppColors.greyColor.withValues(alpha: 0.4)
+        : Colors.white;
 
     return Scaffold(
       appBar: AppBar(
@@ -38,11 +43,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 16),
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: darkModeNotifier.value
+                  ? AppColors.darkSurfaceColor.withValues(alpha: 2)
+                  : AppColors.whiteColor,
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 5,
                   offset: const Offset(0, 2),
                 ),
@@ -209,7 +216,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: darkModeNotifier.value ? Colors.grey[900] : Colors.white,
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
@@ -246,7 +253,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         title,
                         style: TextStyles.getSmall(
                           fontWeight: FontWeight.w700,
-                          color: AppColors.darkColor,
+                          color: darkModeNotifier.value
+                              ? Colors.white
+                              : Colors.black,
                         ),
                       ),
                     ),

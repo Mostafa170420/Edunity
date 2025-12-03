@@ -109,7 +109,7 @@ class _ProfileHeader extends StatelessWidget {
             backgroundColor: AppColors.primaryDarkColor.withValues(alpha: 0.8),
             child: CircleAvatar(
               radius: 42,
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).colorScheme.surface,
               child: CircleAvatar(
                 radius: 40,
                 backgroundImage: NetworkImage(
@@ -253,7 +253,7 @@ class _TeacherStats extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -302,7 +302,7 @@ class _AboutSection extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -358,7 +358,7 @@ class _ContactSection extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -420,7 +420,7 @@ class _CoursesSection extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -665,7 +665,7 @@ class _CourseTile extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             border: Border.all(color: AppColors.greyColor.withOpacity(0.1)),
             borderRadius: BorderRadius.circular(12),
             boxShadow: [

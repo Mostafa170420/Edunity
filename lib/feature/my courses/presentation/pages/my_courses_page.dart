@@ -47,7 +47,6 @@ class _MyCoursesState extends State<MyCourses> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         title: Text(
           'My Courses',
@@ -58,7 +57,6 @@ class _MyCoursesState extends State<MyCourses> {
         ),
         automaticallyImplyLeading: true,
         elevation: 0,
-        backgroundColor: AppColors.backgroundColor,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(24, 20, 24, 30),

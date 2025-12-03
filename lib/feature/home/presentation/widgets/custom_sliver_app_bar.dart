@@ -31,7 +31,6 @@ class CustomSliverAppBar extends StatelessWidget {
       pinned: true,
       floating: true,
       snap: false,
-      backgroundColor: AppColors.backgroundColor,
       elevation: 4,
       automaticallyImplyLeading: false,
       shadowColor: AppColors.primaryDarkColor.withValues(alpha: 0.15),

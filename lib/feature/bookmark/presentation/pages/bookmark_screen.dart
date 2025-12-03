@@ -12,11 +12,9 @@ class BookmarkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         elevation: 0,
-        backgroundColor: AppColors.backgroundColor,
         title: Padding(
           padding: const EdgeInsets.only(top: 8),
           child: Text(

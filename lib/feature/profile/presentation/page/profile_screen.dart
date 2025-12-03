@@ -1,15 +1,12 @@
-import 'dart:math';
-
 import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/extentions/dialogs.dart';
 import 'package:edunity/core/routes/navigation.dart';
-import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/profile/data/model/profile_tabs_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:edunity/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -24,10 +21,16 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late bool isDarkMode;
+  @override
+  void initState() {
+    super.initState();
+    isDarkMode = SharedPref.getDarkMode() ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         title: Text(
           'My Profile',
@@ -38,7 +41,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         automaticallyImplyLeading: true,
         elevation: 0,
-        backgroundColor: AppColors.backgroundColor,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
@@ -102,9 +104,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               itemBuilder: (context, index) {
                 final option = profileOptions[index];
                 return profileOption(
-                  option.title,
-                  option.icon,
-                  () {
+                  title: option.title,
+                  svgPath: option.icon,
+                  onTap: () {
+                    if (option.title == 'Dark Mode') {
+                      setState(() {
+                        isDarkMode = !isDarkMode;
+                      });
+                      return;
+                    }
                     if (option.route != null) {
                       pushTo(context, option.route ?? '');
                     }
@@ -125,7 +133,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget profileOption(String? title, String? svgPath, VoidCallback onTap) {
+  Widget profileOption(
+      {String? title, String? svgPath, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -133,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         margin: const EdgeInsets.symmetric(vertical: 4),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
@@ -154,13 +163,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     AppColors.logoBackgroundColor, BlendMode.srcIn),
               ),
             ),
-            const Gap(16),
+            Gap(16),
             Text(
               title ?? '',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
-            const Spacer(),
-            const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+            Spacer(),
+            title == 'Dark Mode'
+                ? Switch(
+                    value: isDarkMode,
+                    onChanged: (val) {
+                      setState(() {
+                        isDarkMode = val;
+                        SharedPref.setDarkMode(val);
+                        darkModeNotifier.value = val;
+                      });
+                    },
+                  )
+                : Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
           ],
         ),
       ),

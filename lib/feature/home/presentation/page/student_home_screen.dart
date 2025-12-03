@@ -67,7 +67,7 @@ class _HomeScreenState extends State<StudentHomeScreen> {
       },
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: AppColors.backgroundColor,
+          // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: CustomScrollView(
             physics: const BouncingScrollPhysics(),
             slivers: [

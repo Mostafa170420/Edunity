@@ -81,7 +81,6 @@ class _EditProfileState extends State<EditProfile> {
           ),
           automaticallyImplyLeading: true, // Provides a back button.
           elevation: 0,
-          backgroundColor: AppColors.backgroundColor,
         ),
         // The body is scrollable to prevent overflow on smaller screens.
         body: SingleChildScrollView(

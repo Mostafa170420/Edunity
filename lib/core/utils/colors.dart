@@ -18,5 +18,11 @@ class AppColors {
   static const whiteColor = Color(0xffffffff);
   static const cardColor = Color(0xffF5EFE1);
 
-  
+  static const darkBackgroundColor = Color(0xff121212);
+  static const darkSurfaceColor = Color(0xff1E1E1E);
+  static const darkCardColor = Color(0xff2D2D2D);
+  static const darkGreyColor = Color(0xffB0B0B0);
+  static const darkBorderColor = Color(0xff404040);
+  static const darkTextColor = Color(0xffE0E0E0);
+  static const darkTextSecondary = Color(0xffA0A0A0);
 }
