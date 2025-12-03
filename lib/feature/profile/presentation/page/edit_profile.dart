@@ -123,7 +123,9 @@ class _EditProfileState extends State<EditProfile> {
                                     ? AssetImage(AppAssets.defaultUser)
                                     : NetworkImage(
                                             SharedPref.getUserImage() ?? '')
-                                        as ImageProvider,
+                                        as ImageProvider
+                                    : NetworkImage(bloc.imageUrl ??
+                                        "https://res.cloudinary.com/dltddu8ah/image/upload/v1764722376/defaultUser_d0jch4.png"),
                           ),
                         ),
                         Gap(50)
