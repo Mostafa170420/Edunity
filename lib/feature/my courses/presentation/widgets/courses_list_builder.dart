@@ -1,9 +1,9 @@
-import 'package:edunity/core/model/course_model.dart';
+import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:edunity/feature/my%20courses/presentation/widgets/course_tile_widget.dart';
 import 'package:flutter/material.dart';
 
 class CoursesListBuilder extends StatelessWidget {
-  final List<CoursesModel> courses;
+  final List<CourseModel> courses; // <- change CoursesModel to CourseModel
   const CoursesListBuilder({
     super.key,
     required this.courses,
@@ -20,7 +20,7 @@ class CoursesListBuilder extends StatelessWidget {
       itemBuilder: (context, index) {
         return CourseTileWidget(
           course: courses[index],
-          completed: courses[index].completed ?? false,
+          completed: courses[index].completed,
         );
       },
     );

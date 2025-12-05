@@ -69,4 +69,11 @@ class FirebaseProvider {
   static Future<QuerySnapshot> sortTeacherByRating() async {
     return await teacherCollection.orderBy('rating', descending: true).get();
   }
+
+  static Stream<DocumentSnapshot> getStudentStreamByID(String id) {
+    return FirebaseFirestore.instance
+        .collection('students')
+        .doc(id)
+        .snapshots();
+  }
 }

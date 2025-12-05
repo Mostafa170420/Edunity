@@ -46,3 +46,6 @@ app.*.map.json
 android/.gradle/
 android/local.properties
 android/app/build/
+.gradle/
+**/build/
+local.properties

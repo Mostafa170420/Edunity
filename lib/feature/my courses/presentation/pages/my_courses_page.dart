@@ -1,14 +1,16 @@
 // Import necessary packages and widgets for the "My Courses" screen.
+import 'dart:developer';
+
 import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/components/inputs/custom_text_field.dart';
-import 'package:edunity/core/model/student_user_model.dart';
-import 'package:edunity/core/utils/colors.dart';
-import 'package:edunity/core/utils/text_styles.dart';
+import 'package:edunity/core/services/firebase/firebase_provider.dart';
+import 'package:edunity/core/services/local/shared_pref.dart';
+import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:edunity/feature/my%20courses/presentation/widgets/choose_courses_list.dart';
+import 'package:edunity/feature/my%20courses/presentation/widgets/course_tile_widget.dart';
 import 'package:edunity/feature/my%20courses/presentation/widgets/courses_list_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:iconly/iconly.dart';
 
 /// The `MyCourses` widget is a stateful widget that displays the courses a student is enrolled in.
 /// It separates courses into "Ongoing" and "Completed" lists.
@@ -20,83 +22,136 @@ class MyCourses extends StatefulWidget {
 }
 
 class _MyCoursesState extends State<MyCourses> {
-  // `currentIndex` tracks the selected tab, where 1 is "Ongoing" and 0 is "Completed".
-  int currentIndex = 1;
+  int currentIndex = 1; // 0: Completed, 1: Ongoing
   final searchController = TextEditingController();
 
-  // This uses a local, hardcoded student model. In a real application, this data
-  // should be fetched from a repository or state management solution.
-  var student = fakeStudent;
+  List<Widget> screens = [];
+  bool isLoading = true;
 
-  // A list of widgets to display based on the selected tab.
-  // Index 0: Completed courses.
-  // Index 1: Ongoing courses.
-  late final List<Widget> screens = [
-    CoursesListBuilder(
-      courses: student.enrolledCourses
-          .where((course) => course.completed == true)
-          .toList(),
-    ),
-    CoursesListBuilder(
-      courses: student.enrolledCourses
-          .where((course) => course.completed == false)
-          .toList(),
-    ),
-  ];
+  String userType = SharedPref.getUserType(); // "student" or "teacher"
+  String userId = SharedPref.getUserId();
+
+  @override
+  void initState() {
+    super.initState();
+    loadCourses();
+  }
+
+  Future<void> loadCourses() async {
+    try {
+      log("Fetching student data...", name: "MyCourses");
+
+      // Fetch student document
+      var studentSnapshot = await FirebaseProvider.getStudentByID(userId);
+      log("Student snapshot data: ${studentSnapshot.data()}",
+          name: "MyCourses");
+
+      // Extract course IDs
+      var studentData = studentSnapshot.data() as Map<String, dynamic>;
+      List<String> completedIds =
+          List<String>.from(studentData['completedCourses'] ?? []);
+      List<String> purchasedIds =
+          List<String>.from(studentData['purchasedCourses'] ?? []);
+      log("Completed IDs: $completedIds", name: "MyCourses");
+      log("Purchased IDs: $purchasedIds", name: "MyCourses");
+
+      if (completedIds.isEmpty && purchasedIds.isEmpty) {
+        log("No course IDs found for this student.", name: "MyCourses");
+      }
+
+      // Fetch course documents from Firestore
+      var completedSnapshot =
+          await FirebaseProvider.getCoursesByIds(completedIds);
+      var purchasedSnapshot =
+          await FirebaseProvider.getCoursesByIds(purchasedIds);
+      log("Completed courses docs count: ${completedSnapshot.docs.length}",
+          name: "MyCourses");
+      log("Purchased courses docs count: ${purchasedSnapshot.docs.length}",
+          name: "MyCourses");
+
+      // Map to CourseModel
+      List<CourseModel> completedCourses = completedSnapshot.docs.map((doc) {
+        var course = CourseModel.fromJson(doc.data() as Map<String, dynamic>,
+            id: doc.id);
+        log("Completed course loaded: ${course.name}, id: ${course.id}",
+            name: "MyCourses");
+        return course.copyWith(completed: true, progressPercent: 1.0);
+      }).toList();
+
+      List<CourseModel> ongoingCourses = purchasedSnapshot.docs.map((doc) {
+        var course = CourseModel.fromJson(doc.data() as Map<String, dynamic>,
+            id: doc.id);
+        log("Ongoing course loaded: ${course.name}, id: ${course.id}",
+            name: "MyCourses");
+        return course.copyWith(
+            completed: false, progressPercent: getRandomProgress());
+      }).toList();
+
+      log("Final completed courses list length: ${completedCourses.length}",
+          name: "MyCourses");
+      log("Final ongoing courses list length: ${ongoingCourses.length}",
+          name: "MyCourses");
+
+      // Update UI
+      setState(() {
+        screens = [
+          CoursesListBuilder(courses: completedCourses),
+          CoursesListBuilder(courses: ongoingCourses),
+        ];
+        isLoading = false;
+      });
+    } catch (e, stackTrace) {
+      log("Error in loadCourses: $e",
+          name: "MyCourses", error: e, stackTrace: stackTrace);
+      setState(() => isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'My Courses',
-          style: TextStyles.getTitle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
-        ),
-        automaticallyImplyLeading: true,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(24, 20, 24, 30),
-        child: Column(
-          children: [
-            // A search field for filtering courses. Note: Search logic is not implemented.
-            CustomTextField(
-              controller: searchController,
-              hintText: 'Search for..',
-              suffixIcon: GradientButton(
-                  onPressed: () {},
-                  label: '',
-                  width: 40,
-                  borderRadius: 12,
-                  iconAlignment: IconAlignment.start,
-                  icon: Icon(
-                    IconlyBroken.search,
-                    color: AppColors.whiteColor,
-                  )),
-            ),
-            const Gap(20),
+        appBar: AppBar(title: Text('My Courses')),
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : screens.isEmpty
+                ? Center(child: Text('No courses available'))
+                : SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(24, 20, 24, 60),
+                    child: Column(
+                      children: [
+                        // 1️⃣ Search box
+                        CustomTextField(
+                          controller: searchController,
+                          hintText: 'Search for..',
+                          suffixIcon: GradientButton(
+                            onPressed: () {},
+                            label: '',
+                            width: 40,
+                            borderRadius: 12,
+                            iconAlignment: IconAlignment.start,
+                            icon: Icon(Icons.search, color: Colors.white),
+                          ),
+                        ),
+                        const Gap(20),
 
-            // A widget to toggle between "Ongoing" and "Completed" course lists.
-            ChooseCoursesList(
-              selectedIndex: currentIndex,
-              onPressed: (int value) {
-                setState(() {
-                  currentIndex = value;
-                });
-              },
-            ),
-            const Gap(10),
+                        // 2️⃣ Buttons (Ongoing / Completed)
+                        ChooseCoursesList(
+                          selectedIndex: currentIndex,
+                          onPressed: (value) {
+                            setState(() {
+                              currentIndex =
+                                  value; // update which list is shown
+                            });
+                          },
+                        ),
+                        const Gap(10),
 
-            // Display the selected screen (Ongoing or Completed courses) based on `currentIndex`.
-            screens[currentIndex],
-            const Gap(
-                100), // Provides extra space at the bottom of the scroll view.
-          ],
-        ),
-      ),
-    );
+                        // 3️⃣ Courses list based on selected button
+                        screens.isEmpty
+                            ? Center(child: Text('No courses available'))
+                            : screens[currentIndex],
+                      ],
+                    ),
+                  ));
   }
 }
