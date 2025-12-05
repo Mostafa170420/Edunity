@@ -1,8 +1,9 @@
+import 'dart:math';
+
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/core/model/course_model.dart';
-import 'package:edunity/feature/bookmark/model/courses_names_model.dart';
+import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -10,7 +11,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class CourseTileWidget extends StatelessWidget {
-  final CoursesModel course;
+  final CourseModel course; // <- CoursesModel → CourseModel
   final bool completed;
   const CourseTileWidget({
     super.key,
@@ -41,7 +42,7 @@ class CourseTileWidget extends StatelessWidget {
               bottomLeft: Radius.circular(20),
             ),
             child: Image.network(
-              course.imageUrl ?? AppAssets.courseBackground,
+              course.thumbnail ?? AppAssets.courseBackground,
               width: 100,
               height: double.infinity,
               fit: BoxFit.cover,
@@ -67,7 +68,7 @@ class CourseTileWidget extends StatelessWidget {
                   ),
                   const Gap(4),
                   Text(
-                    course.title,
+                    course.name ?? "null Name",
                     style: TextStyles.getSmall(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -103,7 +104,7 @@ class CourseTileWidget extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '${course.studentsEnrolled ?? 0} ',
+                            '1100',
                             style: TextStyles.getSmall(
                               fontWeight: FontWeight.bold,
                               fontSize: 11,
@@ -127,7 +128,8 @@ class CourseTileWidget extends StatelessWidget {
                       ),
                       const Gap(16),
                       Text(
-                        '${course.totalDuration?.hour ?? 0}h ${course.totalDuration?.minute ?? 0}m',
+                        // '${course.totalDuration?.hour ?? 0}h ${course.totalDuration?.minute ?? 0}m',
+                        course.duration ?? '0h 0m',
                         style: TextStyles.getSmall(
                           fontWeight: FontWeight.bold,
                           fontSize: 11,
@@ -182,7 +184,7 @@ class CourseTileWidget extends StatelessWidget {
                                 barRadius: const Radius.circular(6),
                                 padding: EdgeInsets.zero,
                                 trailing: Text(
-                                  ' ${((course.progressPercent ?? 0) * (course.lessonsCount ?? 1)).toInt()} / ${course.lessonsCount ?? 1}',
+                                  ' ${((course.progressPercent ?? 0) * (course.numberOfVideos ?? 1)).toInt()} / ${course.numberOfVideos ?? 1}',
                                   style: TextStyles.getSmall(
                                     fontWeight: FontWeight.w800,
                                     fontSize: 12,
@@ -202,4 +204,9 @@ class CourseTileWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+double getRandomProgress() {
+  Random random = Random();
+  return double.parse((random.nextDouble()).toStringAsFixed(2));
 }

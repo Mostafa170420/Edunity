@@ -21,6 +21,9 @@ class CourseModel {
   final List<String>? videoLinks;
   final List<String>? videoDurations;
 
+  bool completed = false;
+  double progressPercent = 0.0;
+
   CourseModel({
     this.id,
     this.category,
@@ -40,6 +43,8 @@ class CourseModel {
     this.videoNames,
     this.videoLinks,
     this.videoDurations,
+    this.completed = false,
+    this.progressPercent = 0.0,
   });
 
   /// Firestore → Model
@@ -116,6 +121,8 @@ class CourseModel {
     List<String>? videoNames,
     List<String>? videoLinks,
     List<String>? videoDurations,
+    bool? completed,
+    double? progressPercent,
   }) {
     return CourseModel(
       id: id,
@@ -137,6 +144,8 @@ class CourseModel {
       videoNames: videoNames ?? this.videoNames,
       videoLinks: videoLinks ?? this.videoLinks,
       videoDurations: videoDurations ?? this.videoDurations,
+      completed: completed ?? this.completed,
+      progressPercent: progressPercent ?? this.progressPercent,
     );
   }
 
