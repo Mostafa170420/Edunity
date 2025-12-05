@@ -126,6 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               },
             ),
+            Gap(40),
             GradientButton(
                 label: 'Logout',
                 width: double.infinity,

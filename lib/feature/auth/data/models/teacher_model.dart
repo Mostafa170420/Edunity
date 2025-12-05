@@ -40,7 +40,7 @@ class TeacherModel {
     this.uploadedCourses = const [],
     this.liveSessions = const [],
     this.receivedRequests = const [],
-    this.bookmarkedCourses = const [],
+    this.bookmarkedCourses = const ['Fuck Firestore'],
 
     // NEW
     this.completedCourses = const [],
