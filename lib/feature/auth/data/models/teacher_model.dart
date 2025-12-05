@@ -1,28 +1,32 @@
 class TeacherModel {
-  final String? uid; // Firebase Auth UID
+  final String? uid;
   final String? name;
   final String? email;
   final String? avatarUrl;
   final String? bio;
-  final String? dob; // Date of birth
-  final bool darkMode; // User preference for dark mode
+  final String? dob;
+  final bool darkMode;
   final String? category;
 
   // Courses & Sessions
-  final List<String> uploadedCourses; // courseIds
-  final List<String> liveSessions; // liveSessionIds
-  final List<String> receivedRequests; // studentRequestIds
+  final List<String> uploadedCourses;
+  final List<String> liveSessions;
+  final List<String> receivedRequests;
 
-  // NEW: Bookmarked courses
+  // Bookmarked courses
   final List<String> bookmarkedCourses;
 
+  // NEW: Completed & Purchased Courses
+  final List<String> completedCourses;
+  final List<String> purchasedCourses;
+
   // Ratings & Reviews
-  final double? rating; // average rating from students
+  final double? rating;
   final int? ratingCount;
 
   // Financial
-  final double? earnings; // total earnings
-  final double? balance; // available balance
+  final double? earnings;
+  final double? balance;
 
   TeacherModel({
     this.uid,
@@ -36,7 +40,11 @@ class TeacherModel {
     this.uploadedCourses = const [],
     this.liveSessions = const [],
     this.receivedRequests = const [],
-    this.bookmarkedCourses = const [], // NEW
+    this.bookmarkedCourses = const [],
+
+    // NEW
+    this.completedCourses = const [],
+    this.purchasedCourses = const [],
     this.rating,
     this.ratingCount,
     this.earnings,
@@ -54,12 +62,16 @@ class TeacherModel {
       dob: map['dob'] ?? '',
       darkMode: map['darkMode'] ?? false,
       category: map['category'] ?? '',
+
       uploadedCourses: List<String>.from(map['uploadedCourses'] ?? []),
       liveSessions: List<String>.from(map['liveSessions'] ?? []),
       receivedRequests: List<String>.from(map['receivedRequests'] ?? []),
 
-      // NEW
       bookmarkedCourses: List<String>.from(map['bookmarkedCourses'] ?? []),
+
+      // NEW
+      completedCourses: List<String>.from(map['completedCourses'] ?? []),
+      purchasedCourses: List<String>.from(map['purchasedCourses'] ?? []),
 
       rating: double.tryParse(map['rating']?.toString() ?? '') ?? 0,
       ratingCount: int.tryParse(map['ratingCount']?.toString() ?? '') ?? 0,
@@ -78,12 +90,15 @@ class TeacherModel {
       'dob': dob,
       'darkMode': darkMode,
       'category': category,
+
       'uploadedCourses': uploadedCourses,
       'liveSessions': liveSessions,
       'receivedRequests': receivedRequests,
+      'bookmarkedCourses': bookmarkedCourses,
 
       // NEW
-      'bookmarkedCourses': bookmarkedCourses,
+      'completedCourses': completedCourses,
+      'purchasedCourses': purchasedCourses,
 
       'rating': rating,
       'ratingCount': ratingCount,
@@ -92,7 +107,7 @@ class TeacherModel {
     };
   }
 
-  /// CopyWith for partial updates
+  /// CopyWith
   TeacherModel copyWith({
     String? name,
     String? email,
@@ -104,7 +119,9 @@ class TeacherModel {
     List<String>? uploadedCourses,
     List<String>? liveSessions,
     List<String>? receivedRequests,
-    List<String>? bookmarkedCourses, // NEW
+    List<String>? bookmarkedCourses,
+    List<String>? completedCourses,
+    List<String>? purchasedCourses,
     double? rating,
     int? ratingCount,
     double? earnings,
@@ -119,12 +136,16 @@ class TeacherModel {
       dob: dob ?? this.dob,
       darkMode: darkMode ?? this.darkMode,
       category: category ?? this.category,
+
       uploadedCourses: uploadedCourses ?? this.uploadedCourses,
       liveSessions: liveSessions ?? this.liveSessions,
       receivedRequests: receivedRequests ?? this.receivedRequests,
 
-      // NEW
       bookmarkedCourses: bookmarkedCourses ?? this.bookmarkedCourses,
+
+      // NEW
+      completedCourses: completedCourses ?? this.completedCourses,
+      purchasedCourses: purchasedCourses ?? this.purchasedCourses,
 
       rating: rating ?? this.rating,
       ratingCount: ratingCount ?? this.ratingCount,
@@ -133,7 +154,7 @@ class TeacherModel {
     );
   }
 
-  /// Partial update data for Firestore
+  /// Partial update for Firestore
   Map<String, dynamic> toUpdateData() {
     final Map<String, dynamic> data = <String, dynamic>{};
 
@@ -153,6 +174,15 @@ class TeacherModel {
     if (bookmarkedCourses.isNotEmpty) {
       data['bookmarkedCourses'] = bookmarkedCourses;
     }
+
+    // NEW
+    if (completedCourses.isNotEmpty) {
+      data['completedCourses'] = completedCourses;
+    }
+    if (purchasedCourses.isNotEmpty) {
+      data['purchasedCourses'] = purchasedCourses;
+    }
+
     return data;
   }
 }

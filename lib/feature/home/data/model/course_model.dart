@@ -3,7 +3,8 @@ class CourseModel {
   final String? category;
   final String? duration;
   final String? description;
-  final String? instructor;
+  final String? instructor; // existing instructor name
+  final String? instructorId; // 🔥 NEW FIELD (teacher UID)
   final String? language;
   final String? level;
   final String? name;
@@ -30,11 +31,10 @@ class CourseModel {
     this.duration,
     this.description,
     this.instructor,
+    this.instructorId, // 🔥 NEW
     this.language,
     this.level,
     this.name,
-
-    // 🔥 NEW
     this.nameLowercase,
     this.numberOfVideos,
     this.rating,
@@ -55,11 +55,11 @@ class CourseModel {
       duration: map['duration'] ?? '',
       description: map['description'] ?? '',
       instructor: map['instructor'] ?? '',
+      instructorId: map['instructorId'] ?? '', // 🔥 NEW
       language: map['language'] ?? '',
       level: map['level'] ?? '',
       name: map['name'] ?? '',
 
-      // 🔥 NEW
       nameLowercase: map['nameLowercase'] ?? '',
 
       numberOfVideos: map['numberOfVideos'] ?? 0,
@@ -85,13 +85,11 @@ class CourseModel {
       'duration': duration,
       'description': description,
       'instructor': instructor,
+      'instructorId': instructorId, // 🔥 NEW
       'language': language,
       'level': level,
       'name': name,
-
-      // 🔥 NEW
       'nameLowercase': nameLowercase,
-
       'numberOfVideos': numberOfVideos,
       'rating': rating,
       'thumbnail': thumbnail,
@@ -108,11 +106,10 @@ class CourseModel {
     String? duration,
     String? description,
     String? instructor,
+    String? instructorId, // 🔥 NEW
     String? language,
     String? level,
     String? name,
-
-    // 🔥 NEW
     String? nameLowercase,
     int? numberOfVideos,
     double? rating,
@@ -130,13 +127,11 @@ class CourseModel {
       duration: duration ?? this.duration,
       description: description ?? this.description,
       instructor: instructor ?? this.instructor,
+      instructorId: instructorId ?? this.instructorId, // 🔥 NEW
       language: language ?? this.language,
       level: level ?? this.level,
       name: name ?? this.name,
-
-      // 🔥 NEW
       nameLowercase: nameLowercase ?? this.nameLowercase,
-
       numberOfVideos: numberOfVideos ?? this.numberOfVideos,
       rating: rating ?? this.rating,
       thumbnail: thumbnail ?? this.thumbnail,
@@ -157,13 +152,11 @@ class CourseModel {
     if (duration != null) data['duration'] = duration;
     if (description != null) data['description'] = description;
     if (instructor != null) data['instructor'] = instructor;
+    if (instructorId != null) data['instructorId'] = instructorId; // 🔥 NEW
     if (language != null) data['language'] = language;
     if (level != null) data['level'] = level;
     if (name != null) data['name'] = name;
-
-    // 🔥 NEW
     if (nameLowercase != null) data['nameLowercase'] = nameLowercase;
-
     if (numberOfVideos != null) data['numberOfVideos'] = numberOfVideos;
     if (rating != null) data['rating'] = rating;
     if (thumbnail != null) data['thumbnail'] = thumbnail;

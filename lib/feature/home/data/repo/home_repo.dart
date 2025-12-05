@@ -42,6 +42,7 @@ class HomeRepo {
     String? category,
     String? duration, // e.g., "1:36:10"
     String? instructor,
+    String? instructorId,
     String? language,
     String? level,
     String? name,
@@ -58,6 +59,7 @@ class HomeRepo {
         category: category,
         duration: duration,
         instructor: instructor,
+        instructorId: instructorId,
         language: language,
         level: level,
         name: name,

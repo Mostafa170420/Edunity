@@ -11,7 +11,7 @@ class AppTheme {
       seedColor: AppColors.primaryDarkColor,
       onSurface: AppColors.darkColor,
       onPrimary: AppColors.darkgreyColor,
-      surface: AppColors.accentColor,
+      surface: AppColors.whiteColor,
     ),
     appBarTheme: AppBarTheme(
       centerTitle: true,

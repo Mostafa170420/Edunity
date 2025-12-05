@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:edunity/feature/home/data/repo/home_repo.dart';
 import 'package:edunity/feature/home/presentation/bloc/home_event.dart';
@@ -42,7 +43,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         id: courses[nameController.text],
         category: categoryController.text,
         duration: durationController.text,
-        instructor: instructorController.text,
+        instructorId: SharedPref.getUserId(),
         language: languageController.text,
         level: levelController.text,
         name: nameController.text,
