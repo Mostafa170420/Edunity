@@ -6,8 +6,11 @@ import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/profile/data/model/profile_tabs_model.dart';
+import 'package:edunity/feature/profile/presentation/bloc/profile_bloc.dart';
+import 'package:edunity/feature/profile/presentation/bloc/profile_event.dart';
 import 'package:edunity/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
@@ -26,10 +29,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     isDarkMode = SharedPref.getDarkMode() ?? false;
+    context.read<ProfileBloc>().add(ProfileLoadEvent());
   }
 
   @override
   Widget build(BuildContext context) {
+    var bloc = context.read<ProfileBloc>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -80,11 +85,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       child: CircleAvatar(
                         radius: 65,
-                        backgroundImage:
-                            (SharedPref.getUserImage() ?? '').isNotEmpty
-                                ? NetworkImage(SharedPref.getUserImage() ?? '')
-                                    as ImageProvider
-                                : AssetImage(AppAssets.defaultUser),
+                        backgroundImage: (SharedPref.getUserImage() ?? '')
+                                .isNotEmpty
+                            ? NetworkImage(SharedPref.getUserImage() ?? '')
+                                as ImageProvider
+                            : NetworkImage(bloc.imageUrl ??
+                                "https://res.cloudinary.com/dltddu8ah/image/upload/v1764722376/defaultUser_d0jch4.png"),
                       ),
                     ),
                     Gap(50)
