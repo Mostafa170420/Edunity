@@ -469,7 +469,7 @@ class _CoursesSection extends StatelessWidget {
                 ...courses!
                     .take(3)
                     .map((course) => _CourseTile(course: course))
-                    .toList(),
+                    ,
                 if (courses!.length > 3)
                   Padding(
                     padding: const EdgeInsets.only(top: 12),

@@ -10,7 +10,6 @@ import 'package:edunity/feature/my%20courses/presentation/widgets/choose_courses
 import 'package:edunity/feature/my%20courses/presentation/widgets/course_tile_widget.dart';
 import 'package:edunity/feature/my%20courses/presentation/widgets/courses_list_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 /// The `MyCourses` widget is a stateful widget that displays the courses a student is enrolled in.
 /// It separates courses into "Ongoing" and "Completed" lists.
@@ -25,8 +24,10 @@ class _MyCoursesState extends State<MyCourses> {
   int currentIndex = 1; // 0: Completed, 1: Ongoing
   final searchController = TextEditingController();
 
-  List<Widget> screens = [];
   bool isLoading = true;
+
+  List<CourseModel> completedCourses = [];
+  List<CourseModel> ongoingCourses = [];
 
   String userType = SharedPref.getUserType(); // "student" or "teacher"
   String userId = SharedPref.getUserId();
@@ -39,67 +40,48 @@ class _MyCoursesState extends State<MyCourses> {
 
   Future<void> loadCourses() async {
     try {
-      log("Fetching student data...", name: "MyCourses");
-
-      // Fetch student document
+      // Fetch student data
       var studentSnapshot = await FirebaseProvider.getStudentByID(userId);
-      log("Student snapshot data: ${studentSnapshot.data()}",
-          name: "MyCourses");
-
-      // Extract course IDs
       var studentData = studentSnapshot.data() as Map<String, dynamic>;
       List<String> completedIds =
           List<String>.from(studentData['completedCourses'] ?? []);
       List<String> purchasedIds =
           List<String>.from(studentData['purchasedCourses'] ?? []);
-      log("Completed IDs: $completedIds", name: "MyCourses");
-      log("Purchased IDs: $purchasedIds", name: "MyCourses");
 
-      if (completedIds.isEmpty && purchasedIds.isEmpty) {
-        log("No course IDs found for this student.", name: "MyCourses");
+      // ✅ Only fetch completed courses if IDs exist
+      if (completedIds.isNotEmpty) {
+        var completedSnapshot =
+            await FirebaseProvider.getCoursesByIds(completedIds);
+        completedCourses = completedSnapshot.docs.map((doc) {
+          var course = CourseModel.fromJson(
+            doc.data() as Map<String, dynamic>,
+            id: doc.id,
+          );
+          return course.copyWith(completed: true, progressPercent: 1.0);
+        }).toList();
+      } else {
+        completedCourses = []; // Explicitly set to empty
       }
 
-      // Fetch course documents from Firestore
-      var completedSnapshot =
-          await FirebaseProvider.getCoursesByIds(completedIds);
-      var purchasedSnapshot =
-          await FirebaseProvider.getCoursesByIds(purchasedIds);
-      log("Completed courses docs count: ${completedSnapshot.docs.length}",
-          name: "MyCourses");
-      log("Purchased courses docs count: ${purchasedSnapshot.docs.length}",
-          name: "MyCourses");
+      // ✅ Only fetch ongoing courses if IDs exist
+      if (purchasedIds.isNotEmpty) {
+        var purchasedSnapshot =
+            await FirebaseProvider.getCoursesByIds(purchasedIds);
+        ongoingCourses = purchasedSnapshot.docs.map((doc) {
+          var course = CourseModel.fromJson(
+            doc.data() as Map<String, dynamic>,
+            id: doc.id,
+          );
+          return course.copyWith(
+            completed: false,
+            progressPercent: getRandomProgress(),
+          );
+        }).toList();
+      } else {
+        ongoingCourses = []; // Explicitly set to empty
+      }
 
-      // Map to CourseModel
-      List<CourseModel> completedCourses = completedSnapshot.docs.map((doc) {
-        var course = CourseModel.fromJson(doc.data() as Map<String, dynamic>,
-            id: doc.id);
-        log("Completed course loaded: ${course.name}, id: ${course.id}",
-            name: "MyCourses");
-        return course.copyWith(completed: true, progressPercent: 1.0);
-      }).toList();
-
-      List<CourseModel> ongoingCourses = purchasedSnapshot.docs.map((doc) {
-        var course = CourseModel.fromJson(doc.data() as Map<String, dynamic>,
-            id: doc.id);
-        log("Ongoing course loaded: ${course.name}, id: ${course.id}",
-            name: "MyCourses");
-        return course.copyWith(
-            completed: false, progressPercent: getRandomProgress());
-      }).toList();
-
-      log("Final completed courses list length: ${completedCourses.length}",
-          name: "MyCourses");
-      log("Final ongoing courses list length: ${ongoingCourses.length}",
-          name: "MyCourses");
-
-      // Update UI
-      setState(() {
-        screens = [
-          CoursesListBuilder(courses: completedCourses),
-          CoursesListBuilder(courses: ongoingCourses),
-        ];
-        isLoading = false;
-      });
+      setState(() => isLoading = false);
     } catch (e, stackTrace) {
       log("Error in loadCourses: $e",
           name: "MyCourses", error: e, stackTrace: stackTrace);
@@ -110,48 +92,46 @@ class _MyCoursesState extends State<MyCourses> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('My Courses')),
-        body: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : screens.isEmpty
-                ? Center(child: Text('No courses available'))
-                : SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(24, 20, 24, 60),
-                    child: Column(
-                      children: [
-                        // 1️⃣ Search box
-                        CustomTextField(
-                          controller: searchController,
-                          hintText: 'Search for..',
-                          suffixIcon: GradientButton(
-                            onPressed: () {},
-                            label: '',
-                            width: 40,
-                            borderRadius: 12,
-                            iconAlignment: IconAlignment.start,
-                            icon: Icon(Icons.search, color: Colors.white),
-                          ),
-                        ),
-                        const Gap(20),
-
-                        // 2️⃣ Buttons (Ongoing / Completed)
-                        ChooseCoursesList(
-                          selectedIndex: currentIndex,
-                          onPressed: (value) {
-                            setState(() {
-                              currentIndex =
-                                  value; // update which list is shown
-                            });
-                          },
-                        ),
-                        const Gap(10),
-
-                        // 3️⃣ Courses list based on selected button
-                        screens.isEmpty
-                            ? Center(child: Text('No courses available'))
-                            : screens[currentIndex],
-                      ],
+      appBar: AppBar(title: Text('My Courses')),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(24, 20, 24, 60),
+              child: Column(
+                children: [
+                  // Search box
+                  CustomTextField(
+                    controller: searchController,
+                    hintText: 'Search for..',
+                    suffixIcon: GradientButton(
+                      onPressed: () {},
+                      label: '',
+                      width: 40,
+                      borderRadius: 12,
+                      iconAlignment: IconAlignment.start,
+                      icon: Icon(Icons.search, color: Colors.white),
                     ),
-                  ));
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Buttons (Ongoing / Completed)
+                  ChooseCoursesList(
+                    selectedIndex: currentIndex,
+                    onPressed: (value) {
+                      setState(() {
+                        currentIndex = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10),
+
+                  // Render the currently selected list only
+                  currentIndex == 0
+                      ? CoursesListBuilder(courses: completedCourses)
+                      : CoursesListBuilder(courses: ongoingCourses),
+                ],
+              ),
+            ),
+    );
   }
 }

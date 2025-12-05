@@ -5,7 +5,6 @@ import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/extentions/dialogs.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
-import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
 import 'package:edunity/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:edunity/feature/home/presentation/bloc/home_event.dart';
