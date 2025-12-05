@@ -24,6 +24,7 @@ class GradientButton extends StatelessWidget {
 
   /// The width of the button.
   final double? width;
+  final bool? addedToCart;
 
   /// Creates a new [GradientButton].
   const GradientButton(
@@ -34,7 +35,8 @@ class GradientButton extends StatelessWidget {
       this.iconAlignment = IconAlignment.start,
       this.borderRadius = 25,
       this.padding,
-      this.width});
+      this.width,
+      this.addedToCart = false});
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +46,16 @@ class GradientButton extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
         // Create a linear gradient for the button's background.
-        gradient: LinearGradient(
-          colors: [AppColors.primaryDarkColor, AppColors.primaryLightColor],
-        ),
+        gradient: addedToCart == true
+            ? LinearGradient(
+                colors: [AppColors.greenColor, Colors.greenAccent],
+              )
+            : LinearGradient(
+                colors: [
+                  AppColors.primaryLightColor,
+                  AppColors.primaryDarkColor
+                ],
+              ),
         // Set the corner radius of the button.
         borderRadius: BorderRadius.circular(borderRadius),
       ),

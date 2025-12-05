@@ -53,6 +53,15 @@ class SharedPref {
     await setData(kDarkMode, mode);
   }
 
+  static bool? getIsBookmarked(String courseId) {
+    return getData(courseId) as bool?;
+  }
+
+  static Future<void> setIsBookmarked(
+      String courseId, bool isBookmarked) async {
+    await setData(courseId, isBookmarked);
+  }
+
   static Future<void> setData(String key, dynamic value) async {
     if (value is int) {
       await pref.setInt(key, value);

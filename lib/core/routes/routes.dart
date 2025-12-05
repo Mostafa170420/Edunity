@@ -8,7 +8,8 @@ import 'package:edunity/feature/auth/presentation/page/signup/register_screen.da
 import 'package:edunity/feature/categories/All_category_screen.dart';
 import 'package:edunity/feature/categories/category_screen.dart';
 import 'package:edunity/feature/chat/page/chat_screen.dart';
-import 'package:edunity/feature/course_details/pages/main_tab_screen.dart';
+import 'package:edunity/feature/course_details/presentation/bloc/course_bloc.dart';
+import 'package:edunity/feature/course_details/presentation/pages/main_tab_screen.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:edunity/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:edunity/feature/home/presentation/page/course_upload_screen.dart';
@@ -123,8 +124,11 @@ class Routes {
       ),
       GoRoute(
           path: courseDetails,
-          builder: (context, state) => MainTabScreen(
-                course: state.extra as CourseModel,
+          builder: (context, state) => BlocProvider(
+                create: (context) => CourseBloc(),
+                child: MainTabScreen(
+                  course: state.extra as CourseModel,
+                ),
               )),
 
       // The screen for the user's enrolled courses.

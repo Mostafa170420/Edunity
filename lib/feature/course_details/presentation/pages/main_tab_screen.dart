@@ -1,12 +1,17 @@
-import 'package:edunity/core/constants/app_assets.dart';
+import 'dart:developer';
 import 'package:edunity/core/routes/navigation.dart';
+import 'package:edunity/core/routes/routes.dart';
+import 'package:edunity/core/services/firebase/firebase_provider.dart';
+import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/feature/course_details/pages/curriculum_page.dart';
-import 'package:edunity/feature/course_details/pages/overview_page.dart';
-import 'package:edunity/feature/course_details/pages/reviews_page.dart';
-import 'package:edunity/feature/course_details/widgets/course_bottom_bar.dart';
+import 'package:edunity/feature/auth/data/models/teacher_model.dart';
+import 'package:edunity/feature/course_details/presentation/pages/curriculum_page.dart';
+import 'package:edunity/feature/course_details/presentation/pages/overview_page.dart';
+import 'package:edunity/feature/course_details/presentation/pages/reviews_page.dart';
+import 'package:edunity/feature/course_details/presentation/widgets/course_bottom_bar.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
+import 'package:edunity/core/services/bookmark/bookmark_service.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -19,9 +24,36 @@ class MainTabScreen extends StatefulWidget {
 }
 
 class _MainTabScreenState extends State<MainTabScreen> {
+  bool isBookmarked = false;
+  TeacherModel? teacherData;
+
+  @override
+  void initState() {
+    super.initState();
+    isBookmarked = SharedPref.getIsBookmarked(widget.course.id ?? '') ?? false;
+    loadTeacherData();
+  }
+
+  Future<void> loadTeacherData() async {
+    var snapshot =
+        await FirebaseProvider.getTeacherByID(widget.course.instructorId ?? '');
+
+    var data = snapshot.data() as Map<String, dynamic>;
+
+    setState(() {
+      teacherData = TeacherModel.fromJson(
+        data,
+        snapshot.id,
+      );
+    });
+
+    log('Teacher Data Loaded: $teacherData');
+  }
+
   @override
   Widget build(BuildContext context) {
-    int rating = (widget.course.rating ?? 0).toInt();
+    double rating = widget.course.rating ?? 0;
+    double teacherRating = teacherData?.rating ?? 0;
     String? duration = widget.course.duration;
     String? language = widget.course.language;
     String? courseRating = widget.course.rating.toString();
@@ -35,7 +67,23 @@ class _MainTabScreenState extends State<MainTabScreen> {
               },
               icon: const Icon(Icons.arrow_back)),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.upload))
+            IconButton(
+              icon: Icon(
+                isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
+                color: isBookmarked ? Colors.amber : AppColors.greyColor,
+              ),
+              onPressed: () async {
+                log('Bookmark button pressed');
+                setState(() {
+                  isBookmarked = !isBookmarked;
+                  SharedPref.setIsBookmarked(
+                      widget.course.id ?? '', isBookmarked);
+                });
+                await BookmarkService.bookmarkCourses(
+                    isBookmarked: isBookmarked,
+                    courseId: widget.course.id ?? '');
+              },
+            )
           ],
         ),
         body: SafeArea(
@@ -44,8 +92,8 @@ class _MainTabScreenState extends State<MainTabScreen> {
               return [
                 SliverToBoxAdapter(child: _headerImage()),
                 SliverToBoxAdapter(
-                    child: _courseDetails(
-                        rating, duration, language, courseRating)),
+                    child: _courseDetails(teacherRating, rating, duration,
+                        language, courseRating)),
                 SliverToBoxAdapter(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
@@ -87,13 +135,13 @@ class _MainTabScreenState extends State<MainTabScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: const CourseBottomBar(),
+        bottomNavigationBar: CourseBottomBar(courseId: widget.course.id ?? ''),
       ),
     );
   }
 
-  Padding _courseDetails(
-      int rating, String? duration, String? language, String? courseRating) {
+  Padding _courseDetails(double teacherRating, double rating, String? duration,
+      String? language, String? courseRating) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: SingleChildScrollView(
@@ -128,35 +176,35 @@ class _MainTabScreenState extends State<MainTabScreen> {
             const Gap(20),
             Row(
               children: [
-                Column(
-                  children: [
-                    SizedBox(
-                      width: 70,
-                      height: 70,
-                      child: ClipOval(
-                        child: Image.asset(AppAssets.emptyUser),
+                GestureDetector(
+                  onTap: () {
+                    pushTo(context, Routes.teacherDetails, extra: teacherData);
+                  },
+                  child: SizedBox(
+                    width: 70,
+                    height: 70,
+                    child: ClipOval(
+                      child: Image.network(
+                        teacherData?.avatarUrl ??
+                            'https://res.cloudinary.com/dltddu8ah/image/upload/v1764956666/images_plg7xd.jpg',
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ],
+                  ),
                 ),
                 const Gap(15),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          constraints: BoxConstraints(
-                              maxWidth:
-                                  MediaQuery.of(context).size.width * 0.55),
-                          child: Text(
-                            widget.course.instructor ?? "N/A",
-                            style: TextStyles.getSmall(),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                        )
-                      ],
+                    Container(
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.55),
+                      child: Text(
+                        widget.course.instructor ?? "N/A",
+                        style: TextStyles.getSmall(),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
                     ),
                     Row(
                       children: [
@@ -164,28 +212,34 @@ class _MainTabScreenState extends State<MainTabScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: List.generate(5, (index) {
-                            return Icon(
-                              index < rating ? Icons.star : Icons.star_border,
-                              color: Colors.amber,
-                            );
+                            if (index < teacherRating.floor()) {
+                              // full star
+                              return Icon(Icons.star,
+                                  color: Colors.amber, size: 20);
+                            } else if (index < teacherRating &&
+                                teacherRating - teacherRating.floor() >= 0.5) {
+                              // half star
+                              return Icon(Icons.star_half,
+                                  color: Colors.amber, size: 20);
+                            } else {
+                              // empty star
+                              return Icon(Icons.star_border,
+                                  color: Colors.amber, size: 20);
+                            }
                           }),
                         ),
-                        Row(
-                          children: [
-                            const Text("4.8"),
-                            const Gap(8),
-                            Container(
-                              width: 5,
-                              height: 5,
-                              decoration: BoxDecoration(
-                                color: AppColors.greyColor,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            const Gap(8),
-                            const Text("2,500 Students")
-                          ],
+                        Text('${teacherData?.rating ?? ''}'),
+                        const Gap(8),
+                        Container(
+                          width: 5,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            color: AppColors.greyColor,
+                            shape: BoxShape.circle,
+                          ),
                         ),
+                        const Gap(8),
+                        const Text("2,500 Students"),
                       ],
                     )
                   ],
@@ -199,10 +253,19 @@ class _MainTabScreenState extends State<MainTabScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: List.generate(5, (index) {
-                    return Icon(
-                      index < rating ? Icons.star : Icons.star_border,
-                      color: Colors.amber,
-                    );
+                    if (index < rating.floor()) {
+                      // full star
+                      return Icon(Icons.star, color: Colors.amber, size: 20);
+                    } else if (index < rating &&
+                        rating - rating.floor() >= 0.5) {
+                      // half star
+                      return Icon(Icons.star_half,
+                          color: Colors.amber, size: 20);
+                    } else {
+                      // empty star
+                      return Icon(Icons.star_border,
+                          color: Colors.amber, size: 20);
+                    }
                   }),
                 ),
                 Text(courseRating ?? "N/A"),

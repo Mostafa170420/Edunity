@@ -1,15 +1,13 @@
 import 'dart:developer';
 
-import 'package:edunity/core/constants/app_assets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
-import 'package:edunity/core/services/firebase/firebase_provider.dart';
 import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/feature/auth/data/models/student_model.dart';
-import 'package:edunity/feature/auth/data/models/teacher_model.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
+import 'package:edunity/core/services/bookmark/bookmark_service.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -27,20 +25,33 @@ class _CoursesListState extends State<CoursesList> {
   List<CourseModel> bookmarkedCourses = [];
 
   @override
+  void initState() {
+    super.initState();
+    isBookmarked = SharedPref.getIsBookmarked(widget.course.id ?? '') ?? false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         return GestureDetector(
           onTap: () =>
-              pushTo(context, Routes.courseDetails, extra: widget.course),
+              pushTo(context, Routes.courseDetails, extra: widget.course)
+                  .then((value) {
+            setState(() {
+              isBookmarked =
+                  SharedPref.getIsBookmarked(widget.course.id ?? '') ?? false;
+            });
+          }),
           child: SizedBox(
             width: 300,
             child: Stack(
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(22),
-                  child: Image.network(
-                    widget.course.thumbnail ?? AppAssets.placeholder,
+                  child: CachedNetworkImage(
+                    imageUrl: widget.course.thumbnail ??
+                        'https://res.cloudinary.com/dltddu8ah/image/upload/v1764722376/defaultUser_d0jch4.png',
                     fit: BoxFit.cover,
                     width: 300,
                     height: constraints.maxHeight,
@@ -58,9 +69,9 @@ class _CoursesListState extends State<CoursesList> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          AppColors.primaryLightColor.withOpacity(0),
-                          AppColors.primaryDarkColor.withOpacity(0.6),
-                          AppColors.primaryLightColor.withOpacity(0.8),
+                          AppColors.primaryLightColor.withValues(alpha: 0),
+                          AppColors.primaryDarkColor.withValues(alpha: 0.6),
+                          AppColors.primaryLightColor.withValues(alpha: 0.8),
                         ],
                       ),
                       boxShadow: [
@@ -82,7 +93,8 @@ class _CoursesListState extends State<CoursesList> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 5, vertical: 2),
                               decoration: BoxDecoration(
-                                color: AppColors.darkgreyColor.withOpacity(0.9),
+                                color: AppColors.darkgreyColor
+                                    .withValues(alpha: 0.9),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
@@ -130,12 +142,20 @@ class _CoursesListState extends State<CoursesList> {
                           isBookmarked
                               ? Icons.bookmark
                               : Icons.bookmark_outline,
-                          color: isBookmarked ? Colors.amber : Colors.white,
+                          color: isBookmarked
+                              ? Colors.amber
+                              : AppColors.whiteColor,
                         ),
                         onPressed: () async {
                           log('Bookmark button pressed');
-
-                          bookmarkCourses();
+                          setState(() {
+                            isBookmarked = !isBookmarked;
+                            SharedPref.setIsBookmarked(
+                                widget.course.id ?? '', isBookmarked);
+                          });
+                          await BookmarkService.bookmarkCourses(
+                              isBookmarked: isBookmarked,
+                              courseId: widget.course.id ?? '');
                         },
                       )),
                 ),
@@ -145,44 +165,6 @@ class _CoursesListState extends State<CoursesList> {
         );
       },
     );
-  }
-
-  void bookmarkCourses() async {
-    setState(() {
-      isBookmarked = !isBookmarked;
-    });
-
-    final courseId = widget.course.id ?? '';
-    final userId = SharedPref.getUserId();
-
-    if (SharedPref.getUserType() == 'Student') {
-      final snapshot = await FirebaseProvider.getStudentByID(userId);
-      List<String> bookmarkedIds =
-          List<String>.from(snapshot['bookmarkedCourses']);
-      log('Current bookmarked IDs: $bookmarkedIds');
-      if (isBookmarked) {
-        bookmarkedIds.add(courseId);
-      } else {
-        bookmarkedIds.remove(courseId);
-      }
-      await FirebaseProvider.updateStudent(StudentModel(
-        uid: userId,
-        bookmarkedCourses: bookmarkedIds,
-      ));
-    } else {
-      final snapshot = await FirebaseProvider.getTeacherByID(userId);
-      List<String> bookmarkedIds =
-          List<String>.from(snapshot['bookmarkedCourses']);
-      if (isBookmarked) {
-        bookmarkedIds.add(courseId);
-      } else {
-        bookmarkedIds.remove(courseId);
-      }
-      await FirebaseProvider.updateTeacher(TeacherModel(
-        uid: userId,
-        bookmarkedCourses: bookmarkedIds,
-      ));
-    }
   }
 
   Row _buildRaiting() {

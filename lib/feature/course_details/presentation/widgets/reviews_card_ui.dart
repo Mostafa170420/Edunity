@@ -1,7 +1,7 @@
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
-import 'package:edunity/feature/course_details/model/reviews_model.dart';
+import 'package:edunity/feature/course_details/data/model/reviews_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 

@@ -8,14 +8,8 @@ import 'package:lottie/lottie.dart';
 import '../constants/app_assets.dart';
 import '../utils/colors.dart';
 
-/// An enumeration of the possible dialog types.
-enum DialogeType { success, error }
+enum DialogeType { success, error, warning }
 
-/// Shows a customizable dialog message.
-///
-/// * [context]: The build context.
-/// * [message]: The message to display.
-/// * [type]: The type of dialog to show (success or error).
 showMyDialoge(
   BuildContext context,
   String message, {
@@ -28,8 +22,11 @@ showMyDialoge(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      backgroundColor:
-          type == DialogeType.error ? Colors.red : AppColors.primaryDarkColor,
+      backgroundColor: type == DialogeType.error
+          ? Colors.red
+          : type == DialogeType.warning
+              ? AppColors.yellowLightColor
+              : AppColors.primaryDarkColor,
       content: Text(message),
     ),
   );
