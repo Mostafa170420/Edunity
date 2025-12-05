@@ -110,42 +110,48 @@ class _MyCoursesState extends State<MyCourses> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('My Courses')),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : screens.isEmpty
-              ? Center(child: Text('No courses available'))
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(24, 20, 24, 30),
-                  child: Column(
-                    children: [
-                      CustomTextField(
-                        controller: searchController,
-                        hintText: 'Search for..',
-                        suffixIcon: GradientButton(
-                          onPressed: () {},
-                          label: '',
-                          width: 40,
-                          borderRadius: 12,
-                          iconAlignment: IconAlignment.start,
-                          icon: Icon(Icons.search, color: Colors.white),
+        appBar: AppBar(title: Text('My Courses')),
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : screens.isEmpty
+                ? Center(child: Text('No courses available'))
+                : SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(24, 20, 24, 60),
+                    child: Column(
+                      children: [
+                        // 1️⃣ Search box
+                        CustomTextField(
+                          controller: searchController,
+                          hintText: 'Search for..',
+                          suffixIcon: GradientButton(
+                            onPressed: () {},
+                            label: '',
+                            width: 40,
+                            borderRadius: 12,
+                            iconAlignment: IconAlignment.start,
+                            icon: Icon(Icons.search, color: Colors.white),
+                          ),
                         ),
-                      ),
-                      const Gap(20),
-                      if (userType == "student")
+                        const Gap(20),
+
+                        // 2️⃣ Buttons (Ongoing / Completed)
                         ChooseCoursesList(
                           selectedIndex: currentIndex,
                           onPressed: (value) {
                             setState(() {
-                              currentIndex = value;
+                              currentIndex =
+                                  value; // update which list is shown
                             });
                           },
                         ),
-                      const Gap(10),
-                      screens[currentIndex],
-                    ],
-                  ),
-                ),
-    );
+                        const Gap(10),
+
+                        // 3️⃣ Courses list based on selected button
+                        screens.isEmpty
+                            ? Center(child: Text('No courses available'))
+                            : screens[currentIndex],
+                      ],
+                    ),
+                  ));
   }
 }

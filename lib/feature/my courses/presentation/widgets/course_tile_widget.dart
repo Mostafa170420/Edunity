@@ -104,7 +104,7 @@ class CourseTileWidget extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '1100',
+                            '${getRandomStudentsCount()} ',
                             style: TextStyles.getSmall(
                               fontWeight: FontWeight.bold,
                               fontSize: 11,
@@ -209,4 +209,9 @@ class CourseTileWidget extends StatelessWidget {
 double getRandomProgress() {
   Random random = Random();
   return double.parse((random.nextDouble()).toStringAsFixed(2));
+}
+
+int getRandomStudentsCount() {
+  // Random between 100 and 5000
+  return 100 + (DateTime.now().microsecond % 4900);
 }
