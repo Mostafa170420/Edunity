@@ -26,22 +26,26 @@ class TopTeacherList extends StatelessWidget {
                 ),
               ),
               Gap(10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    teacher.name ?? '',
-                    style: TextStyles.getBody(
-                        fontSize: 17, fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    teacher.category ?? '',
-                    style: TextStyles.getBody(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.greyColor),
-                  )
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      teacher.name ?? '',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyles.getBody(
+                          fontSize: 17, fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      teacher.category ?? '',
+                      style: TextStyles.getBody(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.greyColor),
+                    )
+                  ],
+                ),
               )
             ],
           ),

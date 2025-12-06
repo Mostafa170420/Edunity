@@ -23,7 +23,7 @@ class CustomHorizontalListView<T> extends StatelessWidget {
       height: height,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: courses ? items.length - 1 : items.length,
+        itemCount: courses ? items.length - 1 : 10,
         padding: EdgeInsets.symmetric(horizontal: padding ?? 22),
         itemBuilder: (context, index) {
           final item = items[index];
