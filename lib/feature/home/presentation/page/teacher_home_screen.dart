@@ -71,7 +71,7 @@ class _HomeScreenState extends State<TeacherHomeScreen> {
         return Scaffold(
           // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
               CustomSliverAppBar(
                 userName: (state is HomeSuccessState && state.userData != null)

@@ -42,7 +42,6 @@ class _CourseBottomBarState extends State<CourseBottomBar> {
           margin: EdgeInsets.zero,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           decoration: const BoxDecoration(
-            color: Colors.white,
             boxShadow: [
               BoxShadow(
                 blurRadius: 10,

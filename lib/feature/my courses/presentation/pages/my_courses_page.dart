@@ -191,8 +191,8 @@ class _MyCoursesState extends State<MyCourses> {
     // The stream will automatically trigger _processUserData
     // But we can force a refresh by re-reading the document
     final collection = isTeacher
-        ? FirebaseFirestore.instance.collection('Teacher')
-        : FirebaseFirestore.instance.collection('Student');
+        ? FirebaseProvider.teacherCollection
+        : FirebaseProvider.studentCollection;
 
     final snapshot = await collection.doc(userId).get();
     if (snapshot.exists) {
@@ -202,15 +202,15 @@ class _MyCoursesState extends State<MyCourses> {
 
   @override
   Widget build(BuildContext context) {
-    final List<CourseModel> filteredCompleted = completedCourses
-        .where((course) => course.name?.contains(searchText) ?? false)
-        .toList();
-    final List<CourseModel> filteredOngoing = ongoingCourses
-        .where((course) => course.name?.contains(searchText) ?? false)
-        .toList();
-    log("Building UI with $searchText: "
-        "${filteredCompleted.length} completed, ${filteredOngoing.length} ongoing");
+    final filteredCompleted = completedCourses.where((course) {
+      final name = course.name?.toLowerCase() ?? '';
+      return name.contains(searchText);
+    }).toList();
 
+    final filteredOngoing = ongoingCourses.where((course) {
+      final name = course.name?.toLowerCase() ?? '';
+      return name.contains(searchText);
+    }).toList();
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Courses'),
