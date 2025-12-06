@@ -21,62 +21,102 @@ class TopTeachersSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
-        future: FirebaseProvider.sortTeacherByRating(),
-        builder: (context, snapshot) {
-          final teachers = snapshot.data?.docs.map((doc) {
-                return TeacherModel.fromJson(
-                    doc.data() as Map<String, dynamic>, doc.id);
-              }).toList() ??
-              [];
-          return Column(
-            children: [
-              Padding(
-                padding: padding,
-                child: Row(
-                  children: [
-                    Hero(
-                        tag: 'seeAllMentors',
-                        child: Material(
-                          color: Colors.transparent,
-                          child: Text('Top Mentors',
-                              style: TextStyles.getTitle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              )),
-                        )),
-                    Spacer(),
-                    TextButton(
-                        onPressed: () {
-                          pushTo(context, Routes.topMentors, extra: teachers);
-                        },
-                        child: Text(
-                          'SEE ALL >',
-                          style: TextStyles.getBody(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primaryDarkColor),
-                        ))
-                  ],
-                ),
-              ),
-              Gap(15),
-              CustomHorizontalListView(
-                height: 100,
-                items: teachers,
-                itemBuilder: (context, category, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      pushTo(context, Routes.teacherDetails,
-                          extra: teachers[index]);
-                    },
-                    child: MentorNamesList.teachersNamesList(
-                      teacherModel: teachers[index],
-                    ),
-                  );
-                },
-              )
-            ],
+      future: FirebaseProvider.sortTeacherByRating(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SizedBox();
+        }
+
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text('Failed to load teachers'),
           );
-        });
+        }
+
+        final teachers = snapshot.data?.docs.map((doc) {
+              return TeacherModel.fromJson(
+                doc.data() as Map<String, dynamic>,
+                doc.id,
+              );
+            }).toList() ??
+            [];
+
+        if (teachers.isEmpty) {
+          return Padding(
+            padding: padding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Top Mentors',
+                  style: TextStyles.getTitle(
+                      fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'No mentors available right now.',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return Column(
+          children: [
+            Padding(
+              padding: padding,
+              child: Row(
+                children: [
+                  Hero(
+                    tag: 'seeAllMentors',
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Text(
+                        'Top Mentors',
+                        style: TextStyles.getTitle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () {
+                      pushTo(context, Routes.topMentors, extra: teachers);
+                    },
+                    child: Text(
+                      'SEE ALL >',
+                      style: TextStyles.getBody(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryDarkColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Gap(15),
+            CustomHorizontalListView(
+              height: 100,
+              items: teachers,
+              itemBuilder: (context, teacher, index) {
+                return GestureDetector(
+                  onTap: () {
+                    pushTo(context, Routes.teacherDetails,
+                        extra: teachers[index]);
+                  },
+                  child: MentorNamesList.teachersNamesList(
+                    teacherModel: teachers[index],
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
