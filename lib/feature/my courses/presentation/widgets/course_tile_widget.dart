@@ -13,12 +13,15 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class CourseTileWidget extends StatelessWidget {
-  final CourseModel course; // <- CoursesModel → CourseModel
+  final CourseModel course;
   final bool completed;
+  final bool isTeacher; // ✅ Add this parameter
+
   const CourseTileWidget({
     super.key,
     required this.course,
     this.completed = true,
+    this.isTeacher = false, // ✅ Default to student
   });
 
   @override
@@ -219,6 +222,5 @@ double getRandomProgress() {
 }
 
 int getRandomStudentsCount() {
-  // Random between 100 and 5000
   return 100 + (DateTime.now().microsecond % 4900);
 }

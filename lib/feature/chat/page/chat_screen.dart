@@ -116,6 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
             backgroundImage: widget.receiverImageUrl != null
                 ? NetworkImage(widget.receiverImageUrl!)
                 : null,
+            backgroundColor: AppColors.primaryDarkColor.withOpacity(0.8),
             child: widget.receiverImageUrl == null
                 ? const Icon(
                     IconlyLight.profile,
@@ -123,7 +124,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     size: 20,
                   )
                 : null,
-            backgroundColor: AppColors.primaryDarkColor.withOpacity(0.8),
           ),
           const Gap(12),
           Text(

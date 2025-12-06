@@ -1,5 +1,4 @@
 import 'package:edunity/components/buttons/gradient_button.dart';
-import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/extentions/dialogs.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/services/local/shared_pref.dart';

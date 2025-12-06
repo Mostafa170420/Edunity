@@ -150,7 +150,7 @@ class BottomNavBarState extends State<MainScreen> {
           BoxShadow(
             color: Theme.of(context).brightness == Brightness.dark
                 ? (Theme.of(context).colorScheme.surface).withAlpha(150)
-                : Theme.of(context).colorScheme.background.withAlpha(150),
+                : Theme.of(context).colorScheme.surface.withAlpha(150),
             blurRadius: 0,
             offset: const Offset(0, 0),
           ),

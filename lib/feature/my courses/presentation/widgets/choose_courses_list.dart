@@ -6,11 +6,15 @@ import 'package:gap/gap.dart';
 class ChooseCoursesList extends StatefulWidget {
   final int selectedIndex;
   final ValueChanged<int> onPressed;
+  final String firstLabel; // Left button (index = 1)
+  final String secondLabel; // Right button (index = 0)
 
   const ChooseCoursesList({
     super.key,
     required this.onPressed,
     required this.selectedIndex,
+    this.firstLabel = 'Ongoing',
+    this.secondLabel = 'Completed',
   });
 
   @override
@@ -26,6 +30,14 @@ class _ChooseCoursesListState extends State<ChooseCoursesList> {
     selectedIndex = widget.selectedIndex;
   }
 
+  @override
+  void didUpdateWidget(covariant ChooseCoursesList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedIndex != widget.selectedIndex) {
+      selectedIndex = widget.selectedIndex;
+    }
+  }
+
   void _onButtonPressed(int index) {
     setState(() {
       selectedIndex = index;
@@ -39,6 +51,7 @@ class _ChooseCoursesListState extends State<ChooseCoursesList> {
       children: [
         Row(
           children: [
+            // First button (Ongoing / Live Sessions)
             Expanded(
               child: SizedBox(
                 height: 48,
@@ -53,7 +66,7 @@ class _ChooseCoursesListState extends State<ChooseCoursesList> {
                     ),
                   ),
                   child: Text(
-                    'Ongoing',
+                    widget.firstLabel, // ✅ Dynamic label
                     style: TextStyles.getSmall(
                       color: selectedIndex == 1
                           ? AppColors.whiteColor
@@ -65,15 +78,14 @@ class _ChooseCoursesListState extends State<ChooseCoursesList> {
                 ),
               ),
             ),
-            Gap(10),
+            const Gap(10),
 
+            // Second button (Completed / Uploaded Courses)
             Expanded(
               child: SizedBox(
                 height: 48,
                 child: TextButton(
-                  onPressed: () {
-                    _onButtonPressed(0);
-                  },
+                  onPressed: () => _onButtonPressed(0),
                   style: TextButton.styleFrom(
                     backgroundColor: selectedIndex == 0
                         ? AppColors.primaryDarkColor
@@ -83,7 +95,7 @@ class _ChooseCoursesListState extends State<ChooseCoursesList> {
                     ),
                   ),
                   child: Text(
-                    'Completed',
+                    widget.secondLabel, // ✅ Dynamic label
                     style: TextStyles.getSmall(
                       color: selectedIndex == 0
                           ? AppColors.whiteColor

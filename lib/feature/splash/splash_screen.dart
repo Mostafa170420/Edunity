@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
-import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/auth/data/models/user_type_enum.dart';

@@ -1,4 +1,3 @@
-import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/bookmark/presentation/widgets/courses_categories_list.dart';
 import 'package:edunity/feature/bookmark/presentation/widgets/courses_list_builder.dart';

@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-import 'package:edunity/core/services/firebase/firebase_provider.dart';
-import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/feature/profile/data/repo/profile_repo.dart';
 import 'package:edunity/feature/profile/presentation/bloc/profile_event.dart';
 import 'package:edunity/feature/profile/presentation/bloc/profile_state.dart';
@@ -43,7 +41,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       dobController.text = userData['dob'] ?? '';
       bioController.text = userData['bio'] ?? '';
       imageUrl = userData['avatarUrl'] ?? '';
-      ;
 
       emit(ProfileSuccessState());
     } catch (e) {

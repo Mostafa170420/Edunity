@@ -1,4 +1,3 @@
-import 'package:edunity/core/constants/app_assets.dart';
 import 'package:flutter/foundation.dart';
 
 /// A model representing a mentor.
