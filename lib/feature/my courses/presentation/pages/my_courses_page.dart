@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:math' hide log;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/components/inputs/custom_text_field.dart';
 import 'package:edunity/core/services/firebase/firebase_provider.dart';
@@ -30,107 +32,151 @@ class _MyCoursesState extends State<MyCourses> {
   late String userId;
   late bool isTeacher;
 
+  // ✅ Stream subscription to listen for changes
+  StreamSubscription<DocumentSnapshot>? _userSubscription;
+
   @override
   void initState() {
     super.initState();
-    _initAndLoad();
+    _initAndListen();
   }
 
-  void _initAndLoad() {
-    // Get user data
+  @override
+  void dispose() {
+    // ✅ Cancel subscription when widget is disposed
+    _userSubscription?.cancel();
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void _initAndListen() {
     userType = SharedPref.getUserType();
     userId = SharedPref.getUserId();
-
-    // ✅ Check if teacher (case-insensitive + trim)
     isTeacher = userType.trim().toLowerCase() == 'teacher';
 
-    // Debug logs
     log('userType: "$userType", isTeacher: $isTeacher');
 
-    loadCourses();
+    // ✅ Start listening to real-time changes
+    _listenToUserChanges();
   }
 
-  Future<void> loadCourses() async {
+  void _listenToUserChanges() {
+    // ✅ Get the appropriate collection based on user type
+    final collection = isTeacher
+        ? FirebaseFirestore.instance.collection('Teacher')
+        : FirebaseFirestore.instance.collection('Student');
+
+    // ✅ Listen to user document changes
+    _userSubscription = collection.doc(userId).snapshots().listen(
+      (snapshot) {
+        if (snapshot.exists) {
+          log('🔄 Detected change in Firestore!');
+          _processUserData(snapshot.data() as Map<String, dynamic>);
+        }
+      },
+      onError: (error) {
+        log('Error listening to changes: $error');
+        setState(() => isLoading = false);
+      },
+    );
+  }
+
+  Future<void> _processUserData(Map<String, dynamic> userData) async {
     try {
       if (isTeacher) {
-        // ========== TEACHER ==========
-        var teacherSnapshot = await FirebaseProvider.getTeacherByID(userId);
-        var teacherData = teacherSnapshot.data() as Map<String, dynamic>;
-
-        // Live Sessions (ongoing)
-        List<String> liveSessionIds =
-            List<String>.from(teacherData['liveSessions'] ?? []);
-        if (liveSessionIds.isNotEmpty) {
-          var liveSnapshot =
-              await FirebaseProvider.getCoursesByIds(liveSessionIds);
-          ongoingCourses = liveSnapshot.docs.map((doc) {
-            var course = CourseModel.fromJson(
-              doc.data() as Map<String, dynamic>,
-              id: doc.id,
-            );
-            return course.copyWith(completed: false);
-          }).toList();
-        }
-
-        // Uploaded Courses (completed)
-        List<String> uploadedIds =
-            List<String>.from(teacherData['uploadedCourses'] ?? []);
-        if (uploadedIds.isNotEmpty) {
-          var uploadedSnapshot =
-              await FirebaseProvider.getCoursesByIds(uploadedIds);
-          completedCourses = uploadedSnapshot.docs.map((doc) {
-            var course = CourseModel.fromJson(
-              doc.data() as Map<String, dynamic>,
-              id: doc.id,
-            );
-            return course.copyWith(completed: true);
-          }).toList();
-        }
+        await _loadTeacherCourses(userData);
       } else {
-        // ========== STUDENT ==========
-        var studentSnapshot = await FirebaseProvider.getStudentByID(userId);
-        var studentData = studentSnapshot.data() as Map<String, dynamic>;
-
-        // Purchased Courses (ongoing)
-        List<String> purchasedIds =
-            List<String>.from(studentData['purchasedCourses'] ?? []);
-        if (purchasedIds.isNotEmpty) {
-          var purchasedSnapshot =
-              await FirebaseProvider.getCoursesByIds(purchasedIds);
-          ongoingCourses = purchasedSnapshot.docs.map((doc) {
-            var course = CourseModel.fromJson(
-              doc.data() as Map<String, dynamic>,
-              id: doc.id,
-            );
-            return course.copyWith(
-              completed: false,
-              progressPercent: _getRandomProgress(),
-            );
-          }).toList();
-        }
-
-        // Completed Courses
-        List<String> completedIds =
-            List<String>.from(studentData['completedCourses'] ?? []);
-        if (completedIds.isNotEmpty) {
-          var completedSnapshot =
-              await FirebaseProvider.getCoursesByIds(completedIds);
-          completedCourses = completedSnapshot.docs.map((doc) {
-            var course = CourseModel.fromJson(
-              doc.data() as Map<String, dynamic>,
-              id: doc.id,
-            );
-            return course.copyWith(completed: true, progressPercent: 1.0);
-          }).toList();
-        }
+        await _loadStudentCourses(userData);
       }
 
       setState(() => isLoading = false);
     } catch (e, stackTrace) {
-      log("Error in loadCourses: $e",
+      log("Error processing user data: $e",
           name: "MyCourses", error: e, stackTrace: stackTrace);
       setState(() => isLoading = false);
     }
+  }
+
+  Future<void> _loadTeacherCourses(Map<String, dynamic> teacherData) async {
+    // Live Sessions (ongoing)
+    List<String> liveSessionIds =
+        List<String>.from(teacherData['liveSessions'] ?? []);
+
+    if (liveSessionIds.isNotEmpty) {
+      var liveSnapshot = await FirebaseProvider.getCoursesByIds(liveSessionIds);
+      ongoingCourses = liveSnapshot.docs.map((doc) {
+        var course = CourseModel.fromJson(
+          doc.data() as Map<String, dynamic>,
+          id: doc.id,
+        );
+        return course.copyWith(completed: false);
+      }).toList();
+    } else {
+      ongoingCourses = [];
+    }
+
+    // Uploaded Courses (completed)
+    List<String> uploadedIds =
+        List<String>.from(teacherData['uploadedCourses'] ?? []);
+
+    if (uploadedIds.isNotEmpty) {
+      var uploadedSnapshot =
+          await FirebaseProvider.getCoursesByIds(uploadedIds);
+      completedCourses = uploadedSnapshot.docs.map((doc) {
+        var course = CourseModel.fromJson(
+          doc.data() as Map<String, dynamic>,
+          id: doc.id,
+        );
+        return course.copyWith(completed: true);
+      }).toList();
+    } else {
+      completedCourses = [];
+    }
+
+    log('Teacher - Live: ${ongoingCourses.length}, Uploaded: ${completedCourses.length}');
+  }
+
+  Future<void> _loadStudentCourses(Map<String, dynamic> studentData) async {
+    // Purchased Courses (ongoing)
+    List<String> purchasedIds =
+        List<String>.from(studentData['purchasedCourses'] ?? []);
+
+    if (purchasedIds.isNotEmpty) {
+      var purchasedSnapshot =
+          await FirebaseProvider.getCoursesByIds(purchasedIds);
+      ongoingCourses = purchasedSnapshot.docs.map((doc) {
+        var course = CourseModel.fromJson(
+          doc.data() as Map<String, dynamic>,
+          id: doc.id,
+        );
+        return course.copyWith(
+          completed: false,
+          progressPercent: _getRandomProgress(),
+        );
+      }).toList();
+    } else {
+      ongoingCourses = [];
+    }
+
+    // Completed Courses
+    List<String> completedIds =
+        List<String>.from(studentData['completedCourses'] ?? []);
+
+    if (completedIds.isNotEmpty) {
+      var completedSnapshot =
+          await FirebaseProvider.getCoursesByIds(completedIds);
+      completedCourses = completedSnapshot.docs.map((doc) {
+        var course = CourseModel.fromJson(
+          doc.data() as Map<String, dynamic>,
+          id: doc.id,
+        );
+        return course.copyWith(completed: true, progressPercent: 1.0);
+      }).toList();
+    } else {
+      completedCourses = [];
+    }
+
+    log('Student - Ongoing: ${ongoingCourses.length}, Completed: ${completedCourses.length}');
   }
 
   double _getRandomProgress() {
@@ -138,55 +184,84 @@ class _MyCoursesState extends State<MyCourses> {
     return double.parse((random.nextDouble()).toStringAsFixed(2));
   }
 
+  // ✅ Manual refresh option (pull to refresh)
+  Future<void> _refreshCourses() async {
+    setState(() => isLoading = true);
+    // The stream will automatically trigger _processUserData
+    // But we can force a refresh by re-reading the document
+    final collection = isTeacher
+        ? FirebaseFirestore.instance.collection('Teacher')
+        : FirebaseFirestore.instance.collection('Student');
+
+    final snapshot = await collection.doc(userId).get();
+    if (snapshot.exists) {
+      await _processUserData(snapshot.data() as Map<String, dynamic>);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Courses')),
+      appBar: AppBar(
+        title: const Text('My Courses'),
+        actions: [
+          // ✅ Optional: Manual refresh button
+          IconButton(
+            onPressed: _refreshCourses,
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
+      ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(24, 20, 24, 60),
-              child: Column(
-                children: [
-                  // Search box
-                  CustomTextField(
-                    controller: searchController,
-                    hintText: 'Search for..',
-                    suffixIcon: GradientButton(
-                      onPressed: () {},
-                      label: '',
-                      width: 40,
-                      borderRadius: 12,
-                      iconAlignment: IconAlignment.start,
-                      icon: const Icon(Icons.search, color: Colors.white),
+          : RefreshIndicator(
+              // ✅ Pull to refresh
+              onRefresh: _refreshCourses,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(24, 20, 24, 60),
+                child: Column(
+                  children: [
+                    // Search box
+                    CustomTextField(
+                      controller: searchController,
+                      hintText: 'Search for..',
+                      suffixIcon: GradientButton(
+                        onPressed: () {},
+                        label: '',
+                        width: 40,
+                        borderRadius: 12,
+                        iconAlignment: IconAlignment.start,
+                        icon: const Icon(Icons.search, color: Colors.white),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
-                  // ✅ Dynamic button labels
-                  ChooseCoursesList(
-                    selectedIndex: currentIndex,
-                    onPressed: (value) {
-                      setState(() {
-                        currentIndex = value;
-                      });
-                    },
-                    firstLabel: isTeacher ? 'Live Sessions' : 'Ongoing',
-                    secondLabel: isTeacher ? 'Uploaded Courses' : 'Completed',
-                  ),
-                  const SizedBox(height: 10),
+                    // Dynamic button labels
+                    ChooseCoursesList(
+                      selectedIndex: currentIndex,
+                      onPressed: (value) {
+                        setState(() {
+                          currentIndex = value;
+                        });
+                      },
+                      firstLabel: isTeacher ? 'Live Sessions' : 'Ongoing',
+                      secondLabel: isTeacher ? 'Uploaded Courses' : 'Completed',
+                    ),
+                    const SizedBox(height: 10),
 
-                  // ✅ Pass isTeacher to list builder
-                  currentIndex == 0
-                      ? CoursesListBuilder(
-                          courses: completedCourses,
-                          isTeacher: isTeacher,
-                        )
-                      : CoursesListBuilder(
-                          courses: ongoingCourses,
-                          isTeacher: isTeacher,
-                        ),
-                ],
+                    // Display courses
+                    currentIndex == 0
+                        ? CoursesListBuilder(
+                            courses: completedCourses,
+                            isTeacher: isTeacher,
+                          )
+                        : CoursesListBuilder(
+                            courses: ongoingCourses,
+                            isTeacher: isTeacher,
+                          ),
+                  ],
+                ),
               ),
             ),
     );
