@@ -1,5 +1,5 @@
-// Import necessary packages and widgets for the "My Courses" screen.
 import 'dart:developer';
+import 'dart:math' hide log;
 
 import 'package:edunity/components/buttons/gradient_button.dart';
 import 'package:edunity/components/inputs/custom_text_field.dart';
@@ -7,12 +7,9 @@ import 'package:edunity/core/services/firebase/firebase_provider.dart';
 import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:edunity/feature/my%20courses/presentation/widgets/choose_courses_list.dart';
-import 'package:edunity/feature/my%20courses/presentation/widgets/course_tile_widget.dart';
 import 'package:edunity/feature/my%20courses/presentation/widgets/courses_list_builder.dart';
 import 'package:flutter/material.dart';
 
-/// The `MyCourses` widget is a stateful widget that displays the courses a student is enrolled in.
-/// It separates courses into "Ongoing" and "Completed" lists.
 class MyCourses extends StatefulWidget {
   const MyCourses({super.key});
 
@@ -21,7 +18,7 @@ class MyCourses extends StatefulWidget {
 }
 
 class _MyCoursesState extends State<MyCourses> {
-  int currentIndex = 1; // 0: Completed, 1: Ongoing
+  int currentIndex = 1;
   final searchController = TextEditingController();
 
   bool isLoading = true;
@@ -29,56 +26,103 @@ class _MyCoursesState extends State<MyCourses> {
   List<CourseModel> completedCourses = [];
   List<CourseModel> ongoingCourses = [];
 
-  String userType = SharedPref.getUserType(); // "student" or "teacher"
-  String userId = SharedPref.getUserId();
+  late String userType;
+  late String userId;
+  late bool isTeacher;
 
   @override
   void initState() {
     super.initState();
+    _initAndLoad();
+  }
+
+  void _initAndLoad() {
+    // Get user data
+    userType = SharedPref.getUserType();
+    userId = SharedPref.getUserId();
+
+    // ✅ Check if teacher (case-insensitive + trim)
+    isTeacher = userType.trim().toLowerCase() == 'teacher';
+
+    // Debug logs
+    log('userType: "$userType", isTeacher: $isTeacher');
+
     loadCourses();
   }
 
   Future<void> loadCourses() async {
     try {
-      // Fetch student data
-      var studentSnapshot = await FirebaseProvider.getStudentByID(userId);
-      var studentData = studentSnapshot.data() as Map<String, dynamic>;
-      List<String> completedIds =
-          List<String>.from(studentData['completedCourses'] ?? []);
-      List<String> purchasedIds =
-          List<String>.from(studentData['purchasedCourses'] ?? []);
+      if (isTeacher) {
+        // ========== TEACHER ==========
+        var teacherSnapshot = await FirebaseProvider.getTeacherByID(userId);
+        var teacherData = teacherSnapshot.data() as Map<String, dynamic>;
 
-      // ✅ Only fetch completed courses if IDs exist
-      if (completedIds.isNotEmpty) {
-        var completedSnapshot =
-            await FirebaseProvider.getCoursesByIds(completedIds);
-        completedCourses = completedSnapshot.docs.map((doc) {
-          var course = CourseModel.fromJson(
-            doc.data() as Map<String, dynamic>,
-            id: doc.id,
-          );
-          return course.copyWith(completed: true, progressPercent: 1.0);
-        }).toList();
-      } else {
-        completedCourses = []; // Explicitly set to empty
-      }
+        // Live Sessions (ongoing)
+        List<String> liveSessionIds =
+            List<String>.from(teacherData['liveSessions'] ?? []);
+        if (liveSessionIds.isNotEmpty) {
+          var liveSnapshot =
+              await FirebaseProvider.getCoursesByIds(liveSessionIds);
+          ongoingCourses = liveSnapshot.docs.map((doc) {
+            var course = CourseModel.fromJson(
+              doc.data() as Map<String, dynamic>,
+              id: doc.id,
+            );
+            return course.copyWith(completed: false);
+          }).toList();
+        }
 
-      // ✅ Only fetch ongoing courses if IDs exist
-      if (purchasedIds.isNotEmpty) {
-        var purchasedSnapshot =
-            await FirebaseProvider.getCoursesByIds(purchasedIds);
-        ongoingCourses = purchasedSnapshot.docs.map((doc) {
-          var course = CourseModel.fromJson(
-            doc.data() as Map<String, dynamic>,
-            id: doc.id,
-          );
-          return course.copyWith(
-            completed: false,
-            progressPercent: getRandomProgress(),
-          );
-        }).toList();
+        // Uploaded Courses (completed)
+        List<String> uploadedIds =
+            List<String>.from(teacherData['uploadedCourses'] ?? []);
+        if (uploadedIds.isNotEmpty) {
+          var uploadedSnapshot =
+              await FirebaseProvider.getCoursesByIds(uploadedIds);
+          completedCourses = uploadedSnapshot.docs.map((doc) {
+            var course = CourseModel.fromJson(
+              doc.data() as Map<String, dynamic>,
+              id: doc.id,
+            );
+            return course.copyWith(completed: true);
+          }).toList();
+        }
       } else {
-        ongoingCourses = []; // Explicitly set to empty
+        // ========== STUDENT ==========
+        var studentSnapshot = await FirebaseProvider.getStudentByID(userId);
+        var studentData = studentSnapshot.data() as Map<String, dynamic>;
+
+        // Purchased Courses (ongoing)
+        List<String> purchasedIds =
+            List<String>.from(studentData['purchasedCourses'] ?? []);
+        if (purchasedIds.isNotEmpty) {
+          var purchasedSnapshot =
+              await FirebaseProvider.getCoursesByIds(purchasedIds);
+          ongoingCourses = purchasedSnapshot.docs.map((doc) {
+            var course = CourseModel.fromJson(
+              doc.data() as Map<String, dynamic>,
+              id: doc.id,
+            );
+            return course.copyWith(
+              completed: false,
+              progressPercent: _getRandomProgress(),
+            );
+          }).toList();
+        }
+
+        // Completed Courses
+        List<String> completedIds =
+            List<String>.from(studentData['completedCourses'] ?? []);
+        if (completedIds.isNotEmpty) {
+          var completedSnapshot =
+              await FirebaseProvider.getCoursesByIds(completedIds);
+          completedCourses = completedSnapshot.docs.map((doc) {
+            var course = CourseModel.fromJson(
+              doc.data() as Map<String, dynamic>,
+              id: doc.id,
+            );
+            return course.copyWith(completed: true, progressPercent: 1.0);
+          }).toList();
+        }
       }
 
       setState(() => isLoading = false);
@@ -89,12 +133,17 @@ class _MyCoursesState extends State<MyCourses> {
     }
   }
 
+  double _getRandomProgress() {
+    Random random = Random();
+    return double.parse((random.nextDouble()).toStringAsFixed(2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('My Courses')),
+      appBar: AppBar(title: const Text('My Courses')),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(24, 20, 24, 60),
               child: Column(
@@ -109,12 +158,12 @@ class _MyCoursesState extends State<MyCourses> {
                       width: 40,
                       borderRadius: 12,
                       iconAlignment: IconAlignment.start,
-                      icon: Icon(Icons.search, color: Colors.white),
+                      icon: const Icon(Icons.search, color: Colors.white),
                     ),
                   ),
                   const SizedBox(height: 20),
 
-                  // Buttons (Ongoing / Completed)
+                  // ✅ Dynamic button labels
                   ChooseCoursesList(
                     selectedIndex: currentIndex,
                     onPressed: (value) {
@@ -122,13 +171,21 @@ class _MyCoursesState extends State<MyCourses> {
                         currentIndex = value;
                       });
                     },
+                    firstLabel: isTeacher ? 'Live Sessions' : 'Ongoing',
+                    secondLabel: isTeacher ? 'Uploaded Courses' : 'Completed',
                   ),
                   const SizedBox(height: 10),
 
-                  // Render the currently selected list only
+                  // ✅ Pass isTeacher to list builder
                   currentIndex == 0
-                      ? CoursesListBuilder(courses: completedCourses)
-                      : CoursesListBuilder(courses: ongoingCourses),
+                      ? CoursesListBuilder(
+                          courses: completedCourses,
+                          isTeacher: isTeacher,
+                        )
+                      : CoursesListBuilder(
+                          courses: ongoingCourses,
+                          isTeacher: isTeacher,
+                        ),
                 ],
               ),
             ),
