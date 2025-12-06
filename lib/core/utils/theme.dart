@@ -57,6 +57,14 @@ class AppTheme {
             BorderSide(color: AppColors.darkColor.withAlpha(20), width: 0.7),
       ),
     ),
+    cardTheme: CardThemeData(
+      color: AppColors.whiteColor, // default Card color
+      surfaceTintColor: Colors.transparent, // removes pinkish overlay
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    ),
     cardColor: AppColors.whiteColor,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
@@ -133,6 +141,14 @@ class AppTheme {
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
         borderSide: BorderSide(color: AppColors.darkBorderColor, width: 1),
+      ),
+    ),
+    cardTheme: CardThemeData(
+      color: AppColors.darkSurfaceColor, // default Card color
+      surfaceTintColor: Colors.transparent, // removes pinkish overlay
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
       ),
     ),
     cardColor: AppColors.darkSurfaceColor,
