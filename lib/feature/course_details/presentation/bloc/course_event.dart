@@ -5,3 +5,9 @@ class AddToCartEvent extends CourseEvent {
 
   AddToCartEvent(this.courseId);
 }
+
+class LoadTeacherDataEvent extends CourseEvent {
+  final String instructorId;
+
+  LoadTeacherDataEvent(this.instructorId);
+}

@@ -10,6 +10,7 @@ import 'package:edunity/feature/categories/category_screen.dart';
 import 'package:edunity/feature/chat/page/chat_screen.dart';
 import 'package:edunity/feature/course_details/presentation/bloc/course_bloc.dart';
 import 'package:edunity/feature/course_details/presentation/pages/main_tab_screen.dart';
+import 'package:edunity/feature/course_details/presentation/pages/video_player_screen.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:edunity/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:edunity/feature/home/presentation/page/course_upload_screen.dart';
@@ -50,6 +51,7 @@ class Routes {
   static const String bookmark = '/bookmark';
   static const String topMentors = '/topMentors';
   static const String filter = '/filter';
+  static const String videoPlayer = '/videoPlayer';
   static const String chatScreen = '/chat';
 
   // The GoRouter configuration for the application.
@@ -159,6 +161,19 @@ class Routes {
 
       // The screen for the user's bookmarked courses.
       GoRoute(path: bookmark, builder: (context, state) => BookmarksScreen()),
+
+      GoRoute(
+        path: videoPlayer,
+        builder: (context, state) {
+          final args = state.extra as Map<String, dynamic>;
+          return VideoPlayerScreen(
+            videoID: args['videoID'] as String,
+            title: args['title'] as String,
+            whatYouLearn: args['whatYouLearn'] as String?,
+            course: args['course'] as CourseModel,
+          );
+        },
+      ),
 
       // The chat screen, which takes receiver information as an extra parameter.
       GoRoute(

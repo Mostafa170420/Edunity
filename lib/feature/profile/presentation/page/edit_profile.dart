@@ -40,9 +40,22 @@ class _EditProfileState extends State<EditProfile> {
     bloc.add(ProfileLoadEvent());
   }
 
-  Future<void> _pickImage() async {
+  Future<void> _pickImageFromCamera() async {
     final pickedFile = await ImagePicker().pickImage(
       source: ImageSource.camera,
+    );
+
+    if (pickedFile != null) {
+      setState(() {
+        _imagePath = pickedFile.path;
+        file = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future<void> _pickImageFromGallery() async {
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
     );
 
     if (pickedFile != null) {
@@ -135,15 +148,48 @@ class _EditProfileState extends State<EditProfile> {
                       right: 0,
                       child: GradientButton(
                         label: '',
-                        onPressed: _pickImage,
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return SafeArea(
+                                child: Wrap(
+                                  children: [
+                                    ListTile(
+                                      leading: SvgPicture.asset(
+                                        AppAssets.cameraSvg,
+                                        width: 20,
+                                        height: 20,
+                                        colorFilter: ColorFilter.mode(
+                                            AppColors.primaryDarkColor,
+                                            BlendMode.srcIn),
+                                      ),
+                                      title: const Text('Take Photo'),
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                        _pickImageFromCamera();
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: const Icon(
+                                        Icons.photo_library,
+                                        color: AppColors.primaryDarkColor,
+                                      ),
+                                      title: const Text('Choose from Gallery'),
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                        _pickImageFromGallery();
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
                         width: 40,
-                        icon: SvgPicture.asset(
-                          AppAssets.cameraSvg,
-                          width: 20,
-                          height: 20,
-                          colorFilter: ColorFilter.mode(
-                              AppColors.whiteColor, BlendMode.srcIn),
-                        ),
+                        icon: Icon(Icons.edit,
+                            color: AppColors.whiteColor, size: 20),
                         iconAlignment: IconAlignment.start,
                       ),
                     ),

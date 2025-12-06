@@ -1,3 +1,5 @@
+import 'package:edunity/feature/auth/data/models/teacher_model.dart';
+
 class CourseState {}
 
 class CourseInitialState extends CourseState {}
@@ -12,6 +14,18 @@ class CourseSuccessState extends CourseState {
 class AddToCartSuccessState extends CourseState {
   final String? message;
   AddToCartSuccessState({this.message});
+}
+
+class TeacherLoadDataSuccessState extends CourseState {
+  final TeacherModel teacher;
+
+  TeacherLoadDataSuccessState({required this.teacher});
+}
+
+class TeacherLoadDataErrorState extends CourseState {
+  final String message;
+
+  TeacherLoadDataErrorState(this.message);
 }
 
 class CourseErrorState extends CourseState {

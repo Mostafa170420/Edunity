@@ -44,4 +44,15 @@ class CourseRepo {
       return "Unexpected error occurred.";
     }
   }
+
+  static Future<TeacherModel> loadTeacherData(String instructorId) async {
+    var snapshot = await FirebaseProvider.getTeacherByID(instructorId);
+
+    var data = snapshot.data() as Map<String, dynamic>;
+
+    return TeacherModel.fromJson(
+      data,
+      snapshot.id,
+    );
+  }
 }

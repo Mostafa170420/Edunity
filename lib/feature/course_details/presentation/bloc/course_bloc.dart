@@ -8,6 +8,8 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     on<CourseEvent>((event, emit) async {
       if (event is AddToCartEvent) {
         await addToCart(event, emit);
+      } else if (event is LoadTeacherDataEvent) {
+        await loadTeacherData(event, emit);
       }
     });
   }
@@ -23,6 +25,17 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       emit(AddToCartSuccessState(message: 'Course added to cart successfully'));
     } catch (e) {
       emit(CourseErrorState(e.toString()));
+    }
+  }
+
+  Future<void> loadTeacherData(
+      LoadTeacherDataEvent event, Emitter<CourseState> emit) async {
+    emit(CourseLoadingState());
+    try {
+      var teacherData = await CourseRepo.loadTeacherData(event.instructorId);
+      emit(TeacherLoadDataSuccessState(teacher: teacherData));
+    } catch (e) {
+      emit(TeacherLoadDataErrorState(e.toString()));
     }
   }
 }

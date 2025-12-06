@@ -1,4 +1,5 @@
 import 'package:edunity/core/utils/colors.dart';
+import 'package:edunity/feature/course_details/presentation/widgets/video_name_builder.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -52,30 +53,9 @@ class CurriculumPage extends StatelessWidget {
               childrenPadding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               children: List.generate(videoCount, (index) {
-                final String title = course.videoNames![index];
-                final String duration = (course.videoDurations != null &&
-                        index < course.videoDurations!.length)
-                    ? course.videoDurations![index]
-                    : '';
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.play_circle_outline,
-                          color: Colors.black54),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          title,
-                          style: const TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      Text(
-                        duration,
-                        style: const TextStyle(color: Colors.grey),
-                      ),
-                    ],
-                  ),
+                return VideoNameBuilder(
+                  course: course,
+                  index: index,
                 );
               }),
             ),

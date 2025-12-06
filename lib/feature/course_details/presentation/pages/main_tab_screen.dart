@@ -5,6 +5,9 @@ import 'package:edunity/core/services/firebase/firebase_provider.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/auth/data/models/teacher_model.dart';
+import 'package:edunity/feature/course_details/presentation/bloc/course_bloc.dart';
+import 'package:edunity/feature/course_details/presentation/bloc/course_event.dart';
+import 'package:edunity/feature/course_details/presentation/bloc/course_state.dart';
 import 'package:edunity/feature/course_details/presentation/pages/curriculum_page.dart';
 import 'package:edunity/feature/course_details/presentation/pages/overview_page.dart';
 import 'package:edunity/feature/course_details/presentation/pages/reviews_page.dart';
@@ -12,6 +15,7 @@ import 'package:edunity/feature/course_details/presentation/widgets/course_botto
 import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:edunity/core/services/bookmark/bookmark_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 class MainTabScreen extends StatefulWidget {
@@ -29,24 +33,10 @@ class _MainTabScreenState extends State<MainTabScreen> {
   @override
   void initState() {
     super.initState();
-    loadTeacherData();
+    context.read<CourseBloc>().add(
+          LoadTeacherDataEvent(widget.course.instructorId ?? ''),
+        );
     _loadBookmarkStatus();
-  }
-
-  Future<void> loadTeacherData() async {
-    var snapshot =
-        await FirebaseProvider.getTeacherByID(widget.course.instructorId ?? '');
-
-    var data = snapshot.data() as Map<String, dynamic>;
-
-    setState(() {
-      teacherData = TeacherModel.fromJson(
-        data,
-        snapshot.id,
-      );
-    });
-
-    log('Teacher Data Loaded: $teacherData');
   }
 
   Future<void> _loadBookmarkStatus() async {
@@ -67,83 +57,99 @@ class _MainTabScreenState extends State<MainTabScreen> {
     String? duration = widget.course.duration;
     String? language = widget.course.language;
     String? courseRating = widget.course.rating.toString();
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                pop(context);
-              },
-              icon: const Icon(Icons.arrow_back)),
-          actions: [
-            IconButton(
-              icon: Icon(
-                isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
-                color: isBookmarked ? Colors.amber : AppColors.greyColor,
-              ),
-              onPressed: () async {
-                log('Bookmark button pressed');
-                setState(() {
-                  isBookmarked = !isBookmarked;
-                });
-                await BookmarkService.bookmarkCourses(
-                    courseId: widget.course.id ?? '');
-              },
-            )
-          ],
-        ),
-        body: SafeArea(
-          child: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
-                SliverToBoxAdapter(child: _headerImage()),
-                SliverToBoxAdapter(
-                    child: _courseDetails(teacherRating, rating, duration,
-                        language, courseRating)),
-                SliverToBoxAdapter(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color:
-                          AppColors.logoBackgroundColor.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: TabBar(
-                      indicator: BoxDecoration(
-                        color: AppColors.logoBackgroundColor,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      labelColor: Colors.black,
-                      unselectedLabelColor: Colors.black54,
-                      labelStyle: const TextStyle(fontWeight: FontWeight.w600),
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      tabs: const [
-                        Tab(text: 'Overview'),
-                        Tab(text: 'Curriculum'),
-                        Tab(text: 'Reviews'),
-                      ],
-                    ),
+    return BlocConsumer<CourseBloc, CourseState>(
+      listener: (context, state) {
+        if (state is TeacherLoadDataSuccessState) {
+          setState(() {
+            teacherData = state.teacher;
+          });
+        }
+        if (state is TeacherLoadDataErrorState) {
+          log('Error loading teacher data: ${state.message}');
+        }
+      },
+      builder: (context, state) {
+        return DefaultTabController(
+          length: 3,
+          child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                  onPressed: () {
+                    pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back)),
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
+                    color: isBookmarked ? Colors.amber : AppColors.greyColor,
                   ),
-                ),
-              ];
-            },
-            body: TabBarView(
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                OverviewPage(course: widget.course),
-                CurriculumPage(
-                  course: widget.course,
-                ),
-                ReviewsPage(),
+                  onPressed: () async {
+                    log('Bookmark button pressed');
+                    setState(() {
+                      isBookmarked = !isBookmarked;
+                    });
+                    await BookmarkService.bookmarkCourses(
+                        courseId: widget.course.id ?? '');
+                  },
+                )
               ],
             ),
+            body: SafeArea(
+              child: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [
+                    SliverToBoxAdapter(child: _headerImage()),
+                    SliverToBoxAdapter(
+                        child: _courseDetails(teacherRating, rating, duration,
+                            language, courseRating)),
+                    SliverToBoxAdapter(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: AppColors.logoBackgroundColor
+                              .withValues(alpha: 0.3),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: TabBar(
+                          indicator: BoxDecoration(
+                            color: AppColors.logoBackgroundColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          labelColor: Colors.black,
+                          unselectedLabelColor: Colors.black54,
+                          labelStyle:
+                              const TextStyle(fontWeight: FontWeight.w600),
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          tabs: const [
+                            Tab(text: 'Overview'),
+                            Tab(text: 'Curriculum'),
+                            Tab(text: 'Reviews'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ];
+                },
+                body: TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [
+                    OverviewPage(course: widget.course),
+                    CurriculumPage(
+                      course: widget.course,
+                    ),
+                    ReviewsPage(),
+                  ],
+                ),
+              ),
+            ),
+            bottomNavigationBar:
+                CourseBottomBar(courseId: widget.course.id ?? ''),
           ),
-        ),
-        bottomNavigationBar: CourseBottomBar(courseId: widget.course.id ?? ''),
-      ),
+        );
+      },
     );
   }
 
