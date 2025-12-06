@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/services/bookmark/bookmark_service.dart';
-import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
@@ -27,7 +26,18 @@ class _CoursesListState extends State<CoursesList> {
   @override
   void initState() {
     super.initState();
-    isBookmarked = SharedPref.getIsBookmarked(widget.course.id ?? '') ?? false;
+    _loadBookmarkStatus();
+  }
+
+  Future<void> _loadBookmarkStatus() async {
+    final bookmarked = await BookmarkService.isBookmarked(
+      courseId: widget.course.id ?? '',
+    );
+    if (mounted) {
+      setState(() {
+        isBookmarked = bookmarked;
+      });
+    }
   }
 
   @override
@@ -39,8 +49,7 @@ class _CoursesListState extends State<CoursesList> {
               pushTo(context, Routes.courseDetails, extra: widget.course)
                   .then((value) {
             setState(() {
-              isBookmarked =
-                  SharedPref.getIsBookmarked(widget.course.id ?? '') ?? false;
+              _loadBookmarkStatus();
             });
           }),
           child: SizedBox(
@@ -150,11 +159,8 @@ class _CoursesListState extends State<CoursesList> {
                           log('Bookmark button pressed');
                           setState(() {
                             isBookmarked = !isBookmarked;
-                            SharedPref.setIsBookmarked(
-                                widget.course.id ?? '', isBookmarked);
                           });
                           await BookmarkService.bookmarkCourses(
-                              isBookmarked: isBookmarked,
                               courseId: widget.course.id ?? '');
                         },
                       )),

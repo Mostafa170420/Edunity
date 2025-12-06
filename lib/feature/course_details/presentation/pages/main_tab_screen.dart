@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
 import 'package:edunity/core/services/firebase/firebase_provider.dart';
-import 'package:edunity/core/services/local/shared_pref.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/auth/data/models/teacher_model.dart';
@@ -30,8 +29,8 @@ class _MainTabScreenState extends State<MainTabScreen> {
   @override
   void initState() {
     super.initState();
-    isBookmarked = SharedPref.getIsBookmarked(widget.course.id ?? '') ?? false;
     loadTeacherData();
+    _loadBookmarkStatus();
   }
 
   Future<void> loadTeacherData() async {
@@ -48,6 +47,17 @@ class _MainTabScreenState extends State<MainTabScreen> {
     });
 
     log('Teacher Data Loaded: $teacherData');
+  }
+
+  Future<void> _loadBookmarkStatus() async {
+    final bookmarked = await BookmarkService.isBookmarked(
+      courseId: widget.course.id ?? '',
+    );
+    if (mounted) {
+      setState(() {
+        isBookmarked = bookmarked;
+      });
+    }
   }
 
   @override
@@ -76,11 +86,8 @@ class _MainTabScreenState extends State<MainTabScreen> {
                 log('Bookmark button pressed');
                 setState(() {
                   isBookmarked = !isBookmarked;
-                  SharedPref.setIsBookmarked(
-                      widget.course.id ?? '', isBookmarked);
                 });
                 await BookmarkService.bookmarkCourses(
-                    isBookmarked: isBookmarked,
                     courseId: widget.course.id ?? '');
               },
             )

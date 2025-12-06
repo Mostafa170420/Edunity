@@ -31,7 +31,7 @@ class StudentModel {
     this.courseProgress,
     this.joinedSessions = const [],
     this.sentRequests = const [],
-    this.bookmarkedCourses = const ['Fuck Firestore'],
+    this.bookmarkedCourses = const ['firestore placeholder'],
     this.darkMode = false,
   });
 

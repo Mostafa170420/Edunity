@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:edunity/core/services/firebase/firebase_provider.dart';
 import 'package:edunity/core/services/local/shared_pref.dart';
+import 'package:edunity/feature/auth/data/models/teacher_model.dart';
 import 'package:edunity/feature/auth/data/models/user_type_enum.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -67,6 +68,10 @@ class HomeRepo {
         rating: rating,
         thumbnail: thumbnail,
       );
+      await FirebaseProvider.updateTeacher(TeacherModel(
+        uid: instructorId ?? '',
+        uploadedCourses: [id ?? ''],
+      ));
 
       // Upload to Firebase
       await FirebaseProvider.createCourse(course);

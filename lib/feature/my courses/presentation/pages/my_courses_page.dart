@@ -11,6 +11,7 @@ import 'package:edunity/feature/my%20courses/presentation/widgets/course_tile_wi
 import 'package:edunity/feature/my%20courses/presentation/widgets/courses_list_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:iconly/iconly.dart';
 
 /// The `MyCourses` widget is a stateful widget that displays the courses a student is enrolled in.
 /// It separates courses into "Ongoing" and "Completed" lists.
@@ -24,6 +25,9 @@ class MyCourses extends StatefulWidget {
 class _MyCoursesState extends State<MyCourses> {
   int currentIndex = 1; // 0: Completed, 1: Ongoing
   final searchController = TextEditingController();
+  String searchText = '';
+  List<CourseModel> completedCourses = [];
+  List<CourseModel> ongoingCourses = [];
 
   List<Widget> screens = [];
   bool isLoading = true;
@@ -70,7 +74,7 @@ class _MyCoursesState extends State<MyCourses> {
           name: "MyCourses");
 
       // Map to CourseModel
-      List<CourseModel> completedCourses = completedSnapshot.docs.map((doc) {
+      completedCourses = completedSnapshot.docs.map((doc) {
         var course = CourseModel.fromJson(doc.data() as Map<String, dynamic>,
             id: doc.id);
         log("Completed course loaded: ${course.name}, id: ${course.id}",
@@ -78,7 +82,7 @@ class _MyCoursesState extends State<MyCourses> {
         return course.copyWith(completed: true, progressPercent: 1.0);
       }).toList();
 
-      List<CourseModel> ongoingCourses = purchasedSnapshot.docs.map((doc) {
+      ongoingCourses = purchasedSnapshot.docs.map((doc) {
         var course = CourseModel.fromJson(doc.data() as Map<String, dynamic>,
             id: doc.id);
         log("Ongoing course loaded: ${course.name}, id: ${course.id}",
@@ -94,10 +98,6 @@ class _MyCoursesState extends State<MyCourses> {
 
       // Update UI
       setState(() {
-        screens = [
-          CoursesListBuilder(courses: completedCourses),
-          CoursesListBuilder(courses: ongoingCourses),
-        ];
         isLoading = false;
       });
     } catch (e, stackTrace) {
@@ -109,49 +109,65 @@ class _MyCoursesState extends State<MyCourses> {
 
   @override
   Widget build(BuildContext context) {
+    final List<CourseModel> filteredCompleted = completedCourses
+        .where((course) => course.name?.contains(searchText) ?? false)
+        .toList();
+    final List<CourseModel> filteredOngoing = ongoingCourses
+        .where((course) => course.name?.contains(searchText) ?? false)
+        .toList();
+    log("Building UI with $searchText: "
+        "${filteredCompleted.length} completed, ${filteredOngoing.length} ongoing");
+
     return Scaffold(
         appBar: AppBar(title: Text('My Courses')),
         body: isLoading
             ? Center(child: CircularProgressIndicator())
-            : screens.isEmpty
-                ? Center(child: Text('No courses available'))
-                : SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(24, 20, 24, 60),
-                    child: Column(
-                      children: [
-                        // 1️⃣ Search box
-                        CustomTextField(
-                          controller: searchController,
-                          hintText: 'Search for..',
-                          suffixIcon: GradientButton(
-                            onPressed: () {},
-                            label: '',
-                            width: 40,
-                            borderRadius: 12,
-                            iconAlignment: IconAlignment.start,
-                            icon: Icon(Icons.search, color: Colors.white),
-                          ),
-                        ),
-                        const Gap(20),
-
-                        // 2️⃣ Buttons (Ongoing / Completed)
-                        ChooseCoursesList(
-                          selectedIndex: currentIndex,
-                          onPressed: (value) {
-                            setState(() {
-                              currentIndex =
-                                  value; // update which list is shown
-                            });
-                          },
-                        ),
-                        const Gap(10),
-
-                        // 3️⃣ Courses list based on selected button
-                        screens.isEmpty
-                            ? Center(child: Text('No courses available'))
-                            : screens[currentIndex],
-                      ],
+            : SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(24, 20, 24, 60),
+                child: Column(
+                  children: [
+                    // 1️⃣ Search box
+                    CustomTextField(
+                      controller: searchController,
+                      onChanged: (p0) => setState(() {
+                        searchText = p0.trim().toLowerCase();
+                      }),
+                      hintText: 'Search for..',
+                      suffixIcon: GradientButton(
+                        label: '',
+                        onPressed: () {
+                          setState(() {
+                            searchText =
+                                searchController.text.trim().toLowerCase();
+                          });
+                        },
+                        width: 40,
+                        borderRadius: 12,
+                        icon: const Icon(IconlyBroken.search,
+                            color: Colors.white),
+                        iconAlignment: IconAlignment.end,
+                      ),
                     ),
-                  ));
+                    const Gap(20),
+
+                    // 2️⃣ Buttons (Ongoing / Completed)
+                    ChooseCoursesList(
+                      selectedIndex: currentIndex,
+                      onPressed: (value) {
+                        setState(() {
+                          currentIndex = value; // update which list is shown
+                        });
+                      },
+                    ),
+                    const Gap(10),
+
+                    // 3️⃣ Courses list based on selected button
+
+                    currentIndex == 0
+                        ? CoursesListBuilder(courses: filteredCompleted)
+                        : CoursesListBuilder(courses: filteredOngoing),
+                  ],
+                ),
+              ));
   }
 }

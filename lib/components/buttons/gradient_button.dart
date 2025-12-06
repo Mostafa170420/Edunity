@@ -48,7 +48,10 @@ class GradientButton extends StatelessWidget {
         // Create a linear gradient for the button's background.
         gradient: addedToCart == true
             ? LinearGradient(
-                colors: [AppColors.greenColor, Colors.greenAccent],
+                colors: [
+                  Colors.green.withValues(alpha: 0.8),
+                  Colors.greenAccent.withValues(alpha: 0.8)
+                ],
               )
             : LinearGradient(
                 colors: [

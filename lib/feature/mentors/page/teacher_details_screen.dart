@@ -1,20 +1,47 @@
+import 'dart:developer';
+
 import 'package:edunity/core/constants/app_assets.dart';
 import 'package:edunity/core/routes/navigation.dart';
 import 'package:edunity/core/routes/routes.dart';
+import 'package:edunity/core/services/firebase/firebase_provider.dart';
 import 'package:edunity/core/utils/colors.dart';
 import 'package:edunity/core/utils/text_styles.dart';
 import 'package:edunity/feature/auth/data/models/teacher_model.dart';
 import 'package:edunity/feature/home/data/model/course_model.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class TeacherDetailsScreen extends StatelessWidget {
+class TeacherDetailsScreen extends StatefulWidget {
   const TeacherDetailsScreen({
     super.key,
     required this.teacher,
   });
 
   final TeacherModel teacher;
+
+  @override
+  State<TeacherDetailsScreen> createState() => _TeacherDetailsScreenState();
+}
+
+class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
+  List<CourseModel> courses = [];
+  @override
+  void initState() {
+    super.initState();
+    loadTeacherCourses();
+  }
+
+  loadTeacherCourses() async {
+    var snapshot =
+        await FirebaseProvider.getCoursesByIds(widget.teacher.uploadedCourses);
+
+    courses = snapshot.docs
+        .map((doc) => CourseModel.fromJson(doc.data() as Map<String, dynamic>,
+            id: doc.id))
+        .toList();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,36 +65,33 @@ class TeacherDetailsScreen extends StatelessWidget {
           children: [
             // ======= Profile Header Card =======
             _ProfileHeader(
-                teacher: teacher, courseCount: teacher.uploadedCourses.length),
+                teacher: widget.teacher,
+                courseCount: widget.teacher.uploadedCourses.length),
 
             Gap(15),
 
             // ======= Quick Stats =======
             _TeacherStats(
-              teacher: teacher,
+              teacher: widget.teacher,
             ),
 
             Gap(15),
 
             // ======= About Section =======
-            _AboutSection(bio: teacher.bio),
+            _AboutSection(bio: widget.teacher.bio),
 
             Gap(15),
             // ======= Contact Section =======
-            _ContactSection(email: teacher.email),
+            _ContactSection(email: widget.teacher.email),
 
             Gap(15),
 
             // ======= Courses Section =======
             _CoursesSection(
               //wrong courses but for now it's a placeholder
-              courses: teacher.uploadedCourses
-                  .map((courseId) => CourseModel(
-                        id: courseId,
-                      ))
-                  .toList(),
-              teacher: teacher,
-              hasCourses: teacher.uploadedCourses.isNotEmpty,
+              courses: courses,
+              teacher: widget.teacher,
+              hasCourses: widget.teacher.uploadedCourses.isNotEmpty,
             ),
           ],
         ),
@@ -464,66 +488,24 @@ class _CoursesSection extends StatelessWidget {
 
           //i dont understand this shit
           if (hasCourses)
-            Column(
-              children: [
-                ...courses!
-                    .take(3)
-                    .map((course) => _CourseTile(course: course))
-                    .toList(),
-                if (courses!.length > 3)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          // pushTo(
-                          //   context,
-                          //   Routes.teacherCourses,
-                          //   extra: teacher,
-                          // );
-                        },
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Text(
-                          'View All Courses (${courses!.length})',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.primaryDarkColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            )
-          else
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 40),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.library_books_outlined,
-                    size: 64,
-                    color: AppColors.greyColor.withValues(alpha: 0.4),
-                  ),
-                  const Gap(16),
-                  Text(
-                    teacher.uploadedCourses.isNotEmpty
-                        ? "This teacher has ${teacher.uploadedCourses.length} course(s) coming soon!"
-                        : "No courses uploaded yet.",
-                    style: TextStyles.getBody(
-                      color: AppColors.greyColor,
-                      fontSize: 15,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+            Column(children: [
+              ListView.builder(
+                itemCount: courses!.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  log('Course at index $index: ${courses![index].name}');
+                  return _CourseTile(course: courses![index]);
+                },
               ),
+            ])
+          else
+            Text(
+              'This teacher has not uploaded any courses yet. Please check back later for updates.',
+              style: TextStyles.getBody(
+                fontSize: 15,
+                color: AppColors.greyColor,
+              ),
+              textAlign: TextAlign.start,
             ),
         ],
       ),
