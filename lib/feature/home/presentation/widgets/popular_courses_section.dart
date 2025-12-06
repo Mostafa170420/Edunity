@@ -28,7 +28,7 @@ class PopularCoursesSection extends StatelessWidget {
           padding: padding,
           child: Row(
             children: [
-              Text('Polupar Courses',
+              Text('Popular Courses',
                   style: TextStyles.getTitle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
